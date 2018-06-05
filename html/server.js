@@ -23,7 +23,7 @@ var http_server = new http.createServer(function(req, res) {
   }
   else if(req.url=='/vege_profile')
   {
-    filePath='/vegetabel_profile.html';
+    filePath='/vegetable_profile.html';
   }
   else {
     filePath = req.url;
