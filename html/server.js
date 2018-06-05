@@ -3,7 +3,8 @@ var fs   = require('fs');
 var path = require('path');
 var mime = {
   ".html": "text/html",
-  ".css":  "text/css"
+  ".css":  "text/css",
+  ".js":   "text/javascript"
   // 読み取りたいMIMEタイプはここに追記
 };
 
@@ -18,7 +19,7 @@ var http_server = new http.createServer(function(req, res) {
   }
   else if(req.url=='/gmap_test')
   {
-    filePath='/g_maps.html';
+    filePath='/gg_map.html';
   }
   else {
     filePath = req.url;

@@ -1,11 +1,11 @@
 $(function() {
 	var geocoder = new google.maps.Geocoder();
 
-	// ‰Šú•\¦
+	// åˆæœŸè¡¨ç¤º
 	var address = $('#address').val();
 	geocoder.geocode({'address': address}, callbackRender);
 
-	// ZŠ‚ª“ü—Í‚³‚ê‚½ê‡‚Ì‘Î‰
+	// ä½æ‰€ãŒå…¥åŠ›ã•ã‚ŒãŸå ´åˆã®å¯¾å¿œ
 	$('#address').change(function(event) {
 		address = $(this).val();
 		geocoder.geocode({'address': address}, callbackRender);
@@ -14,31 +14,31 @@ $(function() {
 });
 
 /**
- * ƒWƒIƒR[ƒ_‚ÌŒ‹‰Ê‚ğæ“¾‚µ‚½‚Æ‚«‚ÉÀs‚·‚éƒR[ƒ‹ƒoƒbƒNŠÖ”B
+ * ã‚¸ã‚ªã‚³ãƒ¼ãƒ€ã®çµæœã‚’å–å¾—ã—ãŸã¨ãã«å®Ÿè¡Œã™ã‚‹ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°ã€‚
  * 
- * ‚±‚ÌŠÖ”“à‚Å GoogleMap ‚ğo—Í‚·‚éB
+ * ã“ã®é–¢æ•°å†…ã§ GoogleMap ã‚’å‡ºåŠ›ã™ã‚‹ã€‚
  * 
- * @param results ƒWƒIƒR[ƒ_‚ÌŒ‹‰Ê
- * @param status ƒWƒIƒR[ƒfƒBƒ“ƒO‚ÌƒXƒe[ƒ^ƒX
+ * @param results ã‚¸ã‚ªã‚³ãƒ¼ãƒ€ã®çµæœ
+ * @param status ã‚¸ã‚ªã‚³ãƒ¼ãƒ‡ã‚£ãƒ³ã‚°ã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
  * 
  */
 function callbackRender(results, status) {
 	if(status == google.maps.GeocoderStatus.OK) {
 		var options = {
 			zoom: 18,
-			center: results[0].geometry.location, // w’è‚ÌZŠ‚©‚çŒvZ‚µ‚½ˆÜ“xŒo“x‚ğw’è‚·‚é
-			mapTypeId: google.maps.MapTypeId.ROADMAP // u’n}v‚Å GoogleMap ‚ğo—Í‚·‚é
+			center: results[0].geometry.location, // æŒ‡å®šã®ä½æ‰€ã‹ã‚‰è¨ˆç®—ã—ãŸç·¯åº¦çµŒåº¦ã‚’æŒ‡å®šã™ã‚‹
+			mapTypeId: google.maps.MapTypeId.ROADMAP // ã€Œåœ°å›³ã€ã§ GoogleMap ã‚’å‡ºåŠ›ã™ã‚‹
 		};
 		var gmap = new google.maps.Map(document.getElementById('map-canvas'), options);
-			// #map-canvas ‚É GoogleMap ‚ğo—Í‚·‚é
+			// #map-canvas ã« GoogleMap ã‚’å‡ºåŠ›ã™ã‚‹
 		var marker = new google.maps.Marker({map: gmap, position: results[0].geometry.location});
-			// w’è‚ÌZŠ‚©‚çŒvZ‚µ‚½ˆÜ“xŒo“x‚ÌˆÊ’u‚É Marker ‚ğ—§‚Ä‚é
+			// æŒ‡å®šã®ä½æ‰€ã‹ã‚‰è¨ˆç®—ã—ãŸç·¯åº¦çµŒåº¦ã®ä½ç½®ã« Marker ã‚’ç«‹ã¦ã‚‹
 
-		var infoWindow = createInfoWindow(results); // InfoWindow ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µA
-		infoWindow.open(marker.getMap(), marker); // ‰Šú•\¦‚Å InfoWindow ‚ğ•\¦‚·‚é
+		var infoWindow = createInfoWindow(results); // InfoWindow ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ã€
+		infoWindow.open(marker.getMap(), marker); // åˆæœŸè¡¨ç¤ºã§ InfoWindow ã‚’è¡¨ç¤ºã™ã‚‹
 		google.maps.event.addListener(marker, 'click', function(event) {
 			infoWindow.open(marker.getMap(), marker);
-				// Marker ‚ğƒNƒŠƒbƒN‚µ‚Ä‚à InfoWindow ‚ğ•\¦‚·‚é
+				// Marker ã‚’ã‚¯ãƒªãƒƒã‚¯ã—ã¦ã‚‚ InfoWindow ã‚’è¡¨ç¤ºã™ã‚‹
 		});
 
 		adjustMapSize();
@@ -46,41 +46,41 @@ function callbackRender(results, status) {
 }
 
 /**
- * InfoWindow ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
+ * InfoWindow ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã€‚
  * 
- * @param result ƒWƒIƒR[ƒ_‚ÌÀsŒ‹‰Ê
+ * @param result ã‚¸ã‚ªã‚³ãƒ¼ãƒ€ã®å®Ÿè¡Œçµæœ
  * 
  */
 function createInfoWindow(result) {
 	var infoWindow = new google.maps.InfoWindow({
-		content: createTag(result), // InfoWindow ‚É•\¦‚·‚éƒRƒ“ƒeƒ“ƒc
-		// maxWidth: 1000 // width ‚Í CSS ‚Å§Œä‚·‚é‚æ‚¤‚É‚µ‚½‚Ì‚ÅƒRƒƒ“ƒgƒAƒEƒg
+		content: createTag(result), // InfoWindow ã«è¡¨ç¤ºã™ã‚‹ã‚³ãƒ³ãƒ†ãƒ³ãƒ„
+		// maxWidth: 1000 // width ã¯ CSS ã§åˆ¶å¾¡ã™ã‚‹ã‚ˆã†ã«ã—ãŸã®ã§ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆ
 	});
 	return infoWindow;
 }
 
 /**
- * InfoWindow “à‚Éİ’è‚·‚é HTML ‚ğ¶¬‚·‚éB
+ * InfoWindow å†…ã«è¨­å®šã™ã‚‹ HTML ã‚’ç”Ÿæˆã™ã‚‹ã€‚
  *
- * HTML ‚Ì¶¬‚Í Underscore.js ‚ğg‚¢Aƒeƒ“ƒvƒŒ[ƒg‚Í index.html “à‚É’è‹`‚µ‚Ä‚ ‚éB
+ * HTML ã®ç”Ÿæˆã¯ Underscore.js ã‚’ä½¿ã„ã€ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã¯ index.html å†…ã«å®šç¾©ã—ã¦ã‚ã‚‹ã€‚
  *
- * @param result ƒWƒIƒR[ƒ_‚ÌÀsŒ‹‰Ê
+ * @param result ã‚¸ã‚ªã‚³ãƒ¼ãƒ€ã®å®Ÿè¡Œçµæœ
  * 
  */
 function createTag(result) {
-	var latitude = result[0].geometry.location.d; // ˆÜ“x
-	var longitude = result[0].geometry.location.e; // Œo“x
+	var latitude = result[0].geometry.location.d; // ç·¯åº¦
+	var longitude = result[0].geometry.location.e; // çµŒåº¦
 	var template = _.template($('#infowindow_template').text());
 	var tag = template({latitude: latitude, longitude: longitude});
 	return tag;
 }
 
 /**
- * GoogleMap ‚ğ•\¦‚·‚é div ƒ^ƒO‚ÌƒTƒCƒY‚ğ’²®‚·‚éB
+ * GoogleMap ã‚’è¡¨ç¤ºã™ã‚‹ div ã‚¿ã‚°ã®ã‚µã‚¤ã‚ºã‚’èª¿æ•´ã™ã‚‹ã€‚
  * 
  */
 function adjustMapSize() {
-	var padding = $('#header-hollow').height(); // ZŠ“ü—Í—“‚Ì height ‚ğæ“¾
+	var padding = $('#header-hollow').height(); // ä½æ‰€å…¥åŠ›æ¬„ã® height ã‚’å–å¾—
 
 	var mapCanvas = $('#map-canvas');
 	mapCanvas.css("height", ($(window).height() - mapCanvas.offset().top) - padding + "px");
