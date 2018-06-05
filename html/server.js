@@ -21,6 +21,10 @@ var http_server = new http.createServer(function(req, res) {
   {
     filePath='/gg_map.html';
   }
+  else if(req.url=='/vege_profile')
+  {
+    filePath='/vegetabel_profile.html';
+  }
   else {
     filePath = req.url;
   }
