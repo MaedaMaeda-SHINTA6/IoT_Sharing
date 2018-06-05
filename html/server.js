@@ -17,7 +17,7 @@ var http_server = new http.createServer(function(req, res) {
   {
     filePath='/sign_in.html';
   }
-  else if(req.url=='/gmap_test')
+  else if(req.url=='/maps')
   {
     filePath='/gg_map.html';
   }

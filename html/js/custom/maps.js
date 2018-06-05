@@ -41,7 +41,8 @@ function initMap(){
         });
         //吹き出しの追加
         infoWindow = new google.maps.InfoWindow({ // 吹き出しの追加
-            content: '<p>産地：四万十川</p><p>品名：茄子</p><p>数量：１</p><button>配送依頼</button>' // 吹き出しに表示する内容
+            content: '<p>産地：四万十川</p><p>品名：茄子</p><p>数量：１</p><a href="/vege_profile">詳細</a>'
+            // 吹き出しに表示する内容
         });
         infoWindow.open(map, marker); // 初期で吹き出しの表示
         marker.addListener('click', function() { // マーカーをクリックしたとき
