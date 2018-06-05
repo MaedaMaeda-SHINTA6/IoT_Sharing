@@ -4,7 +4,8 @@ var path = require('path');
 var mime = {
   ".html": "text/html",
   ".css":  "text/css",
-  ".js":   "text/javascript"
+  ".js":   "text/javascript",
+  ".json": "application/json"
   // 読み取りたいMIMEタイプはここに追記
 };
 
