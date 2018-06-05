@@ -4,7 +4,8 @@ var path = require('path');
 var mime = {
   ".html": "text/html",
   ".css":  "text/css",
-  ".js":   "text/javascript"
+  ".js":   "text/javascript",
+  ".json": "application/json"
   // 読み取りたいMIMEタイプはここに追記
 };
 
@@ -17,10 +18,11 @@ var http_server = new http.createServer(function(req, res) {
   {
     filePath='/sign_in.html';
   }
-  else if(req.url=='/gmap_test')
+  else if(req.url=='/maps')
   {
     filePath='/gg_map.html';
   }
+<<<<<<< HEAD
   else if(req.url=='/Webcamera')
   {
     filePath='/Webcamera.html';
@@ -28,6 +30,11 @@ var http_server = new http.createServer(function(req, res) {
   else if(req.url=='/Web')
   {
     filePath='/Webcamera_pear.html';
+=======
+  else if(req.url=='/vege_profile')
+  {
+    filePath='/vegetable_profile.html';
+>>>>>>> 66d54bc09ca140e4b1cdbf3725ad91c4dad7bb5e
   }
   else {
     filePath = req.url;
