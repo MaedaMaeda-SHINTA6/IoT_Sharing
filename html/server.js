@@ -21,6 +21,14 @@ var http_server = new http.createServer(function(req, res) {
   {
     filePath='/gg_map.html';
   }
+  else if(req.url=='/Webcamera')
+  {
+    filePath='/Webcamera.html';
+  }
+  else if(req.url=='/Web')
+  {
+    filePath='/Webcamera_pear.html';
+  }
   else {
     filePath = req.url;
   }
