@@ -16,6 +16,10 @@ var http_server = new http.createServer(function(req, res) {
   {
     filePath='/sign_in.html';
   }
+  else if(req.url=='/gmap_test')
+  {
+    filePath='/g_maps.html';
+  }
   else {
     filePath = req.url;
   }
