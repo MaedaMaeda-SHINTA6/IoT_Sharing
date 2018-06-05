@@ -1,0 +1,28 @@
+{
+  "name": "api-server",
+  "version": "1.0.3",
+  "description": "api server",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "lint": "eslint server.js"
+  },
+  "author": "",
+  "license": "",
+  "dependencies": {
+    "async": "~2.5.0",
+    "body-parser": "~1.15.2",
+    "connect-multiparty": "~2.0.0",
+    "cors": "~2.8.1",
+    "debug": "~2.6.8",
+    "express": "~4.14.0",
+    "express-http-proxy": "~0.10.1",
+    "https-proxy-agent": "~1.0.0",
+    "moment": "~2.18.1",
+    "request": "~2.79.0",
+    "request-promise": "~4.1.1"
+  },
+  "devDependencies": {
+    "eslint": "~3.12.2"
+  }
+}
