@@ -21,7 +21,8 @@ function initMap() {
             // マーカーの追加
             marker = new google.maps.Marker({
                 position: latLng,
-                map: map
+                map: map,
+                icon: '../../images/others_icon/now_geo.png' //iconの指定
             });
             //複数マーカーの追加
             json_read_make();
@@ -83,7 +84,7 @@ function json_read_make() {
                 infoWindow[n].open(map, marker[n]);
             });
              // 初期で吹き出しの表示
-            infoWindow[n].open(map, marker[n]);
+            //infoWindow[n].open(map, marker[n]);
         }
     });
     //json閉じ
