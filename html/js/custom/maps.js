@@ -73,8 +73,10 @@ function json_read_make() {
                     '数量：' + data[i]['set_value'] + '<br />' +
                     '商品画像：<br /><img src="' + '../../images/yasai_icon/' + data[n]['yasai_icon'] + '.gif' +
                     '" width="100" height="100" />' + '<br />' +
-                    '<button action="/vege_profile" method="post">詳細を確認</button>'
-                    + '</div>'
+                    '<form action="/vege_profile" method="POST">' +
+                    '<button type="submit">詳細を確認</button>' +
+                    '</form>' +
+                    '</div>'
             });
             //マーカをクリックした処理
             marker[n].addListener('click', function () {
