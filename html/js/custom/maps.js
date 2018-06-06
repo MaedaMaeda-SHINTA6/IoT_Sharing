@@ -16,7 +16,7 @@ function initMap() {
             // 地図の作成
             map = new google.maps.Map(document.getElementById('gmaps_view'), {
                 center: latLng,
-                zoom: 17
+                zoom: 16
             });
             // マーカーの追加
             marker = new google.maps.Marker({
@@ -33,7 +33,7 @@ function initMap() {
             //デフォルト位置の地図作成
             map = new google.maps.Map(document.getElementById('gmaps_view'), {
                 center: latLng,
-                zoom: 17
+                zoom: 16
             });
             //複数マーカーの追加
             json_read_make();
@@ -64,14 +64,14 @@ function json_read_make() {
             marker[n] = new google.maps.Marker({
                 position: markerLatLng,
                 map: map,
-                icon: '../../images/yasai_icon/' + data[i]['yasai_icon'] + '.gif' //iconの指定
+                icon: '../../images/yasai_icon/' + data[n]['yasai_icon'] + '.gif' //iconの指定
             });
             //吹き出しに表示させるコンテンツ設定
             infoWindow[n] = new google.maps.InfoWindow({
                 content: '<div class="infowindows">' +
                     '商品名：' + data[i]['yasai_cat'] + '<br />' +
                     '数量：' + data[i]['set_value'] + '<br />' +
-                    '商品画像：<br /><img src="' + '../../images/yasai_icon/' + data[i]['yasai_icon'] + '.gif' +
+                    '商品画像：<br /><img src="' + '../../images/yasai_icon/' + data[n]['yasai_icon'] + '.gif' +
                     '" width="100" height="100" />' + '<br />' +
                     '<button action="/vege_profile" method="post">詳細を確認</button>'
                     + '</div>'
