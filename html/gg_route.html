@@ -95,7 +95,7 @@
             // マップの生成
             var map = new google.maps.Map(document.getElementById("gmaps_view"), {
                 center: new google.maps.LatLng(33.55882,133.526836), // マップの中心
-                zoom: 15 // ズームレベル
+                zoom: 16 // ズームレベル
             });
 
             // 地点を分割してルート検索を行います。
@@ -190,9 +190,9 @@
                 // パスを描画します。
                 var line = new google.maps.Polyline({
                     map: map, // 描画先の地図
-                    strokeColor: "#2196f3", // 線の色
+                    strokeColor: "#FF4500", // 線の色
                     strokeOpacity: 0.8, // 線の不透明度
-                    strokeWeight: 6, // 先の太さ
+                    strokeWeight: 7, // 先の太さ
                     path: path // 描画するパスデータ
                 });
             }, 1000);
