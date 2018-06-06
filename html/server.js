@@ -22,7 +22,7 @@ var http_server = new http.createServer(function (req, res) {
     case '/maps':
       filePath = '/gg_map.html';
       break;
-    case '/route_search':
+    case '/route-search':
       filePath = '/gg_route.html'
       break;
     case '/Webcamera':
