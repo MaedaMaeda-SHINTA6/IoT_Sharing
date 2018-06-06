@@ -85,29 +85,17 @@
         function initMap() {
             // たくさんの地点...
             var points = [
-                new google.maps.LatLng(35.681382, 139.766084),
-                new google.maps.LatLng(35.630152, 139.74044),
-                new google.maps.LatLng(35.507456, 139.617585),
-                new google.maps.LatLng(35.25642, 139.154904),
-                new google.maps.LatLng(35.103217, 139.07776),
-                new google.maps.LatLng(35.127152, 138.910627),
-                new google.maps.LatLng(35.142365, 138.663199),
-                new google.maps.LatLng(34.97171, 138.38884),
-                new google.maps.LatLng(34.769758, 138.014928),
-                new google.maps.LatLng(34.703741, 137.734442),
-                new google.maps.LatLng(34.762811, 137.381651),
-                new google.maps.LatLng(34.96897, 137.060662),
-                new google.maps.LatLng(35.170694, 136.881637),
-                new google.maps.LatLng(35.315705, 136.685593),
-                new google.maps.LatLng(35.314188, 136.290488),
-                new google.maps.LatLng(34.985458, 135.757755),
-                new google.maps.LatLng(34.73348, 135.500109),
+                new google.maps.LatLng(33.55882,133.526836),
+                new google.maps.LatLng(33.5587218, 133.5290542),
+                new google.maps.LatLng(33.5570871, 133.5300218),
+                new google.maps.LatLng(33.5612665, 133.5330113),
+                new google.maps.LatLng(33.5614465, 133.5350113)
             ];
 
             // マップの生成
             var map = new google.maps.Map(document.getElementById("gmaps_view"), {
-                center: new google.maps.LatLng(35.681298, 139.766247), // マップの中心
-                zoom: 7 // ズームレベル
+                center: new google.maps.LatLng(33.55882,133.526836), // マップの中心
+                zoom: 15 // ズームレベル
             });
 
             // 地点を分割してルート検索を行います。
