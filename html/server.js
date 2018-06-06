@@ -11,27 +11,31 @@ var mime = {
 
 var http_server = new http.createServer(function (req, res) {
 
-  if (req.url == '/') {
-    filePath = '/index.html';
+  //ルーティング設定が必要な場合はここに追記
+  switch(req.url){
+    case '/':
+      filePath = '/index.html';
+      break;
+    case '/login':
+      filePath = '/sign_in.html';
+      break;
+    case '/maps':
+      filePath = '/gg_map.html';
+      break;
+    case '/Webcamera':
+      filePath = '/Webcamera.html';
+      break;
+    case '/Web':
+      filePath = '/Webcamera_pear.html';
+      break;
+    case '/vege_profile':
+      filePath = '/vegetable_profile.html';
+      break;
+    default:
+      filePath = req.url;
+      break;    
   }
-  else if (req.url == '/login') {
-    filePath = '/sign_in.html';
-  }
-  else if (req.url == '/maps') {
-    filePath = '/gg_map.html';
-  }
-  else if (req.url == '/Webcamera') {
-    filePath = '/Webcamera.html';
-  }
-  else if (req.url == '/Web') {
-    filePath = '/Webcamera_pear.html';
-  }
-  else if (req.url == '/vege_profile') {
-    filePath = '/vegetable_profile.html';
-  }
-  else {
-    filePath = req.url;
-  }
+
   var fullPath = __dirname + filePath;
 
   res.writeHead(200, { "Content-Type": mime[path.extname(fullPath)] || "text/plain" });
