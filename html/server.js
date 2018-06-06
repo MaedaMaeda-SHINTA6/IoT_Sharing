@@ -12,7 +12,7 @@ var mime = {
 var http_server = new http.createServer(function (req, res) {
 
   //ルーティング設定が必要な場合はここに追記
-  switch(req.url){
+  switch (req.url) {
     case '/':
       filePath = '/index.html';
       break;
@@ -34,9 +34,12 @@ var http_server = new http.createServer(function (req, res) {
     case '/vege_profile':
       filePath = '/vegetable_profile.html';
       break;
+    case '/deli_his':
+      filePath = '/delivery_history.html';
+      break;
     default:
       filePath = req.url;
-      break;    
+      break;
   }
 
   var fullPath = __dirname + filePath;
