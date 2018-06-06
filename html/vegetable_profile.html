@@ -29,27 +29,28 @@
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="#">Home
+          <a class="nav-link" href="#">農業シェアリングサービスとは
             <span class="sr-only">(current)</span>
           </a>
         </li>
         <!--
-          <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#">Disabled</a>
-          </li>
-        -->
+              <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled" href="#">Disabled</a>
+              </li>
+            -->
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ヘルプ</a>
+          <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">メニュー</a>
           <div class="dropdown-menu" aria-labelledby="dropdown01">
-            <a class="dropdown-item" href="#">概要</a>
-            <a class="dropdown-item" href="#">お問合せ</a>
+            <a class="dropdown-item" href="#">農家の方へ</a>
+            <a class="dropdown-item" href="#">配達ドライバーの方へ</a>
+            <a class="dropdown-item" href="./Webcamera">現地の様子</a>
           </div>
         </li>
       </ul>
-      <form class="form-inline my-2 my-lg-0">
+      <form class="form-inline my-2 my-lg-0" action="/login" method="post">
         <!--<input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">-->
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">ログイン</button>
       </form>
@@ -107,13 +108,16 @@
     </div>
 
     <!-- 配達を請け負うボタン -->
-    <button type="button" class="btn btn-default btn-lg btn-block">
-      配達を請け負う
-    </button>
+    <form action="/maps" method="POST">
+      <button type="submit" class="btn btn-default btn-lg btn-block">
+        配達を請け負う
+      </button>
+    </form>
 
 
   </main>
   <!-- /.container -->
+  <br />
 
   <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -123,6 +127,15 @@
   <script>window.jQuery || document.write('<script src="./assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
   <script src="./assets/js/vendor/popper.min.js"></script>
   <script src="./js/bootstrap.min.js"></script>
+
+  <footer class="fixed-bottom">
+    <p>
+      <a href="#" class="btn-circle">^</a>
+    </p>
+  </footer>
+  <div class="Sharing_footer">
+    <p>Copyright 2018 FSIT FLM</p>
+  </div>
 </body>
 
 </html>
