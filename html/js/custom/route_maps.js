@@ -41,7 +41,7 @@ function initMap() {
 
                         (function (index) {
                             var request = {
-                                optimizeWaypoints: true,
+                                //optimizeWaypoints: true,
                                 origin: origin,
                                 destination: dest,
                                 waypoints: waypoints,
