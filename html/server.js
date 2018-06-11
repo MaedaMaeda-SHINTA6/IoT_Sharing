@@ -28,9 +28,6 @@ var http_server = new http.createServer(function (req, res) {
     case '/Webcamera':
       filePath = '/Webcamera.html';
       break;
-    case '/Web':
-      filePath = '/Webcamera_pear.html';
-      break;
     case '/vege_profile':
       filePath = '/vegetable_profile.html';
       break;
