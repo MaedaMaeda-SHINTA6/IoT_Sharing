@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>現場の様子</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="./css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="./css/custom/home.css" rel="stylesheet">
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="#">農作物シェアリング</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault"
+      aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">農業シェアリングサービスとは <span class="sr-only">(current)</span></a>
+        </li>
+        <!--
+                      <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link disabled" href="#">Disabled</a>
+                      </li>
+                    -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">メニュー</a>
+          <div class="dropdown-menu" aria-labelledby="dropdown01">
+            <a class="dropdown-item" href="#">農家の方へ</a>
+            <a class="dropdown-item" href="#">配達ドライバーの方へ</a>
+            <a class="dropdown-item" href="./Webcamera">現地の様子</a>
+          </div>
+        </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0" action="/login" method="post">
+        <!--<input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">-->
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">ログイン</button>
+      </form>
+    </div>
+  </nav>
+
+  <main role="main" class="container">
+    <div class="jumbotron_Camera">
+      <div class="container">
+        <br>
+        <h1 class="marketing">現地の様子</h1>
+      </div>
+    </div>
+    <button type="button" class="btn btn-default btn-lg btn-block" onclick="sendRequest();">様子を見る</button>
+    <button type="button" class="btn btn-default btn-lg btn-block" onclick="hangUp();">ビデオを止める</button>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xs-12 col-md-12">
+          <video id="remote-video" width="100%" height="100%" autoplay="1"></video>
+        </div>
+      </div>
+    </div>
+    <br />
+
+    <!---- socket ※自分のシグナリングサーバーに合わせて変更してください ------>
+    <script src="http://localhost:9001/socket.io/socket.io.js"></script>
+
+    <script>
+      //var localVideo = document.getElementById('local-video');
+      var remoteVideo = document.getElementById('remote-video');
+      //var localStream = null;
+      var mediaConstraints = { 'mandatory': { 'OfferToReceiveAudio': true, 'OfferToReceiveVideo': true } };
+
+      function detachVideo(id) {
+        if (id) {
+          var conn = getConnection(id);
+          if (conn) {
+            remoteVideo.pause();
+            remoteVideo.src = "";
+          }
+        }
+        else {
+          // force detach
+          remoteVideo.pause();
+          remoteVideo.src = "";
+        }
+      }
+
+      // -------------- multi connections --------------------
+      var MAX_CONNECTION_COUNT = 1;
+      var connections = {}; // Connection hash
+      function Connection() { // Connection Class
+        var self = this;
+        var id = "";  // socket.id of partner
+        var peerconnection = null; // RTCPeerConnection instance
+      }
+
+      function getConnection(id) {
+        var con = null;
+        con = connections[id];
+        return con;
+      }
+
+      function addConnection(id, connection) {
+        connections[id] = connection;
+      }
+
+      function getConnectionCount() {
+        var count = 0;
+        for (var id in connections) {
+          count++;
+        }
+
+        console.log('getConnectionCount=' + count);
+        return count;
+      }
+
+      function isConnectPossible() {
+        if (getConnectionCount() < MAX_CONNECTION_COUNT)
+          return true;
+        else
+          return false;
+      }
+
+      function getConnectionIndex(id_to_lookup) {
+        var index = 0;
+        for (var id in connections) {
+          if (id == id_to_lookup) {
+            return index;
+          }
+
+          index++;
+        }
+
+        // not found
+        return -1;
+      }
+
+      function deleteConnection(id) {
+        delete connections[id];
+      }
+
+      function stopAllConnections() {
+        for (var id in connections) {
+          var conn = connections[id];
+          conn.peerconnection.close();
+          conn.peerconnection = null;
+          delete connections[id];
+        }
+      }
+
+      function stopConnection(id) {
+        var conn = connections[id];
+        if (conn) {
+          console.log('stop and delete connection with id=' + id);
+          conn.peerconnection.close();
+          conn.peerconnection = null;
+          delete connections[id];
+        }
+        else {
+          console.log('try to stop connection, but not found id=' + id);
+        }
+      }
+
+      function isPeerStarted() {
+        if (getConnectionCount() > 0) {
+          return true;
+        }
+        else {
+          return false;
+        }
+      }
+
+
+      // ---- socket ------
+      // create socket
+      var socketReady = false;
+      var port = 9001;
+      var socket = io.connect('http://localhost:' + port + '/'); // ※自分のシグナリングサーバーに合わせて変更してください 
+
+      // socket: channel connected
+      socket.on('connect', onOpened)
+        .on('message', onMessage)
+        .on('user disconnected', onUserDisconnect);
+
+      function onOpened(evt) {
+        console.log('socket opened.');
+        socketReady = true;
+
+        var roomname = getRoomName(); // 会議室名を取得する
+        socket.emit('enter', roomname);
+        console.log('enter to ' + roomname);
+      }
+
+      // socket: accept connection request
+      function onMessage(evt) {
+        var id = evt.from;
+        var target = evt.sendto;
+        var conn = getConnection(id);
+
+        console.log('onMessage() evt.type=' + evt.type);
+
+        if (evt.type === 'talk_ready') {
+          if (conn) {
+            return;  // already connected
+          }
+
+          if (isConnectPossible()) {
+            socket.json.send({ type: "talk_request", sendto: id });
+          }
+          else {
+            console.warn('max connections. so ignore call');
+          }
+          return;
+        }
+        else if (evt.type === 'offer') {
+          console.log("Received offer, set offer, sending answer....")
+          onOffer(evt);
+        }
+        else if (evt.type === 'candidate' && isPeerStarted()) {
+          console.log('Received ICE candidate...');
+          onCandidate(evt);
+        }
+        else if (evt.type === 'end_talk') {
+          console.log("got talker bye.");
+          detachVideo(id); // force detach video
+          stopConnection(id);
+        }
+
+      }
+
+      function onUserDisconnect(evt) {
+        console.log("disconnected");
+        if (evt) {
+          detachVideo(evt.id); // force detach video
+          stopConnection(evt.id);
+        }
+      }
+
+      function getRoomName() { // たとえば、 URLに  ?roomname  とする
+        var url = document.location.href;
+        var args = url.split('?');
+        if (args.length > 1) {
+          var room = args[1];
+          if (room != "") {
+            return room;
+          }
+        }
+        return "_defaultroom";
+      }
+
+
+      function onOffer(evt) {
+        console.log("Received offer...")
+        console.log(evt);
+        setOffer(evt);
+        sendAnswer(evt);
+      }
+
+      function onCandidate(evt) {
+        var id = evt.from;
+        var conn = getConnection(id);
+        if (!conn) {
+          console.error('peerConnection not exist!');
+          return;
+        }
+
+        var candidate = new RTCIceCandidate({ sdpMLineIndex: evt.sdpMLineIndex, sdpMid: evt.sdpMid, candidate: evt.candidate });
+        console.log("Received Candidate...")
+        console.log(candidate);
+        conn.peerconnection.addIceCandidate(candidate);
+      }
+
+      function sendSDP(sdp) {
+        var text = JSON.stringify(sdp);
+        console.log("---sending sdp text ---");
+        console.log(text);
+
+        // send via socket
+        socket.json.send(sdp);
+      }
+
+      function sendCandidate(candidate) {
+        var text = JSON.stringify(candidate);
+        console.log("---sending candidate text ---");
+        console.log(text);
+
+        // send via socket
+        socket.json.send(candidate);
+      }
+
+
+      // ---------------------- connection handling -----------------------
+      function prepareNewConnection(id) {
+        var pc_config = { "iceServers": [] };
+        var peer = null;
+        try {
+          peer = new webkitRTCPeerConnection(pc_config);
+        } catch (e) {
+          console.log("Failed to create PeerConnection, exception: " + e.message);
+        }
+        var conn = new Connection();
+        conn.id = id;
+        conn.peerconnection = peer;
+        peer.id = id;
+        addConnection(id, conn);
+
+        // send any ice candidates to the other peer
+        peer.onicecandidate = function (evt) {
+          if (evt.candidate) {
+            console.log(evt.candidate);
+            sendCandidate({
+              type: "candidate",
+              sendto: conn.id,
+              sdpMLineIndex: evt.candidate.sdpMLineIndex,
+              sdpMid: evt.candidate.sdpMid,
+              candidate: evt.candidate.candidate
+            });
+          } else {
+            console.log("on ice event. phase=" + evt.eventPhase);
+          }
+        };
+
+        //console.log('Adding local stream...');
+        //peer.addStream(localStream);
+
+        peer.addEventListener("addstream", onRemoteStreamAdded, false);
+        peer.addEventListener("removestream", onRemoteStreamRemoved, false)
+
+        // when remote adds a stream, hand it on to the local video element
+        function onRemoteStreamAdded(event) {
+          console.log("Added remote stream");
+          //attachVideo(this.id, event.stream);
+          remoteVideo.src = window.webkitURL.createObjectURL(event.stream);
+        }
+
+        // when remote removes a stream, remove it from the local video element
+        function onRemoteStreamRemoved(event) {
+          console.log("Remove remote stream");
+          detachVideo(this.id);
+        }
+
+        return conn;
+      }
+
+      function setOffer(evt) {
+        var id = evt.from;
+        var conn = getConnection(id);
+        if (!conn) {
+          conn = prepareNewConnection(id);
+          conn.peerconnection.setRemoteDescription(new RTCSessionDescription(evt));
+        }
+        else {
+          console.error('peerConnection alreay exist!');
+        }
+      }
+
+      function sendAnswer(evt) {
+        console.log('sending Answer. Creating remote session description...');
+        var id = evt.from;
+        var conn = getConnection(id);
+        if (!conn) {
+          console.error('peerConnection not exist!');
+          return;
+        }
+
+        conn.peerconnection.createAnswer(function (sessionDescription) {
+          // in case of success
+          conn.peerconnection.setLocalDescription(sessionDescription);
+          sessionDescription.sendto = id;
+          sendSDP(sessionDescription);
+        }, function () { // in case of error
+          console.log("Create Answer failed");
+        }, mediaConstraints);
+      }
+
+      function sendRequest() {
+        if (!socketReady) {
+          alert("Socket is not connected to server. Please reload and try again.");
+          return;
+        }
+
+        // call others, in same room
+        console.log("send request in same room, ask for offer");
+        socket.json.send({ type: "talk_request" });
+
+      }
+
+      // stop the connection upon user request
+      function hangUp() {
+        console.log("Hang up.");
+        socket.json.send({ type: "bye" });
+        detachVideo(null);
+        stopAllConnections();
+      }
+    </script>
+  </main>
+  <!-- Bootstrap core JavaScript
+    ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script>
+      window.jQuery || document.write('<script src="./assets/js/vendor/jquery-slim.min.js"><\/script>')
+  </script>
+  <script src="./assets/js/vendor/popper.min.js"></script>
+  <script src="./js/bootstrap.min.js"></script>
+
+  <footer class="fixed-bottom">
+    <p>
+      <a href="#" class="btn-circle">^</a>
+    </p>
+  </footer>
+  <div class="Sharing_footer">
+    <p>Copyright 2018 FSIT FLM</p>
+  </div>
+</body>
+
+</html>
