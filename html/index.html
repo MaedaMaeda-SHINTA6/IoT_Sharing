@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="ja">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -18,13 +19,15 @@
     <a class="navbar-brand" href="#">農作物シェアリング</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault"
       aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="#">農業シェアリングサービスとは <span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="#">農業シェアリングサービスとは
+            <span class="sr-only">(current)</span>
+          </a>
         </li>
         <!--
           <li class="nav-item">
@@ -43,10 +46,17 @@
           </div>
         </li>
       </ul>
+      <!-- 新規登録ボタン -->
+      <form class="form-inline my-2 my-lg-0" action="/entry" method="post">
+        <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">新規登録</button>
+      </form>
+      &nbsp;
+      <!-- ログインボタン -->
       <form class="form-inline my-2 my-lg-0" action="/login" method="post">
         <!--<input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">-->
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">ログイン</button>
       </form>
+
     </div>
   </nav>
 
@@ -62,24 +72,33 @@
     <p>最近登録された農作物</p>
     <div class="row">
       <div class="col-lg-4">
-        <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="茄子画像" width="140" height="140">
+        <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="茄子画像"
+          width="140" height="140">
         <h2>茄子</h2>
         <p>場所：○○○○&nbsp;数量:○○○○&nbsp;コメント：今朝取れたばかりでおいしいですよ♪</p>
-        <p><a class="btn btn-secondary" href="#" role="button">欲しい &raquo;</a></p>
+        <p>
+          <a class="btn btn-secondary" href="#" role="button">欲しい &raquo;</a>
+        </p>
       </div>
       <!-- /.col-lg-4 -->
       <div class="col-lg-4">
-        <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="  alt="きゅうり画像" width="140" height="140">
+        <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="きゅうり画像"
+          width="140" height="140">
         <h2>きゅうり</h2>
         <p>場所：○○○○&nbsp;数量:○○○○&nbsp;コメント：今朝取れたばかりでおいしいですよ♪</p>
-        <p><a class="btn btn-secondary" href="#" role="button">欲しい &raquo;</a></p>
+        <p>
+          <a class="btn btn-secondary" href="#" role="button">欲しい &raquo;</a>
+        </p>
       </div>
       <!-- /.col-lg-4 -->
       <div class="col-lg-4">
-        <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="とまと画像" width="140" height="140">
+        <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="とまと画像"
+          width="140" height="140">
         <h2>トマト</h2>
         <p>場所：○○○○&nbsp;数量:○○○○&nbsp;コメント：今朝取れたばかりでおいしいですよ♪</p>
-        <p><a class="btn btn-secondary" href="#" role="button">欲しい &raquo;</a></p>
+        <p>
+          <a class="btn btn-secondary" href="#" role="button">欲しい &raquo;</a>
+        </p>
       </div>
       <!-- /.col-lg-4 -->
     </div>

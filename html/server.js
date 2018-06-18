@@ -37,6 +37,9 @@ var http_server = new http.createServer(function (req, res) {
     case '/deli_his':
       filePath = '/delivery_history.html';
       break;
+    case '/entry':
+      filePath = '/entry.html';
+      break;
     default:
       filePath = req.url;
       break;
