@@ -1,5 +1,7 @@
 var nowLocationPosition;
 var points = [];
+var url_points = [];
+var yasai_info = [];
 
 function initMap() {
     //GeolocationAPIの対応可否
@@ -10,22 +12,48 @@ function initMap() {
                 // 緯度経度の取得
                 nowLocationPosition = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                 points.push(nowLocationPosition);
+                url_points.push(position.coords.latitude + "," + position.coords.longitude);
+                yasai_info.push(
+                    {
+                        'name': "現在地",
+                        'lat': position.coords.latitude,
+                        'lng': position.coords.longitude,
+                        'yasai_cat': "none",
+                        'set_value': "none",
+                        'yasai_icon': "none"
+                    }
+                );
                 //Json取得処理
                 $.ajaxSetup({ async: false });//同期通信
                 $.getJSON("../../js/json/many_locations.json",
                     function (json) {
                         for (var i = 0; i <= json.length - 1; i++) {
+                            //Mapsオブジェクトで格納
                             points.push(new google.maps.LatLng(Number(json[i].lat), Number(json[i].lng)))
+                            //緯度経度情報のみ格納
+                            url_points.push(json[i].lat + "," + json[i].lng)
+                            //野菜情報を格納
+                            yasai_info.push(
+                                {
+                                    'name': json[i].name,
+                                    'lat': json[i].lat,
+                                    'lng': json[i].lng,
+                                    'yasai_cat': json[i].yasai_cat,
+                                    'set_value': json[i].set_value,
+                                    'yasai_icon': json[i].yasai_icon
+                                }
+                            )
                         }
                     }
                 );
                 $.ajaxSetup({ async: true });//同期通信
-        
+
                 // マップの生成
                 var map = new google.maps.Map(document.getElementById("gmaps_view"), {
                     center: nowLocationPosition, // マップの中心
                     zoom: 16 // ズームレベル
                 });
+
 
                 var d = new google.maps.DirectionsService();
                 var origin = null, waypoints = [], dest = null;
@@ -102,6 +130,7 @@ function initMap() {
                             
                         }
                     }
+
                     // マーカーが必要ならマーカーを表示します。(最終)
                     var endLeg = result.routes[0].legs[result.routes[0].legs.length - 1];
                     mark(endLeg.end_location, endLeg.end_address);
@@ -109,7 +138,7 @@ function initMap() {
                     // パスを描画します。
                     var line = new google.maps.Polyline({
                         map: map, // 描画先の地図
-                        strokeColor: "#FF4500", // 線の色
+                        strokeColor: "#0000ff", // 線の色
                         strokeOpacity: 0.8, // 線の不透明度
                         strokeWeight: 6, // 先の太さ
                         path: path // 描画するパスデータ
@@ -138,4 +167,17 @@ function initMap() {
     } else {
         alert("現在地取得APIに対応していません。");
     }
+}
+
+function url_make() {
+    url = "http://maps.google.com/maps?saddr=" + url_points[0] + "&daddr=";
+    for (i = 1; i <= url_points.length - 1; i++) {
+        if (i == (url_points.length - 1)) {
+            url += url_points[i];
+        } else {
+            url += url_points[i] + "+to:";
+        }
+    }
+    url += "&dirflg=d"; //車の場合
+    open(url, "_blank");
 }
