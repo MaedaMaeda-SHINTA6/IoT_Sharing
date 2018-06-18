@@ -17,7 +17,7 @@ var http_server = new http.createServer(function (req, res) {
       filePath = '/index.html';
       break;
     case '/login':
-      filePath = '/sign_in.html';
+      filePath = '/login.html';
       break;
     case '/maps':
       filePath = '/gg_map.html';
