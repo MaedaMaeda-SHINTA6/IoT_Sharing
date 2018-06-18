@@ -64,11 +64,28 @@
       <h3>農作物プロフィール</h3>
     </div>
 
-    <!-- 野菜画像 -->
-    <div class="row">
-      <div class="col-sm-12">
-        <img src="images/nasu.jpg" class="img-rounded" alt="">
+
+    <!--　野菜画像スライド -->
+    <div id="Profile_slide" class="carousel slide carousel-fade" data-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img class="d-block w-100" src="./images/nasu2.jpg" alt="画像１">
+        </div>
+        <div class="carousel-item">
+          <img class="d-block w-100" src="./images/nasu.jpg" alt="画像２">
+        </div>
+        <div class="carousel-item">
+          <img class="d-block w-100" src="./images/nasu3.jpg" alt="画像３">
+        </div>
       </div>
+      <a class="carousel-control-prev" href="#Profile_slide" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#Profile_slide" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
     </div>
 
     <!-- 作物名 -->
