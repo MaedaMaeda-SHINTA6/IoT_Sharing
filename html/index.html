@@ -15,21 +15,22 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand" href="#">農作物シェアリング</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault"
-      aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+  <header>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+      <a class="navbar-brand" href="#">農作物シェアリング</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">農業シェアリングサービスとは
-            <span class="sr-only">(current)</span>
-          </a>
-        </li>
-        <!--
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">農業シェアリングサービスとは
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <!--
           <li class="nav-item">
             <a class="nav-link" href="#">Link</a>
           </li>
@@ -37,29 +38,28 @@
             <a class="nav-link disabled" href="#">Disabled</a>
           </li>
         -->
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">メニュー</a>
-          <div class="dropdown-menu" aria-labelledby="dropdown01">
-            <a class="dropdown-item" href="#">農家の方へ</a>
-            <a class="dropdown-item" href="#">配達ドライバーの方へ</a>
-            <a class="dropdown-item" href="./Webcamera">現地の様子</a>
-          </div>
-        </li>
-      </ul>
-      <!-- 新規登録ボタン -->
-      <form class="form-inline my-2 my-lg-0" action="/entry" method="post">
-        <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">新規登録</button>
-      </form>
-      &nbsp;
-      <!-- ログインボタン -->
-      <form class="form-inline my-2 my-lg-0" action="/login" method="post">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">ログイン</button>
-      </form>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">メニュー</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown01">
+              <a class="dropdown-item" href="#">農家の方へ</a>
+              <a class="dropdown-item" href="#">配達ドライバーの方へ</a>
+              <a class="dropdown-item" href="./Webcamera">現地の様子</a>
+            </div>
+          </li>
+        </ul>
+        <!-- 新規登録ボタン -->
+        <form class="form-inline my-2 my-lg-0" action="/entry" method="post">
+          <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">新規登録</button>
+        </form>
+        &nbsp;
+        <!-- ログインボタン -->
+        <form class="form-inline my-2 my-lg-0" action="/login" method="post">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">ログイン</button>
+        </form>
 
-    </div>
-  </nav>
+      </div>
+    </nav>
 
-  <main role="main" class="container">
 
     <div id="TopSlideShows" class="carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
@@ -71,21 +71,21 @@
         <div class="carousel-item active">
           <img class="d-block w-100" src="./images/Top.jpg" alt="First slide">
           <div class="carousel-caption d-none d-md-block">
-            <h1>農作物シェアリングを始めよう</h1>
+            <h4>農作物シェアリングを始めよう</h4>
             <p>高知でフードシェアリングをしてみませんか。</p>
           </div>
         </div>
         <div class="carousel-item">
           <img class="d-block w-100" src="./images/Top2.jpg" alt="Second slide">
           <div class="carousel-caption d-none d-md-block">
-            <h1>農作物シェアリングを始めよう</h1>
+            <h4>農作物シェアリングを始めよう</h4>
             <p>高知でフードシェアリングをしてみませんか。</p>
           </div>
         </div>
         <div class="carousel-item">
           <img class="d-block w-100" src="./images/Top3.png" alt="Third slide">
           <div class="carousel-caption d-none d-md-block">
-            <h1>農作物シェアリングを始めよう</h1>
+            <h4>農作物シェアリングを始めよう</h4>
             <p>高知でフードシェアリングをしてみませんか。</p>
           </div>
         </div>
@@ -99,6 +99,12 @@
         <span class="sr-only">Next</span>
       </a>
     </div>
+  </header>
+
+
+  <main role="main" class="container">
+
+
 
     <p>最近登録された農作物</p>
     <div class="row">
