@@ -19,6 +19,7 @@
     "express-http-proxy": "~0.10.1",
     "https-proxy-agent": "~1.0.0",
     "moment": "~2.18.1",
+    "nodemailer": "^4.6.7",
     "qrcode-console": "^0.1.0",
     "request": "~2.79.0",
     "request-promise": "~4.1.1",
