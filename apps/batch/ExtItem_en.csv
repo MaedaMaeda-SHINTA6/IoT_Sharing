@@ -1,0 +1,15 @@
+identifier,displayName,displayOrder
+room_type_item,"Event Space",1
+room_type_item,"Private Room",2
+room_type_item,"Private Room (Partitioned)",3
+room_type_item,"Classroom Type",4
+room_type_item,"Japanese-Style Room",5
+room_type_item,"Open Space (Outdoors)",6
+facility_item,"Whiteboard",1
+facility_item,"Projector",2
+facility_item,"Laser Pointer",3
+facility_item,"Microphone",4
+facility_item,"Wi-Fi",5
+facility_item,"Electrical Outlet",6
+facility_item,"3D Printer",7
+facility_item,"Balance Balls",8

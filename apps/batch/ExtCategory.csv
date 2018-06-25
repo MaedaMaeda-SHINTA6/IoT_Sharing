@@ -1,0 +1,8 @@
+identifier,dataType,displayName,extensionItemIdentifier
+address,20,場所,
+num,21,数量,
+yasai_type,10,野菜タイプ,room_type_item
+facility,10,設備・備品,facility_item
+sharing_start,22,シェア可能期間,
+sharing_end,22,シェア可能期間,
+user_name,20,ユーザー名,

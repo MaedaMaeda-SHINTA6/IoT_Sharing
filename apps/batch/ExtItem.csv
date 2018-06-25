@@ -1,0 +1,15 @@
+identifier,displayName,displayOrder
+room_type_item,イベントスペース,1
+room_type_item,個室,2
+room_type_item,個室(パーティション),3
+room_type_item,教室タイプ,4
+room_type_item,和室,5
+room_type_item,オープンスペース(屋外),6
+facility_item,ホワイトボード,1
+facility_item,プロジェクター,2
+facility_item,レーザーポインター,3
+facility_item,マイク,4
+facility_item,Wifi,5
+facility_item,コンセント,6
+facility_item,3Dプリンター,7
+facility_item,バランスボール,8
