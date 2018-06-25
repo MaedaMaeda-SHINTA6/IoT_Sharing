@@ -1,3 +1,4 @@
 # 「apps」フォルダを除外
 /apps/batch/config.json
+/apps/app/config.json
 
