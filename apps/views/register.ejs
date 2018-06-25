@@ -1,0 +1,398 @@
+<!--
+ * Start Bootstrap - Agency v3.3.7+1 (http://startbootstrap.com/template-overviews/agency)
+ * Copyright 2013-2016 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
+-->
+<!-- Copyright FUJITSU LIMITED 2016-2017 -->
+<!DOCTYPE html>
+<html lang="jp">
+<html>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+  <head>
+    <title><%- t('title_room_register') %></title>
+    <!-- Bootstrap Core CSS -->
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+    <link href="/stylesheets/jquery-ui.min.css" rel="stylesheet" />
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/redmond/jquery-ui.css" rel="stylesheet" />
+
+    <!-- Custom CSS -->
+    <link href="/stylesheets/sharingBusinessDemo.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+    <script type="text/javascript">
+    <!--
+      function checkMustInput(){
+        var selectedCategory = 0;
+        var categoryList = document.getElementsByName("<%= room_type_item[0].identifier %>");
+        for(var i=0;i<categoryList.length;i++){
+          if(categoryList[i].checked){
+           console.log("radio selected.");
+           selectedCategory = 1;
+           break;
+          }
+        }
+
+        if( document.getElementsByName("room_name")[0].value.length == 0 ||
+            document.getElementsByName("description")[0].value.length == 0 ||
+            document.getElementsByName("price")[0].value.length == 0 ||
+            document.getElementsByName("publishedStart")[0].value.length == 0 ||
+            document.getElementsByName("publishedEnd")[0].value.length == 0 ||
+            document.getElementsByName("<%= sharingStart.identifier %>")[0].value.length == 0 ||
+            document.getElementsByName("<%= sharingEnd.identifier %>")[0].value.length == 0 ||
+            document.getElementsByName("<%= num.identifier %>")[0].value.length == 0 ||
+            document.getElementsByName("<%= address.identifier %>")[0].value.length == 0 ||
+            selectedCategory == 0
+         ){
+          alert("<%- t('alert_not_enough_fill_requirements') %>");
+          return false;
+        }
+        else{
+          return true;
+        }
+      }
+    -->
+    </script>
+
+  <body id="page-top" class="index">
+    <%- include('_layout/header',param) -%>
+
+    <!-- Services Section -->
+    <section id="services">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading"><%- t('section_title_register_room') %></h2>
+                    <h3 class="section-subheading text-muted"></h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+
+          <form class="form-horizontal" action="/register/new" method="post" onsubmit="return checkMustInput();">
+            <input type="hidden" name="h_publish_from" value="" id="h_publish_from" />
+            <input type="hidden" name="h_publish_to" value="" id="h_publish_to" />
+            <input type="hidden" name="h_share_from" value="" id="h_share_from" />
+            <input type="hidden" name="h_share_to" value="" id="h_share_to" />
+            <div class="row">
+              <div class="col-lg-12" >
+                <div class="well bs-component">
+                    <fieldset>
+                      <legend><%- t('section_basic_information') %></legend>
+                      <div class="form-group">
+                        <label for="room_name" class="col-lg-4 control-label"><%- t('label_registering_room_name') %><span class="require"><%- t('display_required') %></span></label>
+                        <div class="col-lg-7">
+                          <input type="text" class="form-control" id="room_name" name="room_name" placeholder="">
+                          <span class="require" style="display:none;" id="check_room_name"><%- t('alert_no_room_name') %></span>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="description" class="col-lg-4 control-label"><%- t('label_registering_room_description') %><span class="require"><%- t('display_required') %></span></label>
+                        <div class="col-lg-8">
+                          <textarea class="form-control" rows="5" name="description" id="description" placeholder="<%- t('msg_placeholder_room_description') %>"></textarea>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="price" class="col-lg-4 control-label"><%- t('label_registering_room_cost_per_hour') %><span class="require"><%- t('display_required') %></span></label>
+                        <div class="col-lg-8">
+                            <div class="input-addon" style="display:inline-flex;">
+                              <input class="form-control input-stem input-large" type="text" name="price" value="" id="price"  style="width:200px">
+                              <span style="margin-top:5px;">&nbsp;<%- t('unit_of_money') %></span>
+                            </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-lg-4 control-label"><%- t('label_registering_room_display_period') %><span class="require"><%- t('display_required') %></span></label>
+                        <div class="col-lg-7">
+                          <div style="padding: 7px 7px 0 0;" >From :</div><input type="text" class="form-control" id="publishedStart" name="publishedStart" placeholder="<%- t('msg_placeholder_room_period_start') %>" style="width:200px" readonly>
+
+                          <div style="padding: 7px 7px 0 0;" >To :</div>
+                          <input type="text" class="form-control" id="publishedEnd" name="publishedEnd" placeholder="<%- t('msg_placeholder_room_period_end') %>" style="width:200px" readonly>
+
+                        </div>
+                      </div>
+                    </fieldset>
+                  </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="well bs-component">
+                  <fieldset>
+                      <legend><%- t('section_ext_information') %></legend>
+                      <div class="form-group">
+                        <label class="col-lg-4 control-label" style="ver"><%= sharingStart['displayName'] %><span class="require"><%= t(sharingStart['require']) %></span></label>
+                        <div class="col-lg-7" style="">
+                          <div style="padding: 7px 7px 0 0;" >From :</div>
+                          <input type="text" class="form-control" id="<%= sharingStart.identifier %>" name="<%= sharingStart.identifier %>" placeholder="<%- t('msg_placeholder_room_period_start') %>" style="width:200px" readonly>
+
+                          <div style="padding: 7px 7px 0 0;" >To :</div>
+                          <input type="text" class="form-control" id="<%= sharingEnd.identifier %>" name="<%= sharingEnd.identifier %>" placeholder="<%- t('msg_placeholder_room_period_end') %>" style="width:200px" readonly>
+
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-lg-4 control-label"><%= num['displayName'] %><span class="require"><%= t(num['require']) %></span></label>
+                        <div class="col-lg-7" style="display:inline-flex;">
+                          <input type="text" class="form-control" id="<%= num.identifier %>" name="<%= num.identifier %>" placeholder="1" style="width:200px;">
+                          <span style="margin-top:5px;">&nbsp;<%- t('label_registering_room_max_capacity') %></span>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-lg-4 control-label"><%= address['displayName']  %><span class="require"><%= t(address['require']) %></span></label>
+                        <div class="col-lg-7">
+                          <input type="text" class="form-control" id="<%= address.identifier %>" name="<%= address.identifier %>" placeholder="<%- t('msg_placeholder_room_address_sample') %>" value="">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="inputCategory" class="col-lg-4 control-label"><%= roomType['displayName']  %><span class="require"><%= t(roomType['require']) %></span></label>
+                        <div class="col-lg-7">
+
+                          <% for(var i=0; i< room_type_item.length; i++ ) { %>
+                            <div class="radio">
+                              <label>
+                                <input type="radio" name="<%= room_type_item[i].identifier %>" id="<%= room_type_item[i].identifier+i %>" value=<%= room_type_item[i].id %> >
+                               <%= room_type_item[i].displayName %>
+                              </label>
+                            </div>
+                          <% } %>
+
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-lg-4 control-label"><%= facility['displayName'] %><span class="require"><%= t(facility['require']) %></span></label>
+                        <div class="col-lg-7">
+                          <% for(var i=0; i< facility_item.length; i++ ) { %>
+                            <div class="checkbox">
+                              <label>
+                                <input type="checkbox" id="<%= facility_item[i].identifier+i %>" name="<%= facility_item[i].identifier %>" value="<%= facility_item[i].id %>" >
+                                <%= facility_item[i].displayName %>
+                              </label>
+                            </div>
+                          <% } %>
+                        </div>
+                      </div>
+                  </fieldset>
+                </div>
+              </div>
+            </div>
+
+            <br>
+            <div class="form-group">
+              <div class="col-lg-6 col-lg-offset-2">
+                <div id="cancel">
+                  <button type="button" class="btn btn-default" id="back"><%- t('button_cancel_register') %></button>
+                </div>
+                <div id="register" style="margin:0 20px;">
+                  <button type="submit" class="btn btn-primary"><%- t('button_register') %></button>
+                </div>
+              </div>
+            </div>
+          </form>
+
+        </div>
+    </section>
+
+    <%- include('_layout/footer') -%>
+
+
+    <!-- Portfolio Modals -->
+    <!-- Use the modals below to showcase details about your portfolio projects! -->
+
+
+    <!-- jQuery -->
+    <script src="/javascripts/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/javascripts/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script src="/javascripts/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/i18n/jquery-ui-i18n.min.js"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="/javascripts/demo.js"></script>
+    <script type="text/javascript">
+        $(function() {
+          // $("input[name='room_name']").blur(function(){
+          //   if($(this).val() == ""){
+          //     $(this).addClass("focus_err");
+          //     $('#check_room_name').show();
+          //   } else {
+          //     $(this).removeClass("focus_err");
+          //     $('#check_room_name').hide();
+          //   }
+          // });
+        $.datepicker.setDefaults( $.datepicker.regional[ <%-JSON.stringify(i18n.language) %> ] );
+
+        $('#publishedStart').datepicker({
+            minDate: '0y',
+            maxDate: '+1y',
+            //changeMonth: true,
+            dateFormat: 'yy/mm/dd',
+            onSelect: function(selectedDate) {
+              var today   = new Date();
+              var selDate = new Date(selectedDate);
+              var msDiff = selDate.getTime() - today.getTime();
+              nx = Math.floor(msDiff / (1000 * 60 * 60 *24));
+              nx = nx+1;
+              var min = '+'+nx+'d';
+              $("#publishedEnd").datepicker("option", "minDate", min);
+            },
+            beforeShowDay: function(date) {
+              var now = new Date();
+              var base = new Date();
+              base.setDate(now.getDate() - 1);
+              var dateStr = createDateStr(date);
+
+              if (date.getTime() < base.getTime()) {
+                return [false];
+              }
+              else {
+                return [true];
+              }
+            },
+            onClose: function(datetext, inst){
+              //console.log(datetext);
+              date = datetext.replace(/\u002f/g, "-");
+              date = date + "T00:00:00.000Z";
+              //console.log(date);
+              $("#h_publish_from").val(date);
+            }
+        });
+
+        $('#publishedEnd').datepicker({
+            minDate: '0y',
+            maxDate: '+1y',
+            //changeMonth: true,
+            dateFormat: 'yy/mm/dd',
+
+            onClose: function(datetext, inst){
+              date = datetext.replace(/\u002f/g, "-");
+              date = date + "T23:59:59.999Z";
+
+              $("#h_publish_to").val(date);
+            },
+            beforeShowDay: function(date) {
+              var now = new Date();
+              var base = new Date();
+              base.setDate(now.getDate() - 1);
+              var dateStr = createDateStr(date);
+
+              if (date.getTime() < base.getTime()) {
+                return [false];
+              }
+              else {
+                return [true];
+              }
+            }
+
+        });
+
+        $('#<%= sharingStart.identifier %>').datepicker({
+            minDate: '0y',
+            maxDate: '+1y',
+            //changeMonth: true,
+            dateFormat: 'yy/mm/dd',
+            onSelect: function(selectedDate) {
+              var today   = new Date();
+              var selDate = new Date(selectedDate);
+              var msDiff = selDate.getTime() - today.getTime();
+              nx = Math.floor(msDiff / (1000 * 60 * 60 *24));
+              nx = nx+1;
+              var min = '+'+nx+'d';
+              $("#sharingEnd").datepicker("option", "minDate", min);
+            },
+            beforeShowDay: function(date) {
+              var now = new Date();
+              var base = new Date();
+              base.setDate(now.getDate() - 1);
+              var dateStr = createDateStr(date);
+
+              if (date.getTime() < base.getTime()) {
+                return [false];
+              }
+              else {
+                return [true];
+              }
+            },
+            onClose: function(datetext, inst){
+              //console.log(datetext);
+              date = datetext.replace(/\u002f/g, "-");
+              date = date + "T00:00:00.000Z";
+              //console.log(date);
+              $("#h_share_from").val(date);
+            }
+        });
+
+        $('#back').on('click',function(){
+        //$('#back').click(function(){
+          location.href='/';
+        });
+        $('#<%= sharingEnd.identifier %>').datepicker({
+            minDate: '0y',
+            maxDate: '+1y',
+            //changeMonth: true,
+            dateFormat: 'yy/mm/dd',
+
+            onClose: function(datetext, inst){
+              date = datetext.replace(/\u002f/g, "-");
+              date = date + "T23:59:59.999Z";
+
+              $("#h_share_to").val(date);
+            },
+            beforeShowDay: function(date) {
+              var now = new Date();
+              var base = new Date();
+              base.setDate(now.getDate() - 1);
+              var dateStr = createDateStr(date);
+
+              if (date.getTime() < base.getTime()) {
+                return [false];
+              }
+              else {
+                return [true];
+              }
+            }
+
+        });
+        function createDateStr(date) {
+          var year = date.getYear();
+          var month = date.getMonth() + 1;
+          var day = date.getDate();
+          if (year < 2000) { year += 1900 };
+          if (month < 10)  { month = "0" + month };
+          if (day < 10)    { day = "0" + day };
+
+          var dateStr = year + "/" + month + "/" + day;
+          //console.log(dateStr);
+          return dateStr;
+        };
+      });
+
+    </script>
+  </body>
+</html>

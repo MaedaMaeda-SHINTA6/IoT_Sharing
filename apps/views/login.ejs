@@ -1,0 +1,165 @@
+<!--
+ * Start Bootstrap - Agency v3.3.7+1 (http://startbootstrap.com/template-overviews/agency)
+ * Copyright 2013-2016 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
+-->
+<!-- Copyright FUJITSU LIMITED 2016-2017 -->
+<!DOCTYPE html>
+<html lang="jp">
+<html>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<head>
+    <title>
+        <%- t('title_login') %>
+    </title>
+    <!-- Bootstrap Core CSS -->
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/stylesheets/sharingBusinessDemo.css" rel="stylesheet">
+    <link href="/stylesheets/custom/home.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body id="page-top" class="index">
+    <header>
+        <%- include('_layout/header',{param:'0'}) -%>
+    </header>
+
+    <main role="main" class="container">
+
+        <!-- タイトル -->
+        <div class="text-center mt-5">
+            <h3>ログイン/新規登録</h3>
+        </div>
+        <div id="loginbox">
+            <form method="POST" action="/login/auth">
+                <div class="form-group">
+                    <label for="login-userid">メールアドレス</label>
+                    <input type="text" name="userid" class="form-control" id="email-fld" placeholder="<%- t('placeholder_login_user_id') %>">
+                    <!--<small id="emailHelp" class="form-text text-muted">メールアドレスを入力してください。</small>-->
+                </div>
+                <div class="form-group">
+                    <label for="password-fld">パスワード</label>
+                    <input name="password" type="password" class="form-control" id="password-fld" placeholder="<%- t('placeholder_login_password') %>">
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg btn-block">
+                    <%- t('button_login') %>
+                </button>
+                <button type="button" class="btn btn-secondary btn-lg btn-block">クリア</button>
+            </form>
+
+            <div class="col-md-12 control">
+                <%- t('link_to_sign_up_prev') %>
+                    <a href="#" onClick="$('#loginbox').hide(); $('#signupbox').show()">
+                        <%- t('link_to_sign_up') %>
+                    </a>
+            </div>
+            <br>
+            
+        </div>
+
+        <!--新規登録-->
+
+        <div id="signupbox" style="display:none;">
+            <a id="signinlink" href="#" onclick="$('#signupbox').hide(); $('#loginbox').show()">
+                <%- t('link_to_sign_in') %>
+            </a>
+            <form id="signupform" class="form-horizontal" role="form" action="/login/signon" method="POST" onsubmit="return checkMustInput();">
+                <div class="form-group">
+                    <label for="signup_userid">
+                        <%- t('label_sign_up_userid') %>
+                    </label>
+                    <input type="text" class="form-control" name="signup_userid" placeholder="<%- t('placeholder_signup_userid') %>">
+                </div>
+
+                <div class="form-group">
+                    <label for="sign_up_password">
+                        <%- t('label_sign_up_password') %>
+                    </label>
+                    <input type="password" class="form-control" name="signup_password" placeholder="<%- t('placeholder_signup_password') %>">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">
+                        <%- t('label_sign_up_password') %>
+                    </label>
+                    <input type="text" class="form-control" name="email" placeholder="taro@example.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="displayname">
+                        <%- t('label_sign_up_displayname') %>
+                    </label>
+                    <input type="text" class="form-control" name="displayname" placeholder="Taro">
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg btn-block">
+                    <%- t('button_sign_up') %>
+                </button>
+            </form>
+
+            <br>
+        </div>
+
+
+    </main>
+
+
+    <%- include('_layout/footer') -%>
+        <script type="text/javascript">
+    < !--
+                function checkMustInput() {
+                    if (document.getElementsByName("signup_userid")[0].value.length == 0 ||
+                        document.getElementsByName("signup_password")[0].value.length == 0 ||
+                        document.getElementsByName("email")[0].value.length == 0
+                    ) {
+                        alert("<%- t('alert_not_enough_fill_requirements') %>");
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
+                }
+            -->
+        </script>
+
+
+
+        <!-- Portfolio Modals -->
+        <!-- Use the modals below to showcase details about your portfolio projects! -->
+
+        <!-- jQuery -->
+        <script src="javascripts/jquery.js"></script>
+
+        <!-- Bootstrap Core JavaScript -->
+        <script src="javascripts/bootstrap.min.js"></script>
+
+        <!-- Plugin JavaScript -->
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+
+        <!-- Custom Theme JavaScript -->
+        <script src="javascripts/demo.js"></script>
+
+
+</body>
+
+</html>

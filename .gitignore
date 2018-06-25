@@ -1,0 +1,3 @@
+# 「apps」フォルダを除外
+/apps/batch/config.json
+

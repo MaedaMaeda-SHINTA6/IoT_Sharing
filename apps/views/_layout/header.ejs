@@ -1,0 +1,52 @@
+<!-- Navigation -->
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+  <a class="navbar-brand" href="#">農作物シェアリング</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault"
+    aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">農業シェアリングサービスとは
+          <span class="sr-only">(current)</span>
+        </a>
+      </li>
+      <!--
+              <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled" href="#">Disabled</a>
+              </li>
+            -->
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">メニュー</a>
+        <div class="dropdown-menu" aria-labelledby="dropdown01">
+          <a class="dropdown-item" href="#">農家の方へ</a>
+          <a class="dropdown-item" href="#">配達ドライバーの方へ</a>
+          <a class="dropdown-item" href="./Webcamera">現地の様子</a>
+        </div>
+      </li>
+      </ul>
+
+
+      &nbsp;
+      <% if (param=='1') { %>
+        <a href="/mypage" class="btn btn-outline-primary my-2 my-sm-0">マイページ</a>&nbsp;
+        <a href="/search" class="btn btn-outline-warning my-2 my-sm-0">
+          <%- t('link_to_search_vegetable') %>
+        </a>&nbsp;
+        <a href="/logout" class="btn btn-outline-danger my-2 my-sm-0">
+          <%- t('link_to_sign_out') %>
+        </a>&nbsp;
+        <% } else { %>
+          <!-- ログインボタン -->
+          <a href="/login" class="btn btn-outline-success my-2 my-sm-0">
+           <%- t('link_to_sign_up_sign_in') %>
+          </a>
+        <% }; %>
+
+  </div>
+</nav>
