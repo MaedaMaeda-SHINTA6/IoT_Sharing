@@ -45,12 +45,53 @@
     </header>
 
     <main role="main" class="container">
-            
+        <div id="mypage_info" style="margin-top:50px;">
+            <h1>マイページ</h1>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Category</th>
+                        <th scope="col">Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">ID</th>
+                        <td>
+                            <input type="text" name="userid" placeholder="userid" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">DisplayName</th>
+                        <td>
+                            <input type="text" name="display_name" placeholder="display_name" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Address</th>
+                        <td>
+                            <input type="text" name="address" placeholder="address" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Password</th>
+                        <td>
+                            <input type="password" name="password" placeholder="password" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <button value="submit" class="btn btn-primary btn-lg btn-block">更新</button>
+        </div>
+
+        <br>
+
     </main>
 
 
     <%- include('_layout/footer') -%>
-    
+
         <!-- Portfolio Modals -->
         <!-- Use the modals below to showcase details about your portfolio projects! -->
 
