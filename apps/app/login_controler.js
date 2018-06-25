@@ -65,10 +65,10 @@ exports.signon = function(req,res) {
         }
       });
     },
-    // function(results, callback) {
-    //   console.log('get category.');
-    //   extension.getCategory(res, callback);
-    // },
+    function(results, callback) {
+      console.log('get category.');
+      extension.getCategory(res, callback);
+    },
     function(results, callback) {
       console.log('put account.');
       var id = common.getIDFromIdentifier(results.ExtensionCategories, 'user_name');
@@ -76,7 +76,7 @@ exports.signon = function(req,res) {
       var requestBody = { 
                            'AccountExtensions':[
                              {
-                               //'extensionCategoryId':id,
+                               'extensionCategoryId':id,
                                'dataType':20,
                                'value': req.body.displayname,
                                'publicLevel':0

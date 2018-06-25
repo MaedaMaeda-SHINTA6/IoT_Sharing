@@ -14,6 +14,9 @@ var detail = require('./routes/detail');
 var search = require('./routes/search');
 var matchingList = require('./routes/matchingList');
 
+//mypage
+var mypage = require('./routes/mypage');
+
 // i18n
 var i18next = require('i18next');
 var i18nextMiddleware = require('i18next-express-middleware');
@@ -69,6 +72,8 @@ app.use('/complete', complete);
 app.use('/detail', detail);
 app.use('/search', search);
 app.use('/list', matchingList);
+//追加ページ
+app.use('/mypage', mypage);
 
 
 // catch 404 and forward to error handler
