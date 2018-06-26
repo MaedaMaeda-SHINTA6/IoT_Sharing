@@ -19,7 +19,7 @@ exports.get = function (req, res) {
   }
   //アカウント情報取得
   var requestData = common.createGetRequest('/accounts/', accountId);
-  console.log(requestData);
+  
   request( requestData,
     function(error, response, body) {
       if (!error && response.statusCode == 200) {
@@ -35,9 +35,6 @@ exports.get = function (req, res) {
     }
   )
   
-
-
-
   var params = { "param": "1" };
   res.render('mypage', params);
 };
