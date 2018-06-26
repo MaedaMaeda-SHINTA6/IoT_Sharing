@@ -53,8 +53,8 @@ request.post(requestData, function (error, response, body) {
     // authentication
     console.log("-------- Authentication -------- ");
     requestBody = {
-      'userId': 'test1',
-      'password': 'test1'
+      'userId': 'test10',
+      'password': 'test10'
     };
     // リクエスト作成
     requestData = common.createPostRequest('accounts/authentication', requestBody, HEADERS);

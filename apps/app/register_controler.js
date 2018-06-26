@@ -232,7 +232,7 @@ createRegisterData = function(req,results) {
         "value": req.body.num
       },
       {
-        "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'yasai_type'),
+        "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'room_type'),
         "dataType": 10,
         "value":  req.body.room_type_item
       },

@@ -27,9 +27,9 @@ router.get('/logout', function(req,res,next) {
   res.redirect('/');
 });
 
-router.get('/thankyou', function(req,res,next) {
-  common.saveToken(req);
-  res.render('index');
-});
+  // router.get('/thankyou', function(req,res,next) {
+  //   common.saveToken(req);
+  //   res.render('index');
+  // });
 
 module.exports = router;
