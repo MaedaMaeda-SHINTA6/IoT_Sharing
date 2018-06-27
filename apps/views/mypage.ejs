@@ -58,30 +58,34 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <th scope="row">ID</th>
-                                <td>
-                                    <% var test='hello';%>
-                                        <%= test %>
-                                            <input type="text" name="userid" placeholder="userid" />
-                                </td>
-                            </tr>
-                            <tr>
                                 <th scope="row">DisplayName</th>
                                 <td>
-                                    <input type="text" name="display_name" placeholder="display_name" />
+                                    <%= displayName %>
                                 </td>
                             </tr>
                             <tr>
-                                <th scope="row">Address</th>
+                                <th scope="row">UserID</th>
                                 <td>
-                                    <input type="text" name="address" placeholder="address" />
+                                    <%= Account %>    
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">MailAddress</th>
+                                <td>
+                                    <%= MailAddress %>    
                                 </td>
                             </tr>
 
                             <tr>
-                                <th scope="row">Password</th>
+                                <th scope="row">LastLoginTime</th>
                                 <td>
-                                    <input type="password" name="password" placeholder="password" />
+                                    <%= LastLoginTime %>    
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Role</th>
+                                <td>
+                                    <%= role %>
                                 </td>
                             </tr>
                         </tbody>

@@ -11,32 +11,42 @@ exports.get = function (req, res) {
     res.redirect('/login');
     return;
   }
-
   //アカウントID取得
-  if(req.cookies.account != undefined){
+  if (req.cookies.account != undefined) {
     accountId = req.cookies.account;
     console.log(accountId);
   }
   //アカウント情報取得
-  var requestData = common.createGetRequest('/accounts/', accountId);
-  
-  request( requestData,
-    function(error, response, body) {
-      if (!error && response.statusCode == 200) {
-        if (response.body) {
-          categories = response.body;
-          console.log(categories);
+ async.waterfall([
+  function (callback) {
+      var requestData = common.createGetRequest('/accounts/', accountId);
+      request(requestData,
+        function (error, response, body) {
+          if (!error && response.statusCode == 200) {
+            if (response.body) {
+              categories = response.body;
+              console.log(categories);
+              var params = { 
+                "MemberId": categories['Accounts'][0]['id'],
+                "Account": categories['Accounts'][0]['userId'],
+                "MailAddress": categories['Accounts'][0]['mailAddress'],
+                "LastLoginTime": categories['Accounts'][0]['lastLoginDatetime'],
+                "role" : categories['Accounts'][0]['role'],
+                "displayName": categories['Accounts'][0]['AccountExtensions'][0]['value'],
+                "param": "1" 
+              };
+              res.render('mypage', params);
+              callback(null);
+            }
+          } else {
+            common.outputError(error, response);
+            errors.push(response.body);
+          }
+          //callback(response.body, null);
         }
-      } else {
-        common.outputError(error, response);
-        errors.push( response.body );
-      }
-      //callback(null, null);
-    }
-  )
-  
-  var params = { "param": "1" };
-  res.render('mypage', params);
+      )
+  }
+ ]);
 };
 
 exports.update = function (req, res) {
