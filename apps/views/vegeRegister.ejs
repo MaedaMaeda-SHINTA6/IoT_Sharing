@@ -1,0 +1,120 @@
+<!--
+ * Start Bootstrap - Agency v3.3.7+1 (http://startbootstrap.com/template-overviews/agency)
+ * Copyright 2013-2016 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
+-->
+<!-- Copyright FUJITSU LIMITED 2016-2017 -->
+<!DOCTYPE html>
+<html lang="jp">
+<html>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<head>
+    <title>
+        <%- t('title_vegeRegister') %>
+    </title>
+    <!-- Bootstrap Core CSS -->
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/stylesheets/sharingBusinessDemo.css" rel="stylesheet">
+    <link href="/stylesheets/custom/home.css" rel="stylesheet">
+    <link href="/stylesheets/custom/gmaps.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <!--link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body id="page-top" class="index">
+    <header>
+        <%- include('_layout/header',{param:param}) -%>
+    </header>
+
+    <main role="main" class="container">
+        <!-- タイトル -->
+        <div class="text-center mt-5">
+            <h3>農作物登録</h3>
+        </div>
+
+        <div id="form-register">
+            <form action="/vege-register" method="post">
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <input type="file" class="form-control">
+                        </div>
+                        <div class="col">
+                            <input type="file" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <input type="file" class="form-control">
+                        </div>
+                        <div class="col">
+                            <input type="file" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">作物名</div>
+                        <div class="col"><input type="text" name="" class="form-control"  /></div>
+                        <div class="w-100"></div>
+                        <div class="col">産地</div>
+                        <div class="col"><input type="text" name="" class="form-control" /></div>
+                        <div class="w-100"></div>
+                        <div class="col">数量</div>
+                        <div class="col"><input type="text" name="" class="form-control" /></div>
+                        <div class="w-100"></div>
+                        <div class="col">しなびLv</div>
+                        <div class="col"><input type="text" name="" class="form-control" /></div>
+                        <div class="w-100"></div>
+                        <div class="col">価格</div>
+                        <div class="col"><input type="text" name="" class="form-control" /></div>                    
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary mb-2 btn-lg btn-block">登録</button>
+
+            </form>
+
+        </div>
+
+
+
+        <br>
+
+
+    </main>
+
+
+    <%- include('_layout/footer') -%>
+
+        <!-- Portfolio Modals -->
+        <!-- Use the modals below to showcase details about your portfolio projects! -->
+
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+        <script>window.jQuery || document.write('<script src="./assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+        <script src="./assets/js/vendor/popper.min.js"></script>
+        <script src="/javascripts/bootstrap.min.js"></script>
+
+</body>
+
+</html>
