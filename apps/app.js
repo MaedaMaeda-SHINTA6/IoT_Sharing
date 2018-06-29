@@ -22,6 +22,8 @@ var vegeSearch = require('./routes/vegeSearch');
 var vegeRoute = require('./routes/vegeRoute');
 //配送履歴
 var vegeHistory = require('./routes/vegeHistory');
+//野菜登録
+var vegeRegister = require('./routes/vegeRegister');
 
 // i18n
 var i18next = require('i18next');
@@ -86,6 +88,9 @@ app.use('/vege-search', vegeSearch);
 app.use('/vege-route', vegeRoute);
 //配送履歴ページ
 app.use('/d-history',vegeHistory);
+//野菜登録ページ
+app.use('/vege-register', vegeRegister);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
