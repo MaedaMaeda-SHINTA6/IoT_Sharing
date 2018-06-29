@@ -25,7 +25,7 @@ function initMap() {
                 );
                 //Json取得処理
                 $.ajaxSetup({ async: false });//同期通信
-                $.getJSON("../../js/json/many_locations.json",
+                $.getJSON("/javascripts/json/many_locations.json",
                     function (json) {
                         for (var i = 0; i <= json.length - 1; i++) {
                             //Mapsオブジェクトで格納

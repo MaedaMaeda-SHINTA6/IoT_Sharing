@@ -16,6 +16,12 @@ var matchingList = require('./routes/matchingList');
 
 //mypage
 var mypage = require('./routes/mypage');
+//野菜検索
+var vegeSearch = require('./routes/vegeSearch');
+//配送経路
+var vegeRoute = require('./routes/vegeRoute');
+//配送履歴
+var vegeHistory = require('./routes/vegeHistory');
 
 // i18n
 var i18next = require('i18next');
@@ -52,14 +58,14 @@ i18next
     detection: {
       caches: ['cookie']
     },
-    backend:{
+    backend: {
       loadPath: __dirname + '/locales/{{lng}}/{{ns}}.json'
     }
   }, (err, t) => {
-    if(err){
+    if (err) {
       console.error('error is occurred');
       console.error(err);
-    }else{
+    } else {
       console.log('i18n ready');
     }
   });
@@ -74,7 +80,12 @@ app.use('/search', search);
 app.use('/list', matchingList);
 //追加ページ
 app.use('/mypage', mypage);
-
+//野菜検索ページ
+app.use('/vege-search', vegeSearch);
+//配送経路ページ
+app.use('/vege-route', vegeRoute);
+//配送履歴ページ
+app.use('/d-history',vegeHistory);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -106,6 +117,5 @@ app.use(function (err, req, res, next) {
     error: {}
   });
 });
-
 
 module.exports = app;

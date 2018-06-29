@@ -25,6 +25,9 @@
     "title_room_register": "Vegetable Sharing Service [Register meeting room]",
     "title_room_search": "Vegetable Sharing Service [Search]",
     "title_room_search_result": "Vegetable Sharing Service [Search Result]",
+    "title_vegeSearch": "Vegetable Sharing Service [Pick Up]",
+    "title_vegeRoute": "Vegetable Sharing Service [Route Information]",
+    "title_vegeHisotory": "Vegetable Sharing Service [Delivery History]",
 
     "panel_title_login": "Login",
     "panel_title_sign_up": "Register User",

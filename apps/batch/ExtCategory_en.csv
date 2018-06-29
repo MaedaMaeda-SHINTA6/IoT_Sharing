@@ -1,8 +1,11 @@
 identifier,dataType,displayName,extensionItemIdentifier
 address,20,"Location",
 num,21,"Maximum Occupancy",
-room_type,10,"Meeting Room Type",room_type_item
+room_type,10,"Vegetable Type",room_type_item
 facility,10,"Facilities and Equipment",facility_item
 sharing_start,22,"Shareable Period",
 sharing_end,22,"Shareable Period",
-user_name,20,"User name",
+user_name,20,"User Name",
+ProdacutPct,20,"Product Images",
+farmerId,20,"Farm ID",
+houseId,

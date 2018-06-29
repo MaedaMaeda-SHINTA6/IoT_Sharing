@@ -44,7 +44,7 @@ function initMap() {
 }
 function json_read_make() {
     //json構造の設定
-    $.getJSON("../../js/json/many_locations.json", function (json) {
+    $.getJSON("/javascripts/json/many_locations.json", function (json) {
         for (var i = 0; i <= json.length - 1; i++) {
             data.push(
                 {
