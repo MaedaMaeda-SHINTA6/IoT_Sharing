@@ -122,7 +122,7 @@ exports.get = function (req, res) {
         "delivery_vega_state_item": delivery_vega_state_item,
         "param": "1"
       };
-      
+
       //ページ出力
       res.render('vegeRegister', params);
     }
@@ -130,6 +130,98 @@ exports.get = function (req, res) {
 
 };
 
+exports.post = function (req, res) {
 
+  console.log(req.body);
+  async.waterfall([
+    function (callback) {
+      extension.getCategory(res, callback);
+    },
+
+    function (results, callback) {
+      var registerBody = createRegisterData(req, results);
+
+      var requestData = common.createPostRequest('matchings', registerBody);
+      request.post(requestData, function (error, response, body) {
+        if (!error && response.statusCode == 201) {
+          if (response.body) {
+            console.log('matching register.');
+            callback(error, response.body, results);
+          }
+        } else {
+          common.outputError(error, response);
+          console.log(response.body);
+          callback(error, response.body, results);
+        }
+      });
+      console.log('matching register end.');
+    }
+  ],
+    function (err, matchingRes, results, results2) {
+      if (err) {
+        res.render('error', { 'message': 'Something Error happened in register room.' });
+        return;
+      }
+      console.log('async complete.');
+      res.redirect('/');
+    }
+  );
+
+
+//登録用の変数エリア
+//登録用データの生成
+createRegisterData = function (req, results) {
+  var accountId = null;
+  if (req.cookies.account != undefined) {
+    accountId = req.cookies.account;
+    console.log(accountId);
+  }
+  var bodyData = {
+    "matchingName": req.body.vege_variety_name,
+    //"matchingDetail": req.body.description,
+    //合計金額
+    "matchingPrice": Number(req.body.vege_price) * vege_quantity,
+    //"postStartDate": req.body.h_publish_from,
+    //"postEndDate": req.body.h_publish_to,
+    "MatchingExtensions": [
+      {
+        //産地
+        "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'vege_location'),
+        "dataType": 20,
+        "value": req.body.vege_location
+      },
+      {
+        //重さ
+        "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'vege_gm'),
+        "dataType": 21,
+        "value": req.body.vege_gm
+      },
+    ]
+  };
+
+  // if (req.body.facility_item != null) {
+  //   if (req.body.facility_item instanceof Array) {
+  //     for (var i = 0; i < req.body.facility_item.length; i++) {
+  //       var facility = {
+  //         "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'facility'),
+  //         "dataType": 10,
+  //         "value": req.body.facility_item[i]
+  //       };
+  //       bodyData.MatchingExtensions.push(facility);
+  //     };
+  //   } else {
+  //     var facility = {
+  //       "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'facility'),
+  //       "dataType": 10,
+  //       "value": req.body.facility_item
+  //     };
+  //     bodyData.MatchingExtensions.push(facility);
+  //   }
+  // };
+
+  console.log(bodyData);
+  return bodyData;
+};
+}
 
 

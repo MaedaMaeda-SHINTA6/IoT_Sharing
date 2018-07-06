@@ -70,25 +70,26 @@
                     </div>
                     <div class="row">
                         <div class="col">作物名</div>
-                        <div class="col"><input type="text" name="" class="form-control"  /></div>
+                        <div class="col"><input type="text" name="vege_variety_name" class="form-control"  /></div>
                         <div class="w-100"></div>
                         <div class="col">産地</div>
-                        <div class="col"><input type="text" name="" class="form-control" /></div>
+                        <div class="col"><input type="text" name="vege_location" class="form-control" /></div>
                         <div class="w-100"></div>
                         <div class="col">数量</div>
-                        <div class="col"><input type="text" name="" class="form-control" /></div>
+                        <div class="col"><input type="text" name="vege_quantity" class="form-control" /></div>
                         <div class="w-100"></div>
                         <div class="col">重さ</div>
-                        <div class="col"><input type="text" name="" class="form-control" /></div>
+                        <div class="col"><input type="text" name="vege_gm" class="form-control" /></div>
                         <div class="w-100"></div>
                         <div class="col">しなびLv</div>
                         <div class="col"><input type="text" name="" class="form-control" /></div>
                         <div class="w-100"></div>
                         <div class="col">価格</div>
-                        <div class="col"><input type="text" name="" class="form-control" /></div>
+                        <div class="col"><input type="text" name="vege_price" class="form-control" /></div>
                         <div class="w-100"></div>
                         <div class="col">野菜ステータス</div>
                         <div class="col">
+                        <!-- ExtItem取得-->
                         <% for(var i=0; i< vege_state_item.length; i++ ) { %>
                             <div class="radio">
                                 <input type="radio" name="<%= vege_state_item[i].identifier %>" id="<%= vege_state_item[i].identifier+i %>" value=<%= vege_state_item[i].id %> >
@@ -99,6 +100,7 @@
                         <div class="w-100"></div>
                         <div class="col">配送ステータス</div>
                         <div class="col">
+                        <!-- ExtItem取得-->
                         <% for(var i=0; i< delivery_vega_state_item.length; i++ ) { %>
                             <div class="radio">
                                 <input type="radio" name="<%= delivery_vega_state_item[i].identifier %>" id="<%= delivery_vega_state_item[i].identifier+i %>" value=<%= delivery_vega_state_item[i].id %> >

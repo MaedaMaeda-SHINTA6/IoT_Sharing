@@ -10,5 +10,10 @@ router.get('/', function (req, res, next) {
   common.executeControlerWithToken(req, res, mod.get);
 });
 
+/* GET home page. */
+router.post('/', function (req, res, next) {
+  common.saveToken(req);
+  common.executeControlerWithToken(req, res, mod.post);
+});
 
 module.exports = router;
