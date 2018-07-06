@@ -180,7 +180,7 @@ createRegisterData = function (req, results) {
     "matchingName": req.body.vege_variety_name,
     //"matchingDetail": req.body.description,
     //合計金額
-    "matchingPrice": Number(req.body.vege_price) * vege_quantity,
+    "matchingPrice": Number(req.body.vege_price) * Number(req.body.vege_quantity),
     //"postStartDate": req.body.h_publish_from,
     //"postEndDate": req.body.h_publish_to,
     "MatchingExtensions": [
