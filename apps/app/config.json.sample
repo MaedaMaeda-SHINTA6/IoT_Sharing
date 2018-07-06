@@ -1,9 +1,0 @@
-{
-  "url":"<API_URL>/API/",
-  "proxy":"",
-  "AuthUrl":"<API_authentication_URL>/API/oauth2/token",
-  "AuthGrantType":"<contract_information_(GrantType)>",
-  "AuthScope":"<contract_information_(scope)>",
-  "AuthId":"<contract_information_(client_id)>",
-  "AuthPassword":"<contract_information_(client_secret)>"
-}
