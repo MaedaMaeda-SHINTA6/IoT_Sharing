@@ -253,64 +253,69 @@ exports.post = function (req, res) {
   };
 }
 
-//イメージデータの作成
-createImageData = function (req, resourceType, resourceId, title) {
-  var accountId = null;
-  if (req.cookies.account != undefined) {
-    accountId = req.cookies.account;
-    console.log(accountId);
-  }
-  var image = req.file;
-  console.log(image);
-  const formData = {
-    data: {
-      value: JSON.stringify({
-        resourceType,
-        resourceId,
-        title,
-      }),
-      options: { contentType: 'application/json' },
-    },
-  };
-  if (image) {
-    Object.assign(formData, {
-      file: {
-        value: image.buffer,
-        options: {
-          filename: image.originalname,
-          contentType: image.mimetype,
-        },
-      },
-    });
-  }
-  let result = null;
-  result = formData;
-  console.log(result);
-  return result;
-}
+// //イメージデータの作成
+// createImageData = function (req, resourceType, resourceId, title) {
+//   var accountId = null;
+//   if (req.cookies.account != undefined) {
+//     accountId = req.cookies.account;
+//     console.log(accountId);
+//   }
+//   var image = req.file;
+//   console.log(image);
+//   const formData = {
+//     data: {
+//       value: JSON.stringify({
+//         resourceType,
+//         resourceId,
+//         title,
+//       }),
+//       options: { contentType: 'application/json' },
+//     },
+//   };
+//   if (image) {
+//     Object.assign(formData, {
+//       file: {
+//         value: image.buffer,
+//         options: {
+//           filename: image.originalname,
+//           contentType: image.mimetype,
+//         },
+//       },
+//     });
+//   }
+//   let result = null;
+//   result = formData;
+//   console.log(result);
+//   return result;
+// }
 
 exports.uploads = function (req, res) {
 
   async.waterfall([
     function (callback) {
       console.log("fileのリクエストを出力する。");
-      console.log(req.file.buffer);
+      console.log(req.file);
 
-      var imageBody =createImageData(req,"matching","71373387111839187027","test");
-      var requestData = common.createPostRequest('images', imageBody);
-      request.post(requestData, function (error, response, body) {
-        if (!error && response.statusCode == 201) {
-          if (response.body) {
-            console.log('Image Upload');
+      //var imageBody =createImageData(req,"matching","71373387111839187027","test");
+      var resourcetData = {
+        "resourceType": "matching",
+        "resourceId": "71373387111839187027",
+        "title": "Item Image 01"
+      };
+      var imageBody = common.imagePostRequest(resourcetData,req.file.originalname,req.file.mimetype,req.file.buffer);
+        request.post(imageBody, function (error, response, body) {
+          if (!error && response.statusCode == 201) {
+            if (response.body) {
+              console.log('Image Upload');
+              //callback(error, response.body, results);
+            }
+          } else {
+            common.outputError(error, response);
+            console.log(response.body);
             //callback(error, response.body, results);
           }
-        } else {
-          common.outputError(error, response);
-          console.log(response.body);
-          //callback(error, response.body, results);
         }
-      }
-      );   
+      );
     }
   ]);
   res.redirect('/vege-register');
