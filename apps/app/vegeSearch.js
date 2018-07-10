@@ -17,12 +17,31 @@ exports.get = function (req, res) {
     console.log(accountId);
   }
 
+  var categories;
+  var errors = [];
+
+  async.series([
+    function (callback) {
+      var requestData = common.createGetRequest('images', null);
+      request(requestData,
+        function (error, response, body) {
+          if (!error && response.statusCode == 200) {
+            if (response.body) {
+              categories = response.body;
+              console.log(categories);
+            }
+          } else {
+            common.outputError(error, response);
+            errors.push(response.body);
+          }
+          callback(null, null);
+        }
+      )
+    },
+  ]);
   var params = { 
     "param": "1" 
   };
-
   res.render('vegeSearch', params);
-
-
 };
 

@@ -53,7 +53,10 @@
         </div>
 
         <div id="form-register">
-            <form action="/vege-register" method="post">
+                <form action="/vege-register/uploads" method="post" enctype="multipart/form-data">
+                    <!--<input type="file" name="file_uploads">
+                    <input type="submit" value="画像テスト">-->
+                
                 <div class="container">
                     <div class="row">
                         <div class="col">
@@ -61,13 +64,19 @@
                             <div class="input-group">
                                 <label class="input-group-btn">
                                     <span class="btn btn-primary">
-                                         Choose File<input type="file" style="display:none" class="form-control">
+                                         Choose File<input type="file" name="file_uploads" style="display:none" class="form-control">
                                     </span>
                                </label>
                                 <input type="text" class="form-control" readonly="">
+                                <input type="submit" value="画像登録">
                             </div>
                         </div>
                     </div>
+                </form>
+
+
+                    <!--野菜情報-->
+                    <form action="/vege-register" method="post">
                     <div class="row">
                         <div class="col">作物名</div>
                         <div class="col"><input type="text" name="vege_variety_name" class="form-control"  /></div>

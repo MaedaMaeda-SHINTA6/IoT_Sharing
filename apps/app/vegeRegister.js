@@ -3,6 +3,7 @@ var config = require('./config.json')
 var common = require('./common_function');
 var async = require('async');
 var extension = require('./data_access.js');
+var fs = require('fs');
 
 exports.get = function (req, res) {
   console.log(req.body);
@@ -155,7 +156,35 @@ exports.post = function (req, res) {
         }
       });
       console.log('matching register end.');
-    }
+    },
+    // function (matchingRes, results, callback) {
+    //   console.log('****** Image Post ******');
+    //   console.log(matchingRes);
+    //   console.log(matchingRes['id']);
+
+    //   if (matchingRes['id'] === undefined) {
+    //     console.log("matching register err.");
+    //     callback("err", matchingRes, null, null);
+    //     return;
+    //   };
+
+    //   var imageBody = createImageData(req,"matching",matchingRes['id'],"test");
+    //   console.log(imageBody);
+
+    //   var requestData = common.createPostRequest('images', imageBody);
+    //   request.post(requestData, function (error, response, body) {
+    //     if (!error && response.statusCode == 201) {
+    //       if (response.body) {
+    //         console.log('image upload completed.');
+    //         callback(error, response.body, results);
+    //       }
+    //     } else {
+    //       common.outputError(error, response);
+    //       console.log(response.body);
+    //       callback(error, response.body, results);
+    //     }
+    //   });
+    // }
   ],
     function (err, matchingRes, results, results2) {
       if (err) {
@@ -168,60 +197,122 @@ exports.post = function (req, res) {
   );
 
 
-//登録用の変数エリア
-//登録用データの生成
-createRegisterData = function (req, results) {
+  //登録用の変数エリア
+  //登録用データの生成
+  createRegisterData = function (req, results) {
+    var accountId = null;
+    if (req.cookies.account != undefined) {
+      accountId = req.cookies.account;
+      console.log(accountId);
+    }
+    var bodyData = {
+      "matchingName": req.body.vege_variety_name,
+      //"matchingDetail": req.body.description,
+      //合計金額
+      "matchingPrice": Number(req.body.vege_price) * Number(req.body.vege_quantity),
+      //"postStartDate": req.body.h_publish_from,
+      //"postEndDate": req.body.h_publish_to,
+      "MatchingExtensions": [
+        {
+          //産地
+          "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'vege_location'),
+          "dataType": 20,
+          "value": req.body.vege_location
+        },
+        {
+          //重さ
+          "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'vege_gm'),
+          "dataType": 21,
+          "value": req.body.vege_gm
+        },
+      ]
+    };
+
+    // if (req.body.facility_item != null) {
+    //   if (req.body.facility_item instanceof Array) {
+    //     for (var i = 0; i < req.body.facility_item.length; i++) {
+    //       var facility = {
+    //         "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'facility'),
+    //         "dataType": 10,
+    //         "value": req.body.facility_item[i]
+    //       };
+    //       bodyData.MatchingExtensions.push(facility);
+    //     };
+    //   } else {
+    //     var facility = {
+    //       "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'facility'),
+    //       "dataType": 10,
+    //       "value": req.body.facility_item
+    //     };
+    //     bodyData.MatchingExtensions.push(facility);
+    //   }
+    // };
+
+    console.log(bodyData);
+    return bodyData;
+  };
+}
+
+//イメージデータの作成
+createImageData = function (req, resourceType, resourceId, title) {
   var accountId = null;
   if (req.cookies.account != undefined) {
     accountId = req.cookies.account;
     console.log(accountId);
   }
-  var bodyData = {
-    "matchingName": req.body.vege_variety_name,
-    //"matchingDetail": req.body.description,
-    //合計金額
-    "matchingPrice": Number(req.body.vege_price) * Number(req.body.vege_quantity),
-    //"postStartDate": req.body.h_publish_from,
-    //"postEndDate": req.body.h_publish_to,
-    "MatchingExtensions": [
-      {
-        //産地
-        "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'vege_location'),
-        "dataType": 20,
-        "value": req.body.vege_location
-      },
-      {
-        //重さ
-        "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'vege_gm'),
-        "dataType": 21,
-        "value": req.body.vege_gm
-      },
-    ]
+  var image = req.file;
+  console.log(image);
+  const formData = {
+    data: {
+      value: JSON.stringify({
+        resourceType,
+        resourceId,
+        title,
+      }),
+      options: { contentType: 'application/json' },
+    },
   };
-
-  // if (req.body.facility_item != null) {
-  //   if (req.body.facility_item instanceof Array) {
-  //     for (var i = 0; i < req.body.facility_item.length; i++) {
-  //       var facility = {
-  //         "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'facility'),
-  //         "dataType": 10,
-  //         "value": req.body.facility_item[i]
-  //       };
-  //       bodyData.MatchingExtensions.push(facility);
-  //     };
-  //   } else {
-  //     var facility = {
-  //       "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'facility'),
-  //       "dataType": 10,
-  //       "value": req.body.facility_item
-  //     };
-  //     bodyData.MatchingExtensions.push(facility);
-  //   }
-  // };
-
-  console.log(bodyData);
-  return bodyData;
-};
+  if (image) {
+    Object.assign(formData, {
+      file: {
+        value: image.buffer,
+        options: {
+          filename: image.originalname,
+          contentType: image.mimetype,
+        },
+      },
+    });
+  }
+  let result = null;
+  result = formData;
+  console.log(result);
+  return result;
 }
 
+exports.uploads = function (req, res) {
 
+  async.waterfall([
+    function (callback) {
+      console.log("fileのリクエストを出力する。");
+      console.log(req.file.buffer);
+
+      var imageBody =createImageData(req,"matching","71373387111839187027","test");
+      var requestData = common.createPostRequest('images', imageBody);
+      request.post(requestData, function (error, response, body) {
+        if (!error && response.statusCode == 201) {
+          if (response.body) {
+            console.log('Image Upload');
+            //callback(error, response.body, results);
+          }
+        } else {
+          common.outputError(error, response);
+          console.log(response.body);
+          //callback(error, response.body, results);
+        }
+      }
+      );   
+    }
+  ]);
+  res.redirect('/vege-register');
+
+};

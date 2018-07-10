@@ -6,6 +6,10 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+// var formidable = require('formidable');
+// var fs = require('fs');
+// var util = require('util');
+
 var routes = require('./routes/index');
 var login = require('./routes/login');
 var register = require('./routes/register');
@@ -43,7 +47,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
 
 
 // use i18next middleware 
@@ -87,10 +90,9 @@ app.use('/vege-search', vegeSearch);
 //配送経路ページ
 app.use('/vege-route', vegeRoute);
 //配送履歴ページ
-app.use('/d-history',vegeHistory);
+app.use('/d-history', vegeHistory);
 //野菜登録ページ
 app.use('/vege-register', vegeRegister);
-
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
