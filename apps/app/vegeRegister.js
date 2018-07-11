@@ -157,38 +157,45 @@ exports.post = function (req, res) {
       });
       console.log('matching register end.');
     },
-    // function (matchingRes, results, callback) {
-    //   console.log('****** Image Post ******');
-    //   console.log(matchingRes);
-    //   console.log(matchingRes['id']);
+    function (matchingRes, results, callback) {
+      console.log('****** Image Post ******');
+      console.log(matchingRes);
+      console.log(matchingRes['id']);
 
-    //   if (matchingRes['id'] === undefined) {
-    //     console.log("matching register err.");
-    //     callback("err", matchingRes, null, null);
-    //     return;
-    //   };
+      if (matchingRes['id'] === undefined) {
+        console.log("matching register err.");
+        callback("err", matchingRes, null, null);
+        return;
+      };
 
-    //   var imageBody = createImageData(req,"matching",matchingRes['id'],"test");
-    //   console.log(imageBody);
+      //imagePost
+      //console.log("fileのリクエストを出力する。");
+      //console.log(req.file);
 
-    //   var requestData = common.createPostRequest('images', imageBody);
-    //   request.post(requestData, function (error, response, body) {
-    //     if (!error && response.statusCode == 201) {
-    //       if (response.body) {
-    //         console.log('image upload completed.');
-    //         callback(error, response.body, results);
-    //       }
-    //     } else {
-    //       common.outputError(error, response);
-    //       console.log(response.body);
-    //       callback(error, response.body, results);
-    //     }
-    //   });
-    // }
+      var resourcetData = {
+        "resourceType": "matching",
+        "resourceId": matchingRes['id'],
+        "title": req.file.originalname
+      };
+      var imageBody = common.imagePostRequest(resourcetData, req.file.originalname, req.file.mimetype, req.file.buffer);
+      request.post(imageBody, function (error, response, body) {
+        if (!error && response.statusCode == 201) {
+          if (response.body) {
+            console.log('Image Upload');
+            callback(error, response.body, results);
+          }
+        } else {
+          common.outputError(error, response);
+          console.log(response.body);
+          callback(error, response.body, results);
+        }
+      }
+      );
+    }
   ],
-    function (err, matchingRes, results, results2) {
+    function (err, matchingRes, results) {
       if (err) {
-        res.render('error', { 'message': 'Something Error happened in register room.' });
+        res.render('error', { 'message': 'Something Error happened in register Vegetable.' });
         return;
       }
       console.log('async complete.');
@@ -225,99 +232,86 @@ exports.post = function (req, res) {
           "dataType": 21,
           "value": req.body.vege_gm
         },
+        {
+          //緯度
+          "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'delivery_place_latitude'),
+          "dataType": 21,
+          "value": req.body.delivery_place_latitude
+        },
+        {
+          //経度
+          "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'delivery_place_longitude'),
+          "dataType": 21,
+          "value": req.body.delivery_place_longitude
+        },
+
       ]
     };
 
-    // if (req.body.facility_item != null) {
-    //   if (req.body.facility_item instanceof Array) {
-    //     for (var i = 0; i < req.body.facility_item.length; i++) {
-    //       var facility = {
-    //         "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'facility'),
-    //         "dataType": 10,
-    //         "value": req.body.facility_item[i]
-    //       };
-    //       bodyData.MatchingExtensions.push(facility);
-    //     };
-    //   } else {
-    //     var facility = {
-    //       "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'facility'),
-    //       "dataType": 10,
-    //       "value": req.body.facility_item
-    //     };
-    //     bodyData.MatchingExtensions.push(facility);
-    //   }
-    // };
+      console.log(req.body.vege_state_item);
+      // if (req.body.vege_state_item != null) {
+      //   if (req.body.vege_state_item instanceof Array) {
+      //     for (var i = 0; i < req.body.vege_state_item.length; i++) {
+      //       var vege_state = {
+      //         "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'vege_state'),
+      //         "dataType": 10,
+      //         "value": req.body.vege_state_item[i]
+      //       };
+      //       bodyData.MatchingExtensions.push(vege_state);
+      //     };
+      //   } else {
+      //     var vege_state = {
+      //       "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'vege_state'),
+      //       "dataType": 10,
+      //       "value": req.body.vege_state
+      //     };
+      //     bodyData.MatchingExtensions.push(vege_state);
+      //   }
+      // };
+
+      if(req.body.vege_state_item != null){
+        if(req.body.vege_state_item instanceof Array) {
+          for (var i = 0; i < req.body.vege_state_item.length; i++) {
+            var vege_state =  {
+                "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'vege_state'),
+                "dataType": 10,
+                "value": req.body.vege_state_item[i]
+            };
+            bodyData.MatchingExtensions.push(vege_state);
+          };
+        } else {
+          var vege_state =  {
+              "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'vege_state'),
+              "dataType": 10,
+              "value": req.body.vege_state_item
+          };
+          bodyData.MatchingExtensions.push(vege_state);
+        }
+      };
+
+      if(req.body.delivery_vega_state_item != null){
+        if(req.body.delivery_vega_state_item instanceof Array) {
+          for (var i = 0; i < req.body.delivery_vega_state_item.length; i++) {
+            var delivery_vege_state =  {
+                "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'delivery_vege_state'),
+                "dataType": 10,
+                "value": req.body.delivery_vega_state_item[i]
+            };
+            bodyData.MatchingExtensions.push(delivery_vege_state);
+          };
+        } else {
+          var delivery_vege_state =  {
+              "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'delivery_vege_state'),
+              "dataType": 10,
+              "value": req.body.vege_state_item
+          };
+          bodyData.MatchingExtensions.push(delivery_vege_state);
+        }
+      };
+
+      
 
     console.log(bodyData);
     return bodyData;
   };
 }
-
-// //イメージデータの作成
-// createImageData = function (req, resourceType, resourceId, title) {
-//   var accountId = null;
-//   if (req.cookies.account != undefined) {
-//     accountId = req.cookies.account;
-//     console.log(accountId);
-//   }
-//   var image = req.file;
-//   console.log(image);
-//   const formData = {
-//     data: {
-//       value: JSON.stringify({
-//         resourceType,
-//         resourceId,
-//         title,
-//       }),
-//       options: { contentType: 'application/json' },
-//     },
-//   };
-//   if (image) {
-//     Object.assign(formData, {
-//       file: {
-//         value: image.buffer,
-//         options: {
-//           filename: image.originalname,
-//           contentType: image.mimetype,
-//         },
-//       },
-//     });
-//   }
-//   let result = null;
-//   result = formData;
-//   console.log(result);
-//   return result;
-// }
-
-exports.uploads = function (req, res) {
-
-  async.waterfall([
-    function (callback) {
-      console.log("fileのリクエストを出力する。");
-      console.log(req.file);
-
-      //var imageBody =createImageData(req,"matching","71373387111839187027","test");
-      var resourcetData = {
-        "resourceType": "matching",
-        "resourceId": "71373387111839187027",
-        "title": "Item Image 01"
-      };
-      var imageBody = common.imagePostRequest(resourcetData,req.file.originalname,req.file.mimetype,req.file.buffer);
-        request.post(imageBody, function (error, response, body) {
-          if (!error && response.statusCode == 201) {
-            if (response.body) {
-              console.log('Image Upload');
-              //callback(error, response.body, results);
-            }
-          } else {
-            common.outputError(error, response);
-            console.log(response.body);
-            //callback(error, response.body, results);
-          }
-        }
-      );
-    }
-  ]);
-  res.redirect('/vege-register');
-
-};

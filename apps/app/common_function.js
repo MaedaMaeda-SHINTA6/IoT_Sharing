@@ -199,11 +199,6 @@ exports.createDeleteRequest = function (resource, id) {
 exports.imagePostRequest = function (resourceData, filename, filetype, imageBinaryData) {
 
   var url = config['url'] + "images/";
-  // if (id) {
-  //   url = url + '/' + id;
-  // }
-
-  // console.log(url);
 
   if (aclToken != null && aclToken != undefined) {
     RSS_HEADERS['X-Acl-Token'] = aclToken;
@@ -249,6 +244,44 @@ exports.imagePostRequest = function (resourceData, filename, filetype, imageBina
   }
   return requestData;
 }
+
+exports.imageGetRequest = function (id) {
+  var url = config['url'] + "images/" + id + "/DATA";
+
+  if (aclToken != null && aclToken != undefined) {
+    RSS_HEADERS['X-Acl-Token'] = aclToken;
+  }
+  else {
+    console.log("No AclToken!");
+    delete RSS_HEADERS['X-Acl-Token'];
+  }
+  if (accessToken != null && accessToken != undefined) {
+    RSS_HEADERS['X-Access-Token'] = accessToken;
+  }
+  else {
+    console.log("No AccessToken!");
+    delete RSS_HEADERS['X-Access-Token'];
+  }
+
+  var requestData = {
+    'url': url,
+    'headers': RSS_HEADERS,
+    'json': true,
+  };
+
+
+  if (config['proxy']) {
+    requestData['proxy'] = config['proxy'];
+  }
+  if (config['rejectUnauthorized'] === false) {
+    requestData['rejectUnauthorized'] = config['rejectUnauthorized'];
+  }
+  return requestData;
+
+}
+
+
+
 
 // Create Date object from String(YYYYMMDD)
 exports.createDateFromYYYYMMDD = function (dateString) {

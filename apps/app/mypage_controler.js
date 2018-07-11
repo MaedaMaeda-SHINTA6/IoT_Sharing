@@ -6,6 +6,7 @@ var extension = require('./data_access.js');
 
 exports.get = function (req, res) {
   console.log(req.body);
+  var errors = [];
   //ログオンセッションの確認
   if (common.isLogin(req) == 0) {
     res.redirect('/login');
@@ -17,8 +18,8 @@ exports.get = function (req, res) {
     console.log(accountId);
   }
   //アカウント情報取得
- async.waterfall([
-  function (callback) {
+  async.waterfall([
+    function (callback) {
       var requestData = common.createGetRequest('/accounts/', accountId);
       request(requestData,
         function (error, response, body) {
@@ -26,27 +27,27 @@ exports.get = function (req, res) {
             if (response.body) {
               categories = response.body;
               console.log(categories);
-              var params = { 
+              var params = {
                 "MemberId": categories['Accounts'][0]['id'],
                 "Account": categories['Accounts'][0]['userId'],
                 "MailAddress": categories['Accounts'][0]['mailAddress'],
                 "LastLoginTime": categories['Accounts'][0]['lastLoginDatetime'],
-                "role" : categories['Accounts'][0]['role'],
+                "role": categories['Accounts'][0]['role'],
                 "displayName": categories['Accounts'][0]['AccountExtensions'][0]['value'],
-                "param": "1" 
+                "param": "1"
               };
-              res.render('mypage', params);
               callback(null);
+              res.render('mypage', params);
             }
           } else {
             common.outputError(error, response);
             errors.push(response.body);
+            res.redirect('/');
           }
-          //callback(response.body, null);
         }
       )
-  }
- ]);
+    }
+  ]);
 };
 
 exports.update = function (req, res) {

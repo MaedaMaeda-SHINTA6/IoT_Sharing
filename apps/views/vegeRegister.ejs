@@ -53,10 +53,11 @@
         </div>
 
         <div id="form-register">
-                <form action="/vege-register/uploads" method="post" enctype="multipart/form-data">
-                    <!--<input type="file" name="file_uploads">
+            <form action="/vege-register" method="post" enctype="multipart/form-data">
+                <!--<form action="/vege-register/uploads" method="post" enctype="multipart/form-data">-->
+                <!--<input type="file" name="file_uploads">
                     <input type="submit" value="画像テスト">-->
-                
+
                 <div class="container">
                     <div class="row">
                         <div class="col">
@@ -64,58 +65,89 @@
                             <div class="input-group">
                                 <label class="input-group-btn">
                                     <span class="btn btn-primary">
-                                         Choose File<input type="file" name="file_uploads" style="display:none" class="form-control">
+                                        Choose File
+                                        <input type="file" name="file_uploads" style="display:none" class="form-control">
                                     </span>
-                               </label>
+                                </label>
                                 <input type="text" class="form-control" readonly="">
-                                <input type="submit" value="画像登録">
+                                <!--<input type="submit" value="画像登録">-->
                             </div>
                         </div>
                     </div>
-                </form>
+                    <!-- </form> -->
 
 
                     <!--野菜情報-->
-                    <form action="/vege-register" method="post">
+
                     <div class="row">
                         <div class="col">作物名</div>
-                        <div class="col"><input type="text" name="vege_variety_name" class="form-control"  /></div>
+                        <div class="col">
+                            <input type="text" name="vege_variety_name" class="form-control" />
+                        </div>
                         <div class="w-100"></div>
                         <div class="col">産地</div>
-                        <div class="col"><input type="text" name="vege_location" class="form-control" /></div>
+                        <div class="col">
+                            <input type="text" name="vege_location" class="form-control" />
+                        </div>
                         <div class="w-100"></div>
                         <div class="col">数量</div>
-                        <div class="col"><input type="text" name="vege_quantity" class="form-control" /></div>
+                        <div class="col">
+                            <input type="text" name="vege_quantity" class="form-control" />
+                        </div>
                         <div class="w-100"></div>
                         <div class="col">重さ</div>
-                        <div class="col"><input type="text" name="vege_gm" class="form-control" /></div>
+                        <div class="col">
+                            <input type="text" name="vege_gm" class="form-control" />
+                        </div>
                         <div class="w-100"></div>
                         <div class="col">しなびLv</div>
-                        <div class="col"><input type="text" name="" class="form-control" /></div>
+                        <div class="col">
+                            <input type="text" name="" class="form-control" />
+                        </div>
                         <div class="w-100"></div>
                         <div class="col">価格</div>
-                        <div class="col"><input type="text" name="vege_price" class="form-control" /></div>
+                        <div class="col">
+                            <input type="text" name="vege_price" class="form-control" />
+                        </div>
                         <div class="w-100"></div>
+
+                        <div class="col">緯度</div>
+                        <div class="col">
+                            <input type="text" name="delivery_place_latitude" class="form-control" />
+                        </div>
+                        <div class="w-100"></div>
+
+                        <div class="col">経度</div>
+                        <div class="col">
+                            <input type="text" name="delivery_place_longitude" class="form-control" />
+                        </div>
+                        <div class="w-100"></div>
+
                         <div class="col">野菜ステータス</div>
                         <div class="col">
-                        <!-- ExtItem取得-->
-                        <% for(var i=0; i< vege_state_item.length; i++ ) { %>
-                            <div class="radio">
-                                <input type="radio" name="<%= vege_state_item[i].identifier %>" id="<%= vege_state_item[i].identifier+i %>" value=<%= vege_state_item[i].id %> >
-                               <%= vege_state_item[i].displayName %>
-                            </div>
-                          <% } %>
+                            <!-- ExtItem取得-->
+                            <% for(var i=0; i< vege_state_item.length; i++ ) { %>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="radio" id="<%= vege_state_item[i].identifier %>" name="<%= vege_state_item[i].identifier %>" value="<%= vege_state_item[i].id %>">
+                                        <%= vege_state_item[i].displayName %>
+                                    </label>
+                                </div>
+                            </select>
+                             <% } %>
+
                         </div>
                         <div class="w-100"></div>
                         <div class="col">配送ステータス</div>
                         <div class="col">
-                        <!-- ExtItem取得-->
-                        <% for(var i=0; i< delivery_vega_state_item.length; i++ ) { %>
-                            <div class="radio">
-                                <input type="radio" name="<%= delivery_vega_state_item[i].identifier %>" id="<%= delivery_vega_state_item[i].identifier+i %>" value=<%= delivery_vega_state_item[i].id %> >
-                               <%= delivery_vega_state_item[i].displayName %>
-                            </div>
-                          <% } %>
+                            <!-- ExtItem取得-->
+                            <% for(var i=0; i< delivery_vega_state_item.length; i++ ) { %>
+                                <div class="radio">
+                                    <input type="radio" name="<%= delivery_vega_state_item[i].identifier %>" id="<%= delivery_vega_state_item[i].identifier+i %>"
+                                        value=<%=delivery_vega_state_item[i].id %> >
+                                    <%= delivery_vega_state_item[i].displayName %>
+                                </div>
+                                <% } %>
                         </div>
 
                     </div>
@@ -147,24 +179,23 @@
         <script src="/javascripts/bootstrap.min.js"></script>
 
         <script>
-           $(document).on('change', ':file', function() {
+            $(document).on('change', ':file', function () {
                 var input = $(this),
-                numFiles = input.get(0).files ? input.get(0).files.length : 1,
-                label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+                    numFiles = input.get(0).files ? input.get(0).files.length : 1,
+                    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
                 input.parent().parent().next(':text').val(label);
-
                 var files = !!this.files ? this.files : [];
                 if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
-                if (/^image/.test( files[0].type)){ // only image file
+                if (/^image/.test(files[0].type)) { // only image file
                     var reader = new FileReader(); // instance of the FileReader
                     reader.readAsDataURL(files[0]); // read the local file
-                    reader.onloadend = function(){ // set image data as background of div
-                        input.parent().parent().parent().prev('.imagePreview').css("background-image", "url("+this.result+")");
+                    reader.onloadend = function () { // set image data as background of div
+                        input.parent().parent().parent().prev('.imagePreview').css("background-image", "url(" + this.result + ")");
                     }
                 }
             });
         </script>
-    
+
 </body>
 
 </html>

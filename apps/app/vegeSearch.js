@@ -3,6 +3,8 @@ var config = require('./config.json')
 var common = require('./common_function');
 var async = require('async');
 var extension = require('./data_access.js');
+var fs = require('fs');
+
 
 exports.get = function (req, res) {
   console.log(req.body);
@@ -20,7 +22,7 @@ exports.get = function (req, res) {
   var categories;
   var errors = [];
 
-  async.series([
+  async.waterfall([
     function (callback) {
       var requestData = common.createGetRequest('images', null);
       request(requestData,
@@ -28,20 +30,55 @@ exports.get = function (req, res) {
           if (!error && response.statusCode == 200) {
             if (response.body) {
               categories = response.body;
-              console.log(categories);
+              //console.log(categories);
+              callback(null, categories);
             }
           } else {
             common.outputError(error, response);
             errors.push(response.body);
           }
-          callback(null, null);
         }
       )
     },
-  ]);
-  var params = { 
-    "param": "1" 
-  };
-  res.render('vegeSearch', params);
+  ],
+    function (err, result) {
+      console.log(categories);
+
+      var getImageData = common.imageGetRequest("87136355140382356011");
+      request(getImageData,
+        function (error, response) {
+          if (!error && response.statusCode == 200) {
+            if (response.body) {
+              images = response.body;
+              buf = new Buffer(images);
+              console.log(buf);
+              imageBase64 = buf.toString('base64');
+              fs.writeFile('./public/images/upload/test.jpg', buf, function (err) {
+                console.log(err);
+              });
+
+              var params = {
+                "param": "1",
+                "imageData": imageBase64
+              };
+              res.render('vegeSearch', params);
+            }
+          } else {
+            common.outputError(error, response);
+            errors.push(response.body);
+          }
+        }
+      )
+
+
+
+    }
+
+  );
 };
+
+exports.search_list = function (req, res) {
+
+
+}
 
