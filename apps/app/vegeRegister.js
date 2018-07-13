@@ -168,10 +168,6 @@ exports.post = function (req, res) {
         return;
       };
 
-      //imagePost
-      //console.log("fileのリクエストを出力する。");
-      //console.log(req.file);
-
       var resourcetData = {
         "resourceType": "matching",
         "resourceId": matchingRes['id'],
@@ -182,6 +178,7 @@ exports.post = function (req, res) {
         if (!error && response.statusCode == 201) {
           if (response.body) {
             console.log('Image Upload');
+            console.log(req.file.buffer);
             callback(error, response.body, results);
           }
         } else {

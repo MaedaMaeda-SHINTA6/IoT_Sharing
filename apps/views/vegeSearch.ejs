@@ -47,8 +47,9 @@
 
     <main role="main" class="container">
         <br>
-        <%= imageData %> 
-        <img src="data:image/jpeg;base64,<%= imageData %>">
+        <% for(i=0;i<=(imageList.length -1);i++){ %>
+            <img src="./images/upload/<%= imageList[i] %>.jpg">
+        <% }; %>
         <!-- タイトル -->
         <div class="text-center mt-5">
             <h3>農作物ピックアップ</h3>

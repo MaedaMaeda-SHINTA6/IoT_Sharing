@@ -21,6 +21,8 @@ exports.get = function (req, res) {
 
   var categories;
   var errors = [];
+  var imageList = [];
+  var imageArray = [];
 
   async.waterfall([
     function (callback) {
@@ -40,40 +42,109 @@ exports.get = function (req, res) {
         }
       )
     },
-  ],
-    function (err, result) {
-      console.log(categories);
-
-      var getImageData = common.imageGetRequest("87136355140382356011");
-      request(getImageData,
-        function (error, response) {
-          if (!error && response.statusCode == 200) {
-            if (response.body) {
-              images = response.body;
-              buf = new Buffer(images);
-              console.log(buf);
-              imageBase64 = buf.toString('base64');
-              fs.writeFile('./public/images/upload/test.jpg', buf, function (err) {
-                console.log(err);
-              });
-
-              var params = {
-                "param": "1",
-                "imageData": imageBase64
-              };
-              res.render('vegeSearch', params);
-            }
-          } else {
-            common.outputError(error, response);
-            errors.push(response.body);
-          }
+    function (categories, callback) {
+      if (categories != null) {
+        for (i = 0; i <= categories['Images'].length - 1; i++) {
+          imageList.push(categories['Images'][i]['id']);
         }
-      )
+        callback(null, imageList);
+      } else {
+        common.outputError(error, imageList);
+        errors.push(imageList);
+      }
+    },
+    function (imageList, callback) {
 
+      // 配列格納用 Async
+      // async.mapSeries(imageList, function (imageId, callback) {
+      //   var getImageData = common.imageGetRequest(imageId);
+      //   request(getImageData,
+      //     function (error, response) {
+      //       if (!error && response.statusCode == 200) {
+      //         if (response.body) {
+      //           images = response.body;
+      //           buf = new Buffer(images);
+      //           imageArray.push(buf);
+      //           callback(null, imageArray);
+      //         }
+      //       } else {
+      //         common.outputError(error, response);
+      //         errors.push(response.body);
+      //       }
+      //     }
+      //   );
 
+      // }, function (err, results) {
+      //   callback(null, imageArray);
+      // });
 
+      // 画像保存map Async
+      async.map(imageList, function (imageId, callback) {
+        var getImageData = common.imageGetRequest(imageId);
+        request(getImageData,
+          function (error, response) {
+            if (!error && response.statusCode == 200) {
+              if (response.body) {
+                images = response.body;
+                buf = new Buffer(images);
+                fs.writeFile('./public/images/upload/' + imageId + '.jpg', buf, function (file_err) {
+                  if (file_err) {
+                    throw file_err;
+                  }
+                });
+                callback(null, imageList);
+              }
+            } else {
+              common.outputError(error, response);
+              errors.push(response.body);
+            }
+          }
+        );
+
+      }, function (err, results) {
+        callback(null, imageList);
+      });
+
+    //画像保存用 Async
+    //   async.each(imageList, function (imageId, callback) {
+    //     var getImageData = common.imageGetRequest(imageId);
+    //     request(getImageData,
+    //       function (error, response) {
+    //         if (!error && response.statusCode == 200) {
+    //           if (response.body) {
+    //             images = response.body;
+    //             buf = new Buffer(images);
+    //             fs.writeFile('./public/images/upload/' + imageId + '.jpg', buf, function (file_err) {
+    //               if (file_err) {
+    //                 throw file_err;
+    //               }
+    //             });
+    //           }
+    //         } else {
+    //           common.outputError(error, response);
+    //           errors.push(response.body);
+    //         }
+    //       }
+    //     );
+    //     callback();
+    //   }, function (err) {
+    //     console.log("file download completed!");
+    //     callback(null, imageList);
+    //   });
     }
-
+  ], function (err, result) {
+    // for (i = 0; i <= (imageArray.length - 1); i++) {
+    //   imageArray[i] = imageArray[i].toString('base64');
+    // }
+    //console.log(imageArray);
+    var params = {
+      "param": "1",
+      "imageList": imageList
+      //"imageData": imageBase64
+      //"imageData": imageArray[1]
+    };
+    res.render('vegeSearch', params);
+  }
   );
 };
 

@@ -246,7 +246,7 @@ exports.imagePostRequest = function (resourceData, filename, filetype, imageBina
 }
 
 exports.imageGetRequest = function (id) {
-  var url = config['url'] + "images/" + id + "/DATA";
+  var url = config['url'] + "images/" + id + "/data";
 
   if (aclToken != null && aclToken != undefined) {
     RSS_HEADERS['X-Acl-Token'] = aclToken;
@@ -266,7 +266,8 @@ exports.imageGetRequest = function (id) {
   var requestData = {
     'url': url,
     'headers': RSS_HEADERS,
-    'json': true,
+    'encoding': null,
+    'method': "GET"
   };
 
 
@@ -279,9 +280,6 @@ exports.imageGetRequest = function (id) {
   return requestData;
 
 }
-
-
-
 
 // Create Date object from String(YYYYMMDD)
 exports.createDateFromYYYYMMDD = function (dateString) {
