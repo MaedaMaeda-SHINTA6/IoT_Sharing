@@ -312,7 +312,7 @@ exports.post = function (req, res) {
           var delivery_vege_state =  {
               "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'delivery_vege_state'),
               "dataType": 10,
-              "value": req.body.vege_state_item
+              "value": req.body.delivery_vega_state_item
           };
           bodyData.MatchingExtensions.push(delivery_vege_state);
         }

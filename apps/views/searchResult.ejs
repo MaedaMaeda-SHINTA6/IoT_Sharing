@@ -64,6 +64,7 @@
                   <th>数量</th>
                   <th>野菜ステータス</th>
                   <th>配送ステータス</th>
+                  <th>画像</th>
                   <th><%- t('table_col_room_type') %></th>
                 </tr>
               </thead>
@@ -78,6 +79,7 @@
                   <td><%= resultList[i].vege_quantity %></td>
                   <td><%= resultList[i].vege_state %></td>
                   <td><%= resultList[i].delivery_vege_state %></td>
+                  <td><img src="../images/upload/<%= resultList[i].id %>.jpg" width="100"></td>
                   <td>
                   <button data-matching="<%= resultList[i].id %>" data-date=<%= date %> class="btn btn-primary"><%- t('button_view_detail') %></button>
                   </td>

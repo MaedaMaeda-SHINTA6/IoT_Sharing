@@ -3,7 +3,7 @@ var request = require('request');
 var async = require('async');
 var common = require('./common_function');
 var extension = require('./data_access');
-
+var fs=require('fs');
 var Search = {};
 
 const NOT_SET_ID = '00000';
@@ -235,85 +235,73 @@ exports.search = function (req, res) {
           param['date'] = common.createDateStringFromYYYYMMDDObject(new Date);
         }
       }
-      // console.log(param['resultList'][0]['id']);
+       
+      //イメージID取得
+      async.waterfall([
+        function (callback) {
+          var requestData = common.createGetRequest('images', null);
+          request(requestData,
+            function (error, response, body) {
+              if (!error && response.statusCode == 200) {
+                if (response.body) {
+                  categories = response.body;
+                  callback(null, categories);
+                }
+              } else {
+                common.outputError(error, response);
+                errors.push(response.body);
+              }
+            }
+          )
+        },
+        function (categories, callback) {
+          if (categories != null) {
+            for (i = 0; i <= categories['Images'].length - 1; i++) {
+              imageList.push(categories['Images'][i]['id']);
+              resourceList.push(categories['Images'][i]['resourceId']);
+            }
+            callback(null, imageList, resourceList);
+          } else {
+            common.outputError(error, imageList);
+            errors.push(imageList);
+          }
+        },
+      ],
+        function (err, result) {
+          //画像保存map Async
+          async.map(param['resultList'], function (result_id, callback) {
+            for (i = 0; i <= (resourceList.length - 1); i++) {
+              if (resourceList[i] == result_id.id) {
+                var getImageData = common.imageGetRequest(imageList[i]);
 
-      // //イメージID取得
-      // async.waterfall([
-      //   function (callback) {
-      //     var requestData = common.createGetRequest('images', null);
-      //     request(requestData,
-      //       function (error, response, body) {
-      //         if (!error && response.statusCode == 200) {
-      //           if (response.body) {
-      //             categories = response.body;
-      //             //console.log(categories);
-      //             callback(null, categories);
-      //           }
-      //         } else {
-      //           common.outputError(error, response);
-      //           errors.push(response.body);
-      //         }
-      //       }
-      //     )
-      //   },
-      //   function (categories, callback) {
-      //     if (categories != null) {
-      //       for (i = 0; i <= categories['Images'].length - 1; i++) {
-      //         imageList.push(categories['Images'][i]['id']);
-      //         resourceList.push(categories['Images'][i]['resourceId']);
-      //       }
-      //       callback(null, imageList, resourceList);
-      //     } else {
-      //       common.outputError(error, imageList);
-      //       errors.push(imageList);
-      //     }
-      //   },
-      // ],
-      //   function (err, result) {
-      //     console.log("imageList done!");
-      //     // console.log(imageList);
-      //     // console.log(resourceList);
+                request(getImageData,
+                  function (error, response) {
+                    if (!error && response.statusCode == 200) {
+                      if (response.body) {
+                        images = response.body;
+                        buf = new Buffer(images);
+                        fs.writeFile('./public/images/upload/' + result_id.id + '.jpg', buf, function (file_err) {
+                          if (file_err) {
+                            throw file_err;
+                          }
+                        });
+                        callback(null, imageList);
+                      }
+                    } else {
+                      common.outputError(error, response);
+                      errors.push(response.body);
+                    }
+                  }
+                );
 
-      //     // 画像保存map Async
-      //     async.map(param['resultList'], function (id, callback) {
-      //       for (i = 0; (i <= resourceList.length - 1); i++) {
-      //         if (resourceList[i] == id) {
-      //           var getImageData = common.imageGetRequest(imageList[i]);
-      //           console.log(resourceList[i]);
-      //           console.log(imageList[i]);
-
-      //           request(getImageData,
-      //             function (error, response) {
-      //               if (!error && response.statusCode == 200) {
-      //                 if (response.body) {
-      //                   images = response.body;
-      //                   buf = new Buffer(images);
-      //                   fs.writeFile('./public/images/upload/' + imageId + '.jpg', buf, function (file_err) {
-      //                     if (file_err) {
-      //                       throw file_err;
-      //                     }
-      //                   });
-      //                   callback(null, imageList);
-      //                 }
-      //               } else {
-      //                 common.outputError(error, response);
-      //                 errors.push(response.body);
-      //               }
-      //             }
-      //           );
-
-      //         }
-      //       }
-      //     }, function (err, results) {
-      //       //callback(null, imageList);
-            
-      //     });   
-      // }
-    // );
-        res.render('searchResult', param);
-        
-      
-      
+              }
+            }
+          }, function (err, results) {
+            console.log("DownLoad");
+            res.render('searchResult', param);
+          });   
+      }
+    );
     });
 };
 
