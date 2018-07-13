@@ -59,8 +59,11 @@
                   <th>#</th>
                   <th><%- t('table_col_room_name') %></th>
                   <th><%- t('table_col_room_price') %></th>
-                  <th><%- t('table_col_room_address') %></th>
-                  <th><%- t('table_col_room_capacity') %></th>
+                  <th>産地</th>
+                  <th>単価</th>
+                  <th>数量</th>
+                  <th>野菜ステータス</th>
+                  <th>配送ステータス</th>
                   <th><%- t('table_col_room_type') %></th>
                 </tr>
               </thead>
@@ -70,9 +73,11 @@
                   <td><%= i+1 %></td>
                   <td><%= resultList[i].matchingName %></td>
                   <td><%= t('table_cell_price', {'price': (resultList[i].matchingPrice).toString().replace(/(\d)(?=(\d{3})+$)/g , '$1,') }) %></td>
-                  <td><%= resultList[i].address %></td>
-                  <td><%= t('table_cell_capacity', {'capacity': Math.floor(resultList[i].num)}) %></td>
-                  <td><%= resultList[i].room_type %></td>
+                  <td><%= resultList[i].vege_location %></td>
+                  <td><%= resultList[i].vege_price %></td>
+                  <td><%= resultList[i].vege_quantity %></td>
+                  <td><%= resultList[i].vege_state %></td>
+                  <td><%= resultList[i].delivery_vege_state %></td>
                   <td>
                   <button data-matching="<%= resultList[i].id %>" data-date=<%= date %> class="btn btn-primary"><%- t('button_view_detail') %></button>
                   </td>

@@ -224,6 +224,18 @@ exports.post = function (req, res) {
           "value": req.body.vege_location
         },
         {
+          //数量
+          "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'vege_quantity'),
+          "dataType": 21,
+          "value": req.body.vege_quantity
+        },
+        {
+          //単価
+          "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'vege_price'),
+          "dataType": 21,
+          "value": req.body.vege_price
+        },
+        {
           //重さ
           "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'vege_gm'),
           "dataType": 21,
