@@ -299,6 +299,7 @@ exports.search = function (req, res) {
           }, function (err, results) {
             console.log("DownLoad");
             res.render('searchResult', param);
+            console.log(param.resultList);
           });   
       }
     );

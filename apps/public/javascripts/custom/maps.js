@@ -26,6 +26,7 @@ function initMap() {
             });
             //複数マーカーの追加
             json_read_make();
+
         }, function () {
             //現在地の取得に失敗した場合の処理
             alert('位置情報取得に失敗しました。');
@@ -44,49 +45,48 @@ function initMap() {
 }
 function json_read_make() {
     //json構造の設定
-    $.getJSON("/javascripts/json/many_locations.json", function (json) {
-        for (var i = 0; i <= json.length - 1; i++) {
-            data.push(
-                {
-                    'name': json[i].name,
-                    'lat': json[i].lat,
-                    'lng': json[i].lng,
-                    'yasai_cat': json[i].yasai_cat,
-                    'set_value': json[i].set_value,
-                    'yasai_icon': json[i].yasai_icon
-                }
-            );
-        };
-        for (var i = 0; i < data.length; i++) {
-            setMaker(i);
-        }
-        function setMaker(n) {
-            markerLatLng = { lat: data[n]['lat'], lng: data[n]['lng'] };
-            marker[n] = new google.maps.Marker({
-                position: markerLatLng,
-                map: map,
-                icon: '../../images/yasai_icon/' + data[n]['yasai_icon'] + '.gif' //iconの指定
-            });
-            //吹き出しに表示させるコンテンツ設定
-            infoWindow[n] = new google.maps.InfoWindow({
-                content: '<div class="infowindows">' +
-                    '商品名：' + data[i]['yasai_cat'] + '<br />' +
-                    '数量：' + data[i]['set_value'] + '<br />' +
-                    '商品画像：<br /><img src="' + '../../images/yasai_icon/' + data[n]['yasai_icon'] + '.gif' +
-                    '" width="100" height="100" />' + '<br />' +
-                    '<form action="/vege_profile" method="POST">' +
-                    '<button type="submit">詳細を確認</button>' +
-                    '</form>' +
-                    '</div>'
-            });
-            //マーカをクリックした処理
-            marker[n].addListener('click', function () {
-                infoWindow[n].open(map, marker[n]);
-            });
-             // 初期で吹き出しの表示
-            //infoWindow[n].open(map, marker[n]);
-        }
-    });
+    var elem = document.getElementById("json-data");
+    var json_data = JSON.parse(elem.textContent);
+    
+    for (var i = 0; i < json_data.length; i++) {
+        data.push(
+            {
+                'name': json_data[i].id,
+                'lat': Number(json_data[i].delivery_place_latitude),
+                'lng': Number(json_data[i].delivery_place_longitude),
+                'yasai_cat': json_data[i].matchingName,
+                'set_value': json_data[i].vege_quantity,
+                'yasai_icon': "tomato"
+            }
+        );
+    }
+    for (var i = 0; i < data.length; i++) {
+        setMaker(i);
+    }
+    function setMaker(n) {
+        markerLatLng = { lat: data[n]['lat'], lng: data[n]['lng'] };
+        marker[n] = new google.maps.Marker({
+            position: markerLatLng,
+            map: map,
+            icon: '../../images/yasai_icon/' + data[n]['yasai_icon'] + '.gif' //iconの指定
+        });
+        //吹き出しに表示させるコンテンツ設定
+        infoWindow[n] = new google.maps.InfoWindow({
+            content: '<div class="infowindows">' +
+                '商品名：' + data[i]['yasai_cat'] + '<br />' +
+                '数量：' + data[i]['set_value'] + '<br />' +
+                '商品画像：<br /><img src="' + '../../images/yasai_icon/' + data[n]['yasai_icon'] + '.gif' +
+                '" width="100" height="100" />' + '<br />' +
+                '<form action="/vege_profile" method="POST">' +
+                '<button type="submit">詳細を確認</button>' +
+                '</form>' +
+                '</div>'
+        });
+        //マーカをクリックした処理
+        marker[n].addListener('click', function () {
+            infoWindow[n].open(map, marker[n]);
+        });
+    }
     //json閉じ
 }
 
