@@ -77,9 +77,7 @@ function json_read_make() {
                 '数量：' + data[i]['set_value'] + '<br />' +
                 '商品画像：<br /><img src="' + '../../images/yasai_icon/' + data[n]['yasai_icon'] + '.gif' +
                 '" width="100" height="100" />' + '<br />' +
-                '<form action="/vege_profile" method="POST">' +
-                '<button type="submit">詳細を確認</button>' +
-                '</form>' +
+                '<button onClick="location.href=\'/vege-profile/' + data[n]['name'] + '\'">詳細を確認</button>' +
                 '</div>'
         });
         //マーカをクリックした処理

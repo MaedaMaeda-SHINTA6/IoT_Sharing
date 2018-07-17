@@ -120,6 +120,19 @@
     <script src="/javascripts/custom/maps.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA6vQRmMUhpH9ZD5GaCdoGMCHOTcgCZS4I&callback=initMap"></script>
 
+    <!-- Custom Theme JavaScript -->
+  <script src="/javascripts/demo.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("button").on("click", function () {
+        $("#matchingId").val($(this).data('matching'));
+        //$("#form_history").submit();
+        //          location.href = '/detail/'+$(this).data('matching');
+        location.href = '/vege-profile/' + $(this).data('matching') + '?date=' + $(this).data('date');
+        //return false;
+      });
+    });
+  </script>
 
   </body>
 </html>
