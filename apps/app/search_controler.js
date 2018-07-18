@@ -294,6 +294,13 @@ exports.search = function (req, res) {
                   }
                 );
 
+              }else{
+                //イメージが見つからない場合
+                fs.writeFile('./public/images/upload/' + result_id.id + '.jpg', "noimages", function (file_err) {
+                  if (file_err) {
+                    throw file_err;
+                  }
+                });
               }
             }
           }, function (err, results) {

@@ -45,9 +45,9 @@ exports.get = function (req, res) {
     function (categories, callback) {
       if (categories != null) {
         for (i = 0; i <= categories['Images'].length - 1; i++) {
-          if(categories['Images'][i]['resourceId'] == "21834433172729097014"){
+          //if(categories['Images'][i]['resourceId'] == "21834433172729097014"){
           imageList.push(categories['Images'][i]['id']);
-          }
+          //}
         }
         callback(null, imageList);
       } else {
@@ -95,8 +95,24 @@ exports.get = function (req, res) {
   );
 };
 
-exports.search_list = function (req, res) {
+exports.post = function (req, res) {
+  var delete_req = common.createDeleteRequest("images",req.body.imageId);
+  var images_data;
+  console.log(req.body.imageId);
 
-
+  request.delete(delete_req, function (error, response, body) {
+    if (error) {
+      common.outputError(error, null, null);
+    } else if (response.statusCode !== 204) {
+      common.outputError(
+        error,
+        response ? response.statusCode : null,
+        response ? response.statusText : null);
+    } else {
+      //　正常
+      console.log("has been deleted successfully.");
+      console.log("Process has ended.");
+    }
+  });
 }
 

@@ -48,28 +48,33 @@
     <main role="main" class="container">
         <br>
         <% for(i=0;i<=(imageList.length -1);i++){ %>
-            <img src="./images/upload/<%= imageList[i] %>.jpg" width="100">
+            <img src="./images/upload/<%= imageList[i] %>.jpg">&nbsp;
+            <form action="/vege-search" method="post">
+            <input type="hidden" value="<%= imageList[i] %>" name="imageId">
+            <input type="submit" value="画像削除">
+            </form>
+            &nbsp;
         <% }; %>
         <!-- タイトル -->
         <div class="text-center mt-5">
             <h3>農作物ピックアップ</h3>
         </div>
         <!-- Google Maps出力 -->
-        <div id="gmaps_view"></div>
+        <!--<div id="gmaps_view"></div>-->
 
         <!-- 経路検索ボタン -->
-        <div id="btn-route-search">
+        <!-- <div id="btn-route-search">
             <form action="/vege-route" method="GET">
                 <button type="submit" class="btn btn-default btn-lg btn-block">経路案内を行う</button>
             </form>
-        </div>
+        </div> -->
 
         <!-- 配送履歴ボタン -->
-        <div id="btn-delivery-history">
+        <!-- <div id="btn-delivery-history">
             <form action="/d-history" method="GET">
                 <button type="submit" class="btn btn-default btn-lg btn-block">配送履歴</button>
             </form>
-        </div>
+        </div> -->
 
         <br>
 
@@ -88,8 +93,8 @@
         <script src="/javascripts/bootstrap.min.js"></script>
 
         <!-- Google Maps Custom JS-->
-        <script src="/javascripts/custom/maps.js"></script>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA6vQRmMUhpH9ZD5GaCdoGMCHOTcgCZS4I&callback=initMap"></script>
+        <!-- <script src="/javascripts/custom/maps.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA6vQRmMUhpH9ZD5GaCdoGMCHOTcgCZS4I&callback=initMap"></script> -->
 
 
 
