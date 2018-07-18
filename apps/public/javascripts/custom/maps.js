@@ -75,7 +75,7 @@ function json_read_make() {
             content: '<div class="infowindows">' +
                 '商品名：' + data[i]['yasai_cat'] + '<br />' +
                 '数量：' + data[i]['set_value'] + '<br />' +
-                '商品画像：<br /><img src="' + '../../images/yasai_icon/' + data[n]['yasai_icon'] + '.gif' +
+                '商品画像：<br /><img src="' + '../../images/upload/' + data[n]['name'] + '.jpg' +
                 '" width="100" height="100" />' + '<br />' +
                 '<button onClick="location.href=\'/vege-profile/' + data[n]['name'] + '\'">詳細を確認</button>' +
                 '</div>'

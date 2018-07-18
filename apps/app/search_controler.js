@@ -301,6 +301,7 @@ exports.search = function (req, res) {
                     throw file_err;
                   }
                 });
+                console.log("image not found.");
               }
             }
           }, function (err, results) {
