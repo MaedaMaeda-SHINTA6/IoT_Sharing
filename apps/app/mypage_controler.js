@@ -87,7 +87,7 @@ exports.update = function (req, res) {
             {
               "extensionCategoryId": requestBody.extensions_id,
               "dataType": 20,
-              "value": "yasai taro",
+              "value": requestBody.displayName,
               "publicLevel": 0
             }
           ]
