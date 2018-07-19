@@ -54,6 +54,8 @@ exports.get = function (req, res) {
 
 exports.update = function (req, res) {
   var error = [];
+
+  var accountId = req.cookies.account;
   async.waterfall([
     function (callback) {
       var requestBody = {
@@ -85,20 +87,16 @@ exports.update = function (req, res) {
             {
               "extensionCategoryId": requestBody.extensions_id,
               "dataType": 20,
-              "value": requestBody.displayName,
+              "value": "yasai taro",
               "publicLevel": 0
             }
           ]
         };
-        var id = requestBody.MemberId;
-        callback(null, putBodyData,id);
+        callback(null, putBodyData);
       }
     },
-    function (putBodyData, id,callback) {
-
-      console.log(id);
-
-      var requestData = common.createPutRequest("accounts",id,putBodyData);
+    function (putBodyData,callback) {
+      var requestData = common.createPutRequest("accounts",accountId,putBodyData);
       console.log(requestData);
       var putdatas;
       request.put(requestData,
@@ -106,7 +104,7 @@ exports.update = function (req, res) {
           if (!error && response.statusCode == 200) {
             if (response.body) {
               putdatas = response.body;
-              callback(null, putdatas);
+              //callback(null, putdatas);
             }
           } else {
             common.outputError(error, response);
