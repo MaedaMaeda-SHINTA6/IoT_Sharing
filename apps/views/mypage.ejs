@@ -60,37 +60,63 @@
                             <tr>
                                 <th scope="row">DisplayName</th>
                                 <td>
+                                    <input type="hidden" value="<%=extensions_id %>" name="extensions_id">
                                     <%= displayName %>
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">UserID</th>
                                 <td>
-                                    <%= Account %>    
+                                    <%= Account %>
+                                    <input type="hidden" value="<%= Account %>" name="Account">
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">MailAddress</th>
                                 <td>
-                                    <%= MailAddress %>    
+                                    <%= MailAddress %>
+                                    <input type="hidden" value="<%= MailAddress %>" name="MailAddress">
                                 </td>
                             </tr>
 
                             <tr>
                                 <th scope="row">LastLoginTime</th>
                                 <td>
-                                    <%= LastLoginTime %>    
+                                    <%= LastLoginTime %>
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">Role</th>
                                 <td>
                                     <%= role %>
+                                    <input type="hidden" value="<%= role %>" name="role">
                                 </td>
                             </tr>
+                            <tr>
+                                <th scope="row">現在のパスワード</th>
+                                <td>
+                                    <input type="password" name="old_password">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">新しいパスワード</th>
+                                <td>
+                                    <input type="password" name="new_password1">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">新しいパスワード(確認)</th>
+                                <td>
+                                    <input type="password" name="new_password2">
+                                </td>
+                            </tr>
+
                         </tbody>
                     </table>
-                    <button value="submit" class="btn btn-primary btn-lg btn-block">更新</button>
+                    <input type="submit" value="更新" class="btn btn-primary btn-lg btn-block">
+                    
                 </form>
                 <% } else { %>
                     <h1>ログインしてください。</h1>
