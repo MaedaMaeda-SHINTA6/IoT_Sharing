@@ -53,7 +53,9 @@
         <tbody>
             <tr>
                 <th>画像</th>
-                <th><img src="../images/upload/<%= matchingId %>.jpg"></th>
+                <th>
+                    <img src="../images/upload/<%= matchingId %>.jpg">
+                </th>
             </tr>
             <tr>
                 <th>品種名</th>
@@ -87,17 +89,15 @@
             </tr>
         </tbody>
     </table>
-    <form method="POST" action="" class="vege-profile" name="form" id="form_id">
-        <div class="form-group">
-            <div class="col-lg-6">
-                <div id="register">
-                    <button type="submit" class="btn btn-primary">
-                        確定
-                    </button>
-                </div>
-            </div>
-        </div>
-    </form>
+    <div id="form-vegeprofile">
+        <form action="/vege-profile" method="POST" >
+            <input type="hidden" name="matchingId" value="<%= matchingId %>" id="h_matchingId" />
+            <input type="hidden" name="accountId" value="<%= accountId %>" id="h_accountId" />
+            <button type="submit" value="確定" class="btn btn-primary mb-2 btn-lg btn-block">
+                確定
+            </button>
+        </form>
+    </div>
     <br>
     <%- include('_layout/footer') -%>
 
@@ -115,7 +115,18 @@
 
         <!-- Custom Theme JavaScript -->
         <script src="javascripts/demo.js"></script>
-
+        <!-- <script type="text/javascript">
+        $(function() {
+            $('#reserve').on('click', function () {
+                console.log('確定click');
+                $(this).parents('form').attr('action', '/mypage/' + $(this).data('action'));
+                $('#form_id').submit(function () {
+                    console.log('送信しました！');
+                });
+            });
+        });
+        </script> -->
         <!-- <script>console.log("headp",<%- vege_location -%>)</script> -->
 </body>
+
 </html>

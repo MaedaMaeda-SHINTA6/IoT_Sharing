@@ -103,7 +103,7 @@ function createParams(result, login) {
   // console.log(matchingExtension);
 
   var params = new Object();
-  params['headp'] = {'param': login};
+  params['headp'] = { 'param': login };
   params['matchingId'] = matchingInfo['id'];
   params['accountId'] = matchingInfo['sellerAccountId'];
   params['matchingName'] = matchingInfo['matchingName'];
@@ -117,3 +117,105 @@ function createParams(result, login) {
   console.log(params);
   return params;
 };
+
+// start tuto 3.7.2
+exports.post = function (req, res) {
+  console.log('post start');
+  console.log(req.body.matchingId);
+  async.waterfall([
+    function (callback) {
+      var strday = new Date();
+      var endday = new Date();
+      endday.setDate(endday.getDate() + 1);
+      var requestCalBody = {
+        "Calendars": [
+          {
+            "matchingId": req.body.matchingId,
+            "useStartDatetime": strday,
+            "useEndDatetime": endday,
+            "capacity": '1'
+          }
+        ]
+      }
+      console.log(requestCalBody);
+      callback(null, requestCalBody);
+    },
+    function(requestCalBody, callback){
+      console.log('requestCalBody start');
+      console.log(requestCalBody);
+      var requestCalData = common.createPostRequest('calendars', requestCalBody);
+      console.log('requestCalData start');
+      console.log(requestCalData);
+      request.post(requestCalData,
+        function (error, response, body) {
+          if (!error && response.statusCode == 201) {
+            if (response.body) {
+              console.log('matching requestCalData.');
+              console.log(response.body);
+              var caldate = response.body;
+              callback(null, caldate);
+            }
+          } else {
+            common.outputError(error, response);
+            // console.log(response.body);
+            callback(error, null);
+          }
+        }
+      );
+      console.log('matching register end.');
+    },
+    function (caldate,callback) {
+      console.log('response');
+      console.log(caldate);
+      console.log(caldate['Ids'][0]['id']);
+      var calid = caldate['Ids'][0]['id'];
+      console.log(calid);
+      var requestBody = {
+        "MatchingStatuses": [
+          {
+            "sellerAccountId": req.body.accountId,
+            "buyerAccountId": req.cookies.account,
+            "matchingId": req.body.matchingId,
+            "progressStatus": 'Reserved',
+            "resourceCost": '1',
+            "calendarId": calid,
+            "acceptCode": ''
+          }
+        ]
+      }
+      console.log(requestBody);
+      callback(null, requestBody);
+    },
+    function (requestBody, callback) {
+      console.log('request start');
+      console.log(requestBody);
+      var requestData = common.createPostRequest('matching_statuses', requestBody);
+      console.log('requestData start');
+      console.log(requestData);
+      request.post(requestData,
+        function (error, response, body) {
+          if (!error && response.statusCode == 201) {
+            if (response.body) {
+              console.log('matching register.');
+              callback(error, response.body, requestBody);
+            }
+          } else {
+            common.outputError(error, response);
+            console.log(response.body);
+            callback(error, response.body, requestBody);
+          }
+        }
+      );
+      console.log('matching register end.');
+    }
+  ],
+    function (err, results) {
+      if (err) {
+        res.render('error', { 'message': 'Something Error happened in profile Vegetable.' });
+        return;
+      }
+      console.log('async complete.');
+      res.redirect('/');
+    }
+  );
+}
