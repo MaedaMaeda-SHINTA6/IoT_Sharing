@@ -65,12 +65,13 @@
                             <div class="input-group">
                                 <label class="input-group-btn">
                                     <span class="btn btn-primary">
-                                        Choose File
+                                        写真を選択してください
                                         <input type="file" name="file_uploads" style="display:none" class="form-control">
                                     </span>
                                 </label>
                                 <input type="text" class="form-control" readonly="">
                                 <!--<input type="submit" value="画像登録">-->
+ 
                             </div>
                         </div>
                     </div>
@@ -113,13 +114,13 @@
 
                         <div class="col">緯度</div>
                         <div class="col">
-                            <input type="text" name="delivery_place_latitude" class="form-control" />
+                            <input id="lat" type="text" name="delivery_place_latitude" class="form-control" />
                         </div>
                         <div class="w-100"></div>
 
                         <div class="col">経度</div>
                         <div class="col">
-                            <input type="text" name="delivery_place_longitude" class="form-control" />
+                            <input id="lng" type="text" name="delivery_place_longitude" class="form-control" />
                         </div>
                         <div class="w-100"></div>
 
@@ -133,8 +134,8 @@
                                         <%= vege_state_item[i].displayName %>
                                     </label>
                                 </div>
-                            </select>
-                             <% } %>
+                                </select>
+                                <% } %>
 
                         </div>
                         <div class="w-100"></div>
@@ -194,6 +195,80 @@
                     }
                 }
             });
+        </script>
+        <script>
+            // 対応している場合
+            if (navigator.geolocation) {
+                // 現在地を取得
+                navigator.geolocation.getCurrentPosition(
+
+                    // [第1引数] 取得に成功した場合の関数
+                    function (position) {
+                        // 取得したデータの整理
+                        var data = position.coords;
+
+                        // データの整理
+                        var lat = data.latitude;
+                        var lng = data.longitude;
+                        var alt = data.altitude;
+                        var accLatlng = data.accuracy;
+                        var accAlt = data.altitudeAccuracy;
+                        var heading = data.heading;			//0=北,90=東,180=南,270=西
+                        var speed = data.speed;
+                        document.getElementById('lat').value = lat;
+                        document.getElementById('lng').value = lng;
+                    },
+
+                    // [第2引数] 取得に失敗した場合の関数
+                    function (error) {
+                        // エラーコード(error.code)の番号
+                        // 0:UNKNOWN_ERROR				原因不明のエラー
+                        // 1:PERMISSION_DENIED			利用者が位置情報の取得を許可しなかった
+                        // 2:POSITION_UNAVAILABLE		電波状況などで位置情報が取得できなかった
+                        // 3:TIMEOUT					位置情報の取得に時間がかかり過ぎた…
+
+                        // エラー番号に対応したメッセージ
+                        var errorInfo = [
+                            "原因不明のエラーが発生しました…。",
+                            "位置情報の取得が許可されませんでした…。",
+                            "電波状況などで位置情報が取得できませんでした…。",
+                            "位置情報の取得に時間がかかり過ぎてタイムアウトしました…。"
+                        ];
+
+                        // エラー番号
+                        var errorNo = error.code;
+
+                        // エラーメッセージ
+                        var errorMessage = "[エラー番号: " + errorNo + "]\n" + errorInfo[errorNo];
+
+                        // アラート表示
+                        alert(errorMessage);
+
+                        // HTMLに書き出し
+                        document.getElementById("result").innerHTML = errorMessage;
+                    },
+
+                    // [第3引数] オプション
+                    {
+                        "enableHighAccuracy": false,
+                        "timeout": 8000,
+                        "maximumAge": 2000,
+                    }
+
+                );
+            }
+
+            // 対応していない場合
+            else {
+                // エラーメッセージ
+                var errorMessage = "お使いの端末は、GeoLacation APIに対応していません。";
+
+                // アラート表示
+                alert(errorMessage);
+
+                // HTMLに書き出し
+                document.getElementById('result').innerHTML = errorMessage;
+            }
         </script>
 
 </body>

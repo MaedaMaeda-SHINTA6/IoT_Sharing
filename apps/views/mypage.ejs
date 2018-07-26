@@ -58,7 +58,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <th scope="row">DisplayName</th>
+                                <th scope="row">氏名</th>
                                 <td>
                                     <input type="hidden" value="<%=extensions_id %>" name="extensions_id">
                                     <input type="hidden" value="<%= displayName %>" name="displayName"> 
@@ -67,21 +67,21 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th scope="row">UserID</th>
+                                <th scope="row">ユーザID</th>
                                 <td>
                                     <%= Account %>
                                     <input type="hidden" value="<%= Account %>" name="Account">
                                 </td>
                             </tr>
                             <tr>
-                                <th scope="row">MailAddress</th>
+                                <th scope="row">メールアドレス</th>
                                 <td>
                                     <%= MailAddress %>
                                     <input type="hidden" value="<%= MailAddress %>" name="MailAddress">
                                 </td>
                             </tr>
 
-                            <tr>
+                            <!-- <tr>
                                 <th scope="row">LastLoginTime</th>
                                 <td>
                                     <%= LastLoginTime %>
@@ -93,7 +93,7 @@
                                     <%= role %>
                                     <input type="hidden" value="<%= role %>" name="role">
                                 </td>
-                            </tr>
+                            </tr> -->
                             <tr>
                                 <th scope="row">現在のパスワード</th>
                                 <td>

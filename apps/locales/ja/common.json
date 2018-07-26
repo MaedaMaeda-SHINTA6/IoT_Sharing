@@ -56,8 +56,8 @@
     "label_registering_room_max_capacity": "人まで",
     "section_page_for_hosts": "ホスト用ページ",
 
-    "label_search_sharing_date": "利用日",
-    "label_search_period_start": "利用開始日時",
+    "label_search_sharing_date": "受取日",
+    "label_search_period_start": "受取予定日時",
     "label_search_period_not_specified" : "指定なし",
     "label_search_period_not_specified_start": "指定なし",
     "label_search_period_not_specified_end": "指定なし",

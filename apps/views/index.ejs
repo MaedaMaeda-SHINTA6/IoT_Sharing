@@ -49,22 +49,18 @@
             <div class="carousel-item active">
                 <img class="d-block w-100" src="./images/Top.jpg" alt="First slide">
                 <div class="carousel-caption d-md-block">
-                    <h3>農作物シェアリングを始めよう</h3>
-                    <p>高知でフードシェアリングをしてみませんか。</p>
+                    <h4>農作物シェアリングを<br>始めよう</h4>
                 </div>
             </div>
             <div class="carousel-item">
                 <img class="d-block w-100" src="./images/Top2.jpg" alt="Second slide">
                 <div class="carousel-caption d-md-block">
-                    <h3>農作物シェアリングを始めよう</h3>
-                    <p>高知でフードシェアリングをしてみませんか。</p>
+                        <h4>農作物シェアリングを<br>始めよう</h4>
                 </div>
             </div>
             <div class="carousel-item">
                 <img class="d-block w-100" src="./images/Top3.png" alt="Third slide">
-                <div class="carousel-caption d-md-block">
-                    <h3>農作物シェアリングを始めよう</h3>
-                    <p>高知でフードシェアリングをしてみませんか。</p>
+                <div class="carousel-caption d-md-block"> 
                 </div>
             </div>
         </div>
@@ -77,45 +73,43 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
-
+    
+    <% if (param=='1') { %>
     <main role="main" class="container">
         <p>最近登録された農作物</p>
         <div class="row">
             <div class="col-lg-4">
-                <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="茄子画像"
+                <img class="rounded-circle" src="./images/nasu.jpg" alt="茄子画像"
                     width="140" height="140">
                 <h2>茄子</h2>
-                <p>場所：○○○○&nbsp;数量:○○○○&nbsp;コメント：今朝取れたばかりでおいしいですよ♪</p>
+                <p>
+                    <a class="btn btn-secondary" href="#" role="button">欲しい &raquo;</a>
+                </p>
+            </div> 
+            <!-- /.col-lg-4 -->
+            <div class="col-lg-4">
+                <img class="rounded-circle" src="./images/nasu2.jpg" alt="茄子画像"
+                    width="140" height="140">
+                <h2>茄子</h2>
                 <p>
                     <a class="btn btn-secondary" href="#" role="button">欲しい &raquo;</a>
                 </p>
             </div>
             <!-- /.col-lg-4 -->
             <div class="col-lg-4">
-                <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="きゅうり画像"
+                <img class="rounded-circle" src="./images/nasu3.jpg" alt="茄子画像"
                     width="140" height="140">
-                <h2>きゅうり</h2>
-                <p>場所：○○○○&nbsp;数量:○○○○&nbsp;コメント：今朝取れたばかりでおいしいですよ♪</p>
+                <h2>茄子</h2>
                 <p>
                     <a class="btn btn-secondary" href="#" role="button">欲しい &raquo;</a>
                 </p>
             </div>
-            <!-- /.col-lg-4 -->
-            <div class="col-lg-4">
-                <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="とまと画像"
-                    width="140" height="140">
-                <h2>トマト</h2>
-                <p>場所：○○○○&nbsp;数量:○○○○&nbsp;コメント：今朝取れたばかりでおいしいですよ♪</p>
-                <p>
-                    <a class="btn btn-secondary" href="#" role="button">欲しい &raquo;</a>
-                </p>
-            </div>
-            <!-- /.col-lg-4 -->
+            <!-- /.col-lg-4-->
         </div>
-        <!-- /.row -->
+        <!-- /.row-->
         </div>
     </main>
-
+    <% }; %>
 
     <%- include('_layout/footer') -%>
 

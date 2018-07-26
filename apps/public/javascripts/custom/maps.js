@@ -56,7 +56,7 @@ function json_read_make() {
                 'lng': Number(json_data[i].delivery_place_longitude),
                 'yasai_cat': json_data[i].matchingName,
                 'set_value': json_data[i].vege_quantity,
-                'yasai_icon': "tomato"
+                'yasai_icon': "eggplant"
             }
         );
     }

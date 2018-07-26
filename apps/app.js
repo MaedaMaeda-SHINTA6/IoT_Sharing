@@ -31,6 +31,9 @@ var vegeRegister = require('./routes/vegeRegister');
 //野菜照会
 var vegeprofile = require('./routes/vegeprofile');
 
+var talk=require('./routes/talk');
+
+var watch=require('./routes/watch');
 // i18n
 var i18next = require('i18next');
 var i18nextMiddleware = require('i18next-express-middleware');
@@ -98,6 +101,9 @@ app.use('/vege-register', vegeRegister);
 //野菜照会ページ
 app.use('/vege-profile', vegeprofile);
 
+app.use('/talk',talk);
+
+app.use('/watch',watch);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   var err = new Error('Not Found');

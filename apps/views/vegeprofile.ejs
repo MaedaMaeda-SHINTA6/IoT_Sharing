@@ -41,56 +41,59 @@
     <header>
         <%- include('_layout/header',headp ) -%>
     </header>
+    <br>
     <div class="col-md-12 col-md-pull-8">
         <h1>野菜プロフィール</h1>
     </div>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Category</th>
-                <th>Value</th>
-        </thead>
-        <tbody>
-            <tr>
-                <th>画像</th>
-                <th>
-                    <img src="../images/upload/<%= matchingId %>.jpg">
-                </th>
-            </tr>
-            <tr>
-                <th>品種名</th>
-                <th>
-                    <%= vege_variety_name %>
-                </th>
-            </tr>
-            <tr>
-                <th>産地</th>
-                <th>
-                    <%= vege_location %>
-                </th>
-            </tr>
-            <tr>
-                <th>重量</th>
-                <th>
-                    <%= vege_gm %>
-                </th>
-            </tr>
-            <tr>
-                <th>個数</th>
-                <th>
-                    <%= vege_quantity %>
-                </th>
-            </tr>
-            <tr>
-                <th>価格</th>
-                <th>
-                    <%= vege_price %>
-                </th>
-            </tr>
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Value</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>画像</th>
+                    <th>
+                        <img src="../images/upload/<%= matchingId %>.jpg" height="140" width="150">
+                    </th>
+                </tr>
+                <tr>
+                    <th>品種名</th>
+                    <th>
+                        <%= vege_variety_name %>
+                    </th>
+                </tr>
+                <tr>
+                    <th>産地</th>
+                    <th>
+                        <%= vege_location %>
+                    </th>
+                </tr>
+                <tr>
+                    <th>重量</th>
+                    <th>
+                        <%= vege_gm %>
+                    </th>
+                </tr>
+                <tr>
+                    <th>個数</th>
+                    <th>
+                        <%= vege_quantity %>
+                    </th>
+                </tr>
+                <tr>
+                    <th>価格</th>
+                    <th>
+                        <%= vege_price %>
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
     <div id="form-vegeprofile">
-        <form action="/vege-profile" method="POST" >
+        <form action="/vege-profile" method="POST">
             <input type="hidden" name="matchingId" value="<%= matchingId %>" id="h_matchingId" />
             <input type="hidden" name="accountId" value="<%= accountId %>" id="h_accountId" />
             <button type="submit" value="確定" class="btn btn-primary mb-2 btn-lg btn-block">
