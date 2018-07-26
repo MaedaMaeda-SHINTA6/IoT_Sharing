@@ -192,6 +192,8 @@
                     reader.readAsDataURL(files[0]); // read the local file
                     reader.onloadend = function () { // set image data as background of div
                         input.parent().parent().parent().prev('.imagePreview').css("background-image", "url(" + this.result + ")");
+                        input.parent().parent().parent().prev('.imagePreview').css("height", "240px");
+                        input.parent().parent().parent().prev('.imagePreview').css("width", "250px");
                     }
                 }
             });
