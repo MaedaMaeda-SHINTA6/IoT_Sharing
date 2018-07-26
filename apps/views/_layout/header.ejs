@@ -27,19 +27,22 @@
       <a href="/mypage" class="btn btn-outline-primary my-2 my-sm-0">マイページ</a>&nbsp;
       <a href="/search" class="btn btn-outline-warning my-2 my-sm-0">
         <%- t('link_to_search_vegetable') %>
-        </a>&nbsp;
+      </a>&nbsp;
       <a href="/vege-register" class="btn btn-outline-info my-2 my-sm-0">
         野菜を登録
-        </a>&nbsp;
+      </a>&nbsp;
+      <a href="/vege-route" class="btn btn-outline-warning my-2 my-sm-0">
+        野菜を配達
+      </a>&nbsp;
       <a href="/logout" class="btn btn-outline-danger my-2 my-sm-0">
-      <%- t('link_to_sign_out') %>
+        <%- t('link_to_sign_out') %>
       </a>&nbsp;
       <% } else { %>
         <!-- ログインボタン -->
         <a href="/login" class="btn btn-outline-success my-2 my-sm-0">
-      <%- t('link_to_sign_up_sign_in') %>
+          <%- t('link_to_sign_up_sign_in') %>
         </a>
-    <% }; %>
+        <% }; %>
 
 
   </div>

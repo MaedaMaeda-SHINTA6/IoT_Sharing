@@ -107,21 +107,24 @@ function createParams(result, login) {
   params['matchingId'] = matchingInfo['id'];
   params['accountId'] = matchingInfo['sellerAccountId'];
   params['matchingName'] = matchingInfo['matchingName'];
+  params['vege_price'] = matchingInfo['matchingPrice'];
   // params['matchingDetail'] = matchingInfo['matchingDetail'];
   params['vege_variety_name'] = getExtensionValue(matchingExtension, common.getIDFromIdentifier(extensionInfo, 'vege_variety_name'));
   params['vege_location'] = getExtensionValue(matchingExtension, common.getIDFromIdentifier(extensionInfo, 'vege_location'));
   params['vege_gm'] = getExtensionValue(matchingExtension, common.getIDFromIdentifier(extensionInfo, 'vege_gm'));
   params['vege_quantity'] = getExtensionValue(matchingExtension, common.getIDFromIdentifier(extensionInfo, 'vege_quantity'));
-  params['vege_price'] = matchingInfo['matchingPrice'];
+  params['delivery_place_latitude'] = getExtensionValue(matchingExtension, common.getIDFromIdentifier(extensionInfo, 'delivery_place_latitude'));
+  params['delivery_place_longitude'] = getExtensionValue(matchingExtension, common.getIDFromIdentifier(extensionInfo, 'delivery_place_longitude'));
+  params['extention_id_latitude'] = common.getIDFromIdentifier(extensionInfo, 'delivery_place_latitude');
+  params['extention_id_longtitude'] = common.getIDFromIdentifier(extensionInfo, 'delivery_place_longitude');
 
-  console.log(params);
   return params;
 };
 
 // start tuto 3.7.2
 exports.post = function (req, res) {
   console.log('post start');
-  console.log(req.body.matchingId);
+
   async.waterfall([
     function (callback) {
       var strday = new Date();
@@ -140,7 +143,7 @@ exports.post = function (req, res) {
       console.log(requestCalBody);
       callback(null, requestCalBody);
     },
-    function(requestCalBody, callback){
+    function (requestCalBody, callback) {
       console.log('requestCalBody start');
       console.log(requestCalBody);
       var requestCalData = common.createPostRequest('calendars', requestCalBody);
@@ -164,12 +167,13 @@ exports.post = function (req, res) {
       );
       console.log('matching register end.');
     },
-    function (caldate,callback) {
+    function (caldate, callback) {
       console.log('response');
       console.log(caldate);
       console.log(caldate['Ids'][0]['id']);
       var calid = caldate['Ids'][0]['id'];
       console.log(calid);
+
       var requestBody = {
         "MatchingStatuses": [
           {
@@ -179,7 +183,21 @@ exports.post = function (req, res) {
             "progressStatus": 'Reserved',
             "resourceCost": '1',
             "calendarId": calid,
-            "acceptCode": ''
+            "acceptCode": '',
+            "MatchingStatusExtensions": [
+              {
+                //緯度
+                "extensionCategoryId": String(req.body.extention_id_latitude),
+                "dataType": 21,
+                "value": String(req.body.delivery_place_latitude)
+              },
+              {
+                //経度
+                "extensionCategoryId": String(req.body.extention_id_longtitude),
+                "dataType": 21,
+                "value": String(req.body.delivery_place_longitude)
+              },
+            ]
           }
         ]
       }
