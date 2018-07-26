@@ -100,9 +100,16 @@
             <input type="hidden" name="delivery_place_longitude" value="<%- delivery_place_longitude %>" />
             <input type="hidden" name="extention_id_latitude" value="<%- extention_id_latitude %>" />
             <input type="hidden" name="extention_id_longtitude" value="<%- extention_id_longtitude %>" />
-            <button type="submit" value="確定" class="btn btn-primary mb-2 btn-lg btn-block">
-                確定
-            </button>
+            
+            <% if (matching_status === 0){ %>
+                <button type="submit" value="確定" class="btn btn-primary mb-2 btn-lg btn-block">
+                    確定
+                </button>
+            <% } else { %>
+                    <button class="btn btn-default mb-2 btn-lg btn-block" disabled="disabled">
+                        確定できません。
+                    </button>
+            <% } %>
         </form>
     </div>
     <br>

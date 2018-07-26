@@ -45,20 +45,40 @@ exports.vegeprofile = function (req, res) {
     },
     function (callback) {
       extension.getCategoryItem(res, callback);
-    }
+    },
+    function (callback) {
+      //Matching_Statesの取得
+      var matching_statuses_list;
+      var requestData2 = common.createGetRequest('matching_statuses', null,'matchingId=' + matchingId);
+      request.get(requestData2,
+        function (error, response2, body) {
+          if (!error && response2.statusCode == 200) {
+            if (response2.body) {
+              matching_statuses_list = response2.body;
+              callback(null, matching_statuses_list);
+            }
+          } else {
+            common.outputError(error, matching_statuses_list);
+            callback(matching_statuses_list, null);
+          }
+        }
+      )
+    },
   ],
     function (err, result) {
       console.log('async series complete.');
       if (err) {
         console.log('error happen.');
         res.render('error', { 'message': 'Something is wrong.' });
-      } else if (result.length != 3) {
+      } else if (result.length != 4) {
         // console.log('not enough data.');
         //console.log(result);
         res.render('error', { 'message': 'Cannot get enough data.' });
       }
       var params = createParams(result, common.isLogin(req));
+      //console.log(params);
       if (params) {
+        console.log(params);
         res.render('vegeprofile', params);
       } else {
         res.render('error', { 'message': 'Cannot create vegeprofile view.' });
@@ -96,8 +116,9 @@ function createParams(result, login) {
   var matchingInfo = result[0] != null ? result[0]['Matchings'][0] : null;
   var extensionInfo = result[1] != null ? result[1]['ExtensionCategories'] : null;
   var extensionItemInfo = result[2] != null ? result[2]['ExtensionItems'] : null;
+  var matching_statusesInfo = result[3] != null ? result[3]['totalCount'] : null;
 
-  if (!matchingInfo && !accountInfo && !extensionInfo) { return null; };
+  if (!matchingInfo && !accountInfo && !extensionInfo && !matching_statusesInfo) { return null; };
 
   var matchingExtension = matchingInfo['MatchingExtensions'];
   // console.log(matchingExtension);
@@ -117,6 +138,7 @@ function createParams(result, login) {
   params['delivery_place_longitude'] = getExtensionValue(matchingExtension, common.getIDFromIdentifier(extensionInfo, 'delivery_place_longitude'));
   params['extention_id_latitude'] = common.getIDFromIdentifier(extensionInfo, 'delivery_place_latitude');
   params['extention_id_longtitude'] = common.getIDFromIdentifier(extensionInfo, 'delivery_place_longitude');
+  params['matching_status']= matching_statusesInfo;
 
   return params;
 };
