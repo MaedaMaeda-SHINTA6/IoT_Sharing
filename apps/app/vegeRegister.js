@@ -133,7 +133,10 @@ exports.get = function (req, res) {
 
 exports.post = function (req, res) {
 
-  console.log(req.body);
+  if (req.file === undefined) {
+    res.render('error', { 'message': '画像が選択されていません。' });
+    return;
+  };
   async.waterfall([
     function (callback) {
       extension.getCategory(res, callback);
@@ -188,6 +191,7 @@ exports.post = function (req, res) {
         }
       }
       );
+
     }
   ],
     function (err, matchingRes, results) {
@@ -266,74 +270,74 @@ exports.post = function (req, res) {
           //配送希望日時
           "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'delivery_req_day'),
           "dataType": 22,
-          "value": req.body.delivery_req_day_d.slice(0,11) + req.body.sharing_start + req.body.delivery_req_day_d.slice(13,24)
+          "value": req.body.delivery_req_day_d.slice(0, 11) + req.body.sharing_start + req.body.delivery_req_day_d.slice(13, 24)
         },
 
       ]
     };
 
-      console.log(req.body.vege_state_item);
-      // if (req.body.vege_state_item != null) {
-      //   if (req.body.vege_state_item instanceof Array) {
-      //     for (var i = 0; i < req.body.vege_state_item.length; i++) {
-      //       var vege_state = {
-      //         "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'vege_state'),
-      //         "dataType": 10,
-      //         "value": req.body.vege_state_item[i]
-      //       };
-      //       bodyData.MatchingExtensions.push(vege_state);
-      //     };
-      //   } else {
-      //     var vege_state = {
-      //       "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'vege_state'),
-      //       "dataType": 10,
-      //       "value": req.body.vege_state
-      //     };
-      //     bodyData.MatchingExtensions.push(vege_state);
-      //   }
-      // };
+    console.log(req.body.vege_state_item);
+    // if (req.body.vege_state_item != null) {
+    //   if (req.body.vege_state_item instanceof Array) {
+    //     for (var i = 0; i < req.body.vege_state_item.length; i++) {
+    //       var vege_state = {
+    //         "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'vege_state'),
+    //         "dataType": 10,
+    //         "value": req.body.vege_state_item[i]
+    //       };
+    //       bodyData.MatchingExtensions.push(vege_state);
+    //     };
+    //   } else {
+    //     var vege_state = {
+    //       "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'vege_state'),
+    //       "dataType": 10,
+    //       "value": req.body.vege_state
+    //     };
+    //     bodyData.MatchingExtensions.push(vege_state);
+    //   }
+    // };
 
-      if(req.body.vege_state_item != null){
-        if(req.body.vege_state_item instanceof Array) {
-          for (var i = 0; i < req.body.vege_state_item.length; i++) {
-            var vege_state =  {
-                "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'vege_state'),
-                "dataType": 10,
-                "value": req.body.vege_state_item[i]
-            };
-            bodyData.MatchingExtensions.push(vege_state);
-          };
-        } else {
-          var vege_state =  {
-              "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'vege_state'),
-              "dataType": 10,
-              "value": req.body.vege_state_item
+    if (req.body.vege_state_item != null) {
+      if (req.body.vege_state_item instanceof Array) {
+        for (var i = 0; i < req.body.vege_state_item.length; i++) {
+          var vege_state = {
+            "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'vege_state'),
+            "dataType": 10,
+            "value": req.body.vege_state_item[i]
           };
           bodyData.MatchingExtensions.push(vege_state);
-        }
-      };
+        };
+      } else {
+        var vege_state = {
+          "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'vege_state'),
+          "dataType": 10,
+          "value": req.body.vege_state_item
+        };
+        bodyData.MatchingExtensions.push(vege_state);
+      }
+    };
 
-      if(req.body.delivery_vega_state_item != null){
-        if(req.body.delivery_vega_state_item instanceof Array) {
-          for (var i = 0; i < req.body.delivery_vega_state_item.length; i++) {
-            var delivery_vege_state =  {
-                "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'delivery_vege_state'),
-                "dataType": 10,
-                "value": req.body.delivery_vega_state_item[i]
-            };
-            bodyData.MatchingExtensions.push(delivery_vege_state);
-          };
-        } else {
-          var delivery_vege_state =  {
-              "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'delivery_vege_state'),
-              "dataType": 10,
-              "value": req.body.delivery_vega_state_item
+    if (req.body.delivery_vega_state_item != null) {
+      if (req.body.delivery_vega_state_item instanceof Array) {
+        for (var i = 0; i < req.body.delivery_vega_state_item.length; i++) {
+          var delivery_vege_state = {
+            "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'delivery_vege_state'),
+            "dataType": 10,
+            "value": req.body.delivery_vega_state_item[i]
           };
           bodyData.MatchingExtensions.push(delivery_vege_state);
-        }
-      };
+        };
+      } else {
+        var delivery_vege_state = {
+          "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'delivery_vege_state'),
+          "dataType": 10,
+          "value": req.body.delivery_vega_state_item
+        };
+        bodyData.MatchingExtensions.push(delivery_vege_state);
+      }
+    };
 
-      
+
 
     console.log(bodyData);
     return bodyData;

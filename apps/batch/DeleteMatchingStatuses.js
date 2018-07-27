@@ -52,8 +52,8 @@ request.post(requestData, function (error, response, body) {
     // authentication
     console.log("-------- Authentication -------- ");
     requestBody = {
-      'userId': 'yasai',
-      'password': 'yasai'
+      'userId': 'batch',
+      'password': 'batch'
     };
     // リクエスト作成
     requestData = common.createPostRequest('accounts/authentication', requestBody, HEADERS);
