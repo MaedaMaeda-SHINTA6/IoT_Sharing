@@ -53,7 +53,7 @@
         <div id="loginbox">
             <form method="POST" action="/login/auth">
                 <div class="form-group">
-                    <label for="login-userid">メールアドレス</label>
+                    <label for="login-userid">ログインID</label>
                     <input type="text" name="userid" class="form-control" id="email-fld" placeholder="<%- t('placeholder_login_user_id') %>">
                     <!--<small id="emailHelp" class="form-text text-muted">メールアドレスを入力してください。</small>-->
                 </div>
@@ -64,7 +64,7 @@
                 <button type="submit" class="btn btn-primary btn-lg btn-block">
                     <%- t('button_login') %>
                 </button>
-                <button type="button" class="btn btn-secondary btn-lg btn-block">クリア</button>
+                <button type="reset" class="btn btn-secondary btn-lg btn-block">クリア</button>
             </form>
 
             <div class="col-md-12 control">
