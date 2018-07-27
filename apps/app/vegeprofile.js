@@ -131,6 +131,7 @@ function createParams(result, login) {
   params['vege_price'] = matchingInfo['matchingPrice'];
   // params['matchingDetail'] = matchingInfo['matchingDetail'];
   params['vege_variety_name'] = getExtensionValue(matchingExtension, common.getIDFromIdentifier(extensionInfo, 'vege_variety_name'));
+  params['farmer_name'] = getExtensionValue(matchingExtension, common.getIDFromIdentifier(extensionInfo, 'farmer_name'));
   params['vege_location'] = getExtensionValue(matchingExtension, common.getIDFromIdentifier(extensionInfo, 'vege_location'));
   params['vege_gm'] = getExtensionValue(matchingExtension, common.getIDFromIdentifier(extensionInfo, 'vege_gm'));
   params['vege_quantity'] = getExtensionValue(matchingExtension, common.getIDFromIdentifier(extensionInfo, 'vege_quantity'));
