@@ -21,9 +21,27 @@ exports.get = function (req, res) {
   var categories;
   var items;
   var errors = [];
+  var account_result;
+
 
   //データ取得処理
   async.series([
+    function (callback) {
+      var requestData = common.createGetRequest('accounts', accountId);
+      request(requestData,
+        function (error, response, body) {
+          if (!error && response.statusCode == 200) {
+            if (response.body) {
+              account_result = response.body;
+            }
+          } else {
+            common.outputError(error, response);
+            errors.push(response.body);
+          }
+          callback(null, null);
+        }
+      )
+    },
     function (callback) {
       var requestData = common.createGetRequest('extension/categories?limit=1000', null);
       request(requestData,
@@ -114,6 +132,7 @@ exports.get = function (req, res) {
             continue;
         };
       }
+
       //paramsセット
       var params = {
         "categories": categories,
@@ -121,6 +140,8 @@ exports.get = function (req, res) {
         "delivery_vege_state": delivery_vege_state,
         "vege_state_item": vege_state_item,
         "delivery_vega_state_item": delivery_vega_state_item,
+        "farmer_name" : account_result['Accounts'][0]['AccountExtensions'][0]['value'],
+        "farmer_id": accountId,
         "param": "1"
       };
 
@@ -272,6 +293,19 @@ exports.post = function (req, res) {
           "dataType": 22,
           "value": req.body.delivery_req_day_d.slice(0, 11) + req.body.sharing_start + req.body.delivery_req_day_d.slice(13, 24)
         },
+        {
+          //登録者名
+          "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'farmer_name'),
+          "dataType": 20,
+          "value": req.body.farmer_name
+        },
+        {
+          //登録者ID
+          "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'farmer_id'),
+          "dataType": 20,
+          "value": req.body.farmer_id
+        },
+
 
       ]
     };
