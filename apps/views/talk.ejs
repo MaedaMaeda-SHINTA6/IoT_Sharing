@@ -83,7 +83,7 @@
       </div>
     </div>
     <!---- socket ※自分のシグナリングサーバーに合わせて変更してください------>
-    <script src="http://localhost:9001/socket.io/socket.io.js"></script>
+    <script src="http://testprot.azurewebsites.net:9090/socket.io/socket.io.js"></script>
     <script>
       var localVideo = document.getElementById('local-video');
       var localStream = null;
@@ -188,8 +188,8 @@
       // ---- socket ------
       // create socket
       var socketReady = false;
-      var port = 9001;
-      var socket = io.connect('http://localhost:' + port + '/'); // ※自分のシグナリングサーバーに合わせて変更してください
+      var port = 9090;
+      var socket = io.connect('http://testprot.azurewebsites.net:' + port + '/'); // ※自分のシグナリングサーバーに合わせて変更してください
 
       // socket: channel connected
       socket.on('connect', onOpened)

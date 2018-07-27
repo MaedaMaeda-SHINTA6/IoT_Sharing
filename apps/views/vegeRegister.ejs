@@ -220,6 +220,7 @@
                     //changeMonth: true,
                     dateFormat: 'yy/mm/dd',
                     onSelect: function (selectedDate) {
+                        console.log(selectedDate);
                         var today = new Date();
                         var selDate = new Date(selectedDate);
                         var msDiff = selDate.getTime() - today.getTime();
