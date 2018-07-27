@@ -107,6 +107,7 @@ exports.search = function (req, res) {
   var itemInfo = [];
   var imageList = [];
   var resourceList = [];
+  console.log('search start!!');
   console.log(req.body);
 
   async.waterfall([
@@ -121,6 +122,8 @@ exports.search = function (req, res) {
       itemInfo = result.ExtensionItems;
 
       var searchBody = Search.createSearchData(req, categoryInfo);
+      console.log('search2');
+      console.log(searchBody);
       var requestData = common.createPostRequest('matchings/search', searchBody);
       request.post(requestData, function (error, response, body) {
         if (!error && response.statusCode == 200) {
@@ -134,63 +137,63 @@ exports.search = function (req, res) {
           callback(response.body, null);
         }
       });
-    },
-    function (matchings, callback) {
-      var results = [];
-      var errors = [];
-
-      if (matchings == null || matchings.length == 0) {
-        console.log('Nothing is matched.');
-        callback(null, results);
-        return;
-      }
-
-      if (!req.body.sharing_date) {
-        console.log('AvailableDate isnot included in SearchCondition.');
-        Array.prototype.push.apply(results, matchings);
-        callback(null, results);
-        return;
-      }
-      console.log("*** calendar search start ***");
-
-      var dateQuery = Search.getDateQuery(req.body);
-
-      async.each(matchings, function (data, next) {
-        console.log('each matching ... ');
-        query = 'matchingId=' + data.id + '&minRemainingCost=1&maxRemainingCost=1';
-        if (dateQuery) {
-          query += dateQuery;
-        }
-        query += '&limit=24';
-        var requestData = common.createGetRequest('calendars'
-          , null
-          , query);
-
-        request.get(requestData, function (error, response, body) {
-          if (!error && response.statusCode == 200) {
-            if (response.body.Calendars.length > 0) {
-              console.log('calendar done.');
-              data['calendar'] = response.body;
-              results.push(data);
-              next();
-            }
-            else {
-              console.log('No calendar.');
-              next();
-            }
-          } else {
-            console.log('calendar done.(error)');
-            common.outputError(error, response);
-            errors.push(response.body);
-            next();
-          }
-        })
-      },
-        function (err) {
-          console.log('calendar search all done.');
-          callback(null, results);
-        });
     }
+    // function (matchings, callback) {
+    //   var results = [];
+    //   var errors = [];
+
+    //   if (matchings == null || matchings.length == 0) {
+    //     console.log('Nothing is matched.');
+    //     callback(null, results);
+    //     return;
+    //   }
+
+    //   if (!req.body.sharing_date) {
+    //     console.log('AvailableDate isnot included in SearchCondition.');
+    //     Array.prototype.push.apply(results, matchings);
+    //     callback(null, results);
+    //     return;
+    //   }
+    //   console.log("*** calendar search start ***");
+
+    //   var dateQuery = Search.getDateQuery(req.body);
+
+    //   async.each(matchings, function (data, next) {
+    //     console.log('each matching ... ');
+    //     query = 'matchingId=' + data.id + '&minRemainingCost=1&maxRemainingCost=1';
+    //     if (dateQuery) {
+    //       query += dateQuery;
+    //     }
+    //     query += '&limit=24';
+    //     var requestData = common.createGetRequest('calendars'
+    //       , null
+    //       , query);
+
+    //     request.get(requestData, function (error, response, body) {
+    //       if (!error && response.statusCode == 200) {
+    //         if (response.body.Calendars.length > 0) {
+    //           console.log('calendar done.');
+    //           data['calendar'] = response.body;
+    //           results.push(data);
+    //           next();
+    //         }
+    //         else {
+    //           console.log('No calendar.');
+    //           next();
+    //         }
+    //       } else {
+    //         console.log('calendar done.(error)');
+    //         common.outputError(error, response);
+    //         errors.push(response.body);
+    //         next();
+    //       }
+    //     })
+    //   },
+    //     function (err) {
+    //       console.log('calendar search all done.');
+    //       callback(null, results);
+    //     });
+    // }
   ],
     //
     function (err, results) {
@@ -315,57 +318,57 @@ exports.search = function (req, res) {
 };
 
 Search.createSearchData = function (req, category) {
+  console.log('createSearchData start');
+  console.log(req.body.sharing_date_ds);
+  console.log(req.body.sharing_date_de);
   var bodyData = new Object;
-  if (req.body.price_from) bodyData['minMatchingPrice'] = req.body.price_from;
-  if (req.body.price_to) bodyData['maxMatchingPrice'] = req.body.price_to;
   bodyData['SearchConditions'] = [];
   if (req.body.address) {
     bodyData['SearchConditions'].push({
       'method': 'like',
-      'key': common.getIDFromIdentifier(category, 'address'),
+      'key': common.getIDFromIdentifier(category, 'vege_location'),
       'value': req.body.address
     });
   }
-  if (req.body.room_type_radio && req.body.room_type_radio != NOT_SET_ID) {
-    bodyData['SearchConditions'].push({
-      'method': 'equal',
-      'key': common.getIDFromIdentifier(category, 'room_type'),
-      'value': req.body.room_type_radio
-    });
-  }
-  if (req.body.num_from) {
-    bodyData['SearchConditions'].push({
-      'method': 'more',
-      'key': common.getIDFromIdentifier(category, 'num'),
-      'value': req.body.num_from
-    });
-  }
-  if (req.body.num_to) {
-    bodyData['SearchConditions'].push({
-      'method': 'less',
-      'key': common.getIDFromIdentifier(category, 'num'),
-      'value': req.body.num_to
-    });
-  }
-
-  if (req.body.facility && req.body.facility.length != 0) {
-    if (req.body.facility instanceof Array) {
-      for (var i = 0; i < req.body.facility.length; i++) {
-        bodyData['SearchConditions'].push({
-          'method': 'equal',
-          'key': common.getIDFromIdentifier(category, 'facility'),
-          'value': req.body.facility[i]
-        });
-      }
-    } else {
+  if (req.body.sharing_date_ds && req.body.sharing_date_de) {
+    if(req.body.sharing_start != '00' && req.body.sharing_end == '24'){
+      console.log('SearchConditions1');
       bodyData['SearchConditions'].push({
-        'method': 'equal',
-        'key': common.getIDFromIdentifier(category, 'facility'),
-        'value': req.body.facility
-      });
+        'method': 'range',
+        'key': common.getIDFromIdentifier(category, 'delivery_req_day'),
+        'min': req.body.sharing_date_ds.slice(0,11) + req.body.sharing_start + req.body.sharing_date_ds.slice(13,24),
+        'max': req.body.sharing_date_de
+      })
     }
+    if(req.body.sharing_start == '00' && req.body.sharing_end != '24') {
+      console.log('SearchConditions2');
+      bodyData['SearchConditions'].push({
+        'method': 'range',
+        'key': common.getIDFromIdentifier(category, 'delivery_req_day'),
+        'min': req.body.sharing_date_ds,
+        'max': req.body.sharing_date_de.slice(0,11) + (req.body.sharing_end - 1) + req.body.sharing_date_de.slice(13,24)
+      })
+    }
+    if(req.body.sharing_start != '00' && req.body.sharing_end != '24'){
+      console.log('SearchConditions3');
+      bodyData['SearchConditions'].push({
+        'method': 'range',
+        'key': common.getIDFromIdentifier(category, 'delivery_req_day'),
+        'min': req.body.sharing_date_ds.slice(0,11) + req.body.sharing_start + req.body.sharing_date_ds.slice(13,24),
+        'max': req.body.sharing_date_de.slice(0,11) + (req.body.sharing_end - 1) + req.body.sharing_date_de.slice(13,24)
+      })
+    };
+    if(req.body.sharing_start == '00' && req.body.sharing_end == '24'){
+      console.log('SearchConditions4');
+      bodyData['SearchConditions'].push({
+        'method': 'range',
+        'key': common.getIDFromIdentifier(category, 'delivery_req_day'),
+        'min': req.body.sharing_date_ds,
+        'max': req.body.sharing_date_de
+      })
+    };
+    console.log(req.body.sharing_date_ds.slice(0,11) + req.body.sharing_start + req.body.sharing_date_ds.slice(13,24));
   }
-
   bodyData['limit'] = 100;
   bodyData['offset'] = 0;
   console.log('*** search condition ***');

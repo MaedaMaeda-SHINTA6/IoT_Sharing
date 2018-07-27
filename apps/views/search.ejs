@@ -66,6 +66,8 @@
                         <label class="col-lg-2 control-label"><%- t('label_search_sharing_date') %></label>
                         <div class="col-lg-7">
                           <input type="text" class="form-control" id="sharing_date" name="sharing_date" placeholder="<%- t('msg_placeholder_select_from_calendar') %>" style="width:300px" readonly>
+                          <input type="hidden" class="form-control" id="sharing_date_ds" name="sharing_date_ds">
+                          <input type="hidden" class="form-control" id="sharing_date_de" name="sharing_date_de">
                         </div>
                       </div>
                       <div class="form-group">
@@ -228,9 +230,13 @@
             },
             onClose: function(datetext, inst){
               //console.log(datetext);
-              date = datetext.replace(/\u002f/g, "");
+              date_s = datetext.replace(/\u002f/g, "-");
+              date_s = date_s + "T00:00:00.000Z";
+              date_e = datetext.replace(/\u002f/g, "-");
+              date_e = date_e + "T23:59:59.999Z";
               //console.log(date);
-              $("#hidden_from").val(date);
+              $("#sharing_date_ds").val(date_s);
+              $("#sharing_date_de").val(date_e);
             }
         });
 

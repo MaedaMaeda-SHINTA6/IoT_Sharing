@@ -209,6 +209,15 @@ exports.post = function (req, res) {
       accountId = req.cookies.account;
       console.log(accountId);
     }
+    // var deliveryDate = '';
+    // if(req.body.delivery_req_day){
+    //   var date = req.body.delivery_req_day;
+    //   deliveryDate = date.slice(0,12)+'-'+date.slice(5,7)+'-'+date.slice(-2)+':T'+req.body.sharing_start+':00:00.000Z';
+    // }
+    console.log('createRegisterData start');
+    console.log(req.body.delivery_req_day);
+    // console.log(req.body.sharing_start);
+    // console.log(deliveryDate);
     var bodyData = {
       "matchingName": req.body.vege_variety_name,
       //"matchingDetail": req.body.description,
@@ -252,6 +261,12 @@ exports.post = function (req, res) {
           "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'delivery_place_longitude'),
           "dataType": 21,
           "value": req.body.delivery_place_longitude
+        },
+        {
+          //配送希望日時
+          "extensionCategoryId": common.getIDFromIdentifier(results.ExtensionCategories, 'delivery_req_day'),
+          "dataType": 22,
+          "value": req.body.delivery_req_day_d.slice(0,11) + req.body.sharing_start + req.body.delivery_req_day_d.slice(13,24)
         },
 
       ]
