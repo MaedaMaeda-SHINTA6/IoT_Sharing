@@ -45,20 +45,40 @@ exports.vegeprofile = function (req, res) {
     },
     function (callback) {
       extension.getCategoryItem(res, callback);
-    }
+    },
+    function (callback) {
+      //Matching_Statesの取得
+      var matching_statuses_list;
+      var requestData2 = common.createGetRequest('matching_statuses', null,'matchingId=' + matchingId);
+      request.get(requestData2,
+        function (error, response2, body) {
+          if (!error && response2.statusCode == 200) {
+            if (response2.body) {
+              matching_statuses_list = response2.body;
+              callback(null, matching_statuses_list);
+            }
+          } else {
+            common.outputError(error, matching_statuses_list);
+            callback(matching_statuses_list, null);
+          }
+        }
+      )
+    },
   ],
     function (err, result) {
       console.log('async series complete.');
       if (err) {
         console.log('error happen.');
         res.render('error', { 'message': 'Something is wrong.' });
-      } else if (result.length != 3) {
+      } else if (result.length != 4) {
         // console.log('not enough data.');
         //console.log(result);
         res.render('error', { 'message': 'Cannot get enough data.' });
       }
       var params = createParams(result, common.isLogin(req));
+      //console.log(params);
       if (params) {
+        console.log(params);
         res.render('vegeprofile', params);
       } else {
         res.render('error', { 'message': 'Cannot create vegeprofile view.' });
@@ -96,8 +116,9 @@ function createParams(result, login) {
   var matchingInfo = result[0] != null ? result[0]['Matchings'][0] : null;
   var extensionInfo = result[1] != null ? result[1]['ExtensionCategories'] : null;
   var extensionItemInfo = result[2] != null ? result[2]['ExtensionItems'] : null;
+  var matching_statusesInfo = result[3] != null ? result[3]['totalCount'] : null;
 
-  if (!matchingInfo && !accountInfo && !extensionInfo) { return null; };
+  if (!matchingInfo && !accountInfo && !extensionInfo && !matching_statusesInfo) { return null; };
 
   var matchingExtension = matchingInfo['MatchingExtensions'];
   // console.log(matchingExtension);
@@ -107,21 +128,25 @@ function createParams(result, login) {
   params['matchingId'] = matchingInfo['id'];
   params['accountId'] = matchingInfo['sellerAccountId'];
   params['matchingName'] = matchingInfo['matchingName'];
+  params['vege_price'] = matchingInfo['matchingPrice'];
   // params['matchingDetail'] = matchingInfo['matchingDetail'];
   params['vege_variety_name'] = getExtensionValue(matchingExtension, common.getIDFromIdentifier(extensionInfo, 'vege_variety_name'));
   params['vege_location'] = getExtensionValue(matchingExtension, common.getIDFromIdentifier(extensionInfo, 'vege_location'));
   params['vege_gm'] = getExtensionValue(matchingExtension, common.getIDFromIdentifier(extensionInfo, 'vege_gm'));
   params['vege_quantity'] = getExtensionValue(matchingExtension, common.getIDFromIdentifier(extensionInfo, 'vege_quantity'));
-  params['vege_price'] = matchingInfo['matchingPrice'];
+  params['delivery_place_latitude'] = getExtensionValue(matchingExtension, common.getIDFromIdentifier(extensionInfo, 'delivery_place_latitude'));
+  params['delivery_place_longitude'] = getExtensionValue(matchingExtension, common.getIDFromIdentifier(extensionInfo, 'delivery_place_longitude'));
+  params['extention_id_latitude'] = common.getIDFromIdentifier(extensionInfo, 'delivery_place_latitude');
+  params['extention_id_longtitude'] = common.getIDFromIdentifier(extensionInfo, 'delivery_place_longitude');
+  params['matching_status']= matching_statusesInfo;
 
-  console.log(params);
   return params;
 };
 
 // start tuto 3.7.2
 exports.post = function (req, res) {
   console.log('post start');
-  console.log(req.body.matchingId);
+
   async.waterfall([
     function (callback) {
       var strday = new Date();
@@ -140,7 +165,7 @@ exports.post = function (req, res) {
       console.log(requestCalBody);
       callback(null, requestCalBody);
     },
-    function(requestCalBody, callback){
+    function (requestCalBody, callback) {
       console.log('requestCalBody start');
       console.log(requestCalBody);
       var requestCalData = common.createPostRequest('calendars', requestCalBody);
@@ -164,12 +189,13 @@ exports.post = function (req, res) {
       );
       console.log('matching register end.');
     },
-    function (caldate,callback) {
+    function (caldate, callback) {
       console.log('response');
       console.log(caldate);
       console.log(caldate['Ids'][0]['id']);
       var calid = caldate['Ids'][0]['id'];
       console.log(calid);
+
       var requestBody = {
         "MatchingStatuses": [
           {
@@ -179,7 +205,21 @@ exports.post = function (req, res) {
             "progressStatus": 'Reserved',
             "resourceCost": '1',
             "calendarId": calid,
-            "acceptCode": ''
+            "acceptCode": '',
+            "MatchingStatusExtensions": [
+              {
+                //緯度
+                "extensionCategoryId": String(req.body.extention_id_latitude),
+                "dataType": 21,
+                "value": String(req.body.delivery_place_latitude)
+              },
+              {
+                //経度
+                "extensionCategoryId": String(req.body.extention_id_longtitude),
+                "dataType": 21,
+                "value": String(req.body.delivery_place_longitude)
+              },
+            ]
           }
         ]
       }

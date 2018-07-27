@@ -24,29 +24,49 @@ function initMap() {
                     }
                 );
                 //Json取得処理
-                $.ajaxSetup({ async: false });//同期通信
-                $.getJSON("/javascripts/json/many_locations.json",
-                    function (json) {
-                        for (var i = 0; i <= json.length - 1; i++) {
-                            //Mapsオブジェクトで格納
-                            points.push(new google.maps.LatLng(Number(json[i].lat), Number(json[i].lng)))
-                            //緯度経度情報のみ格納
-                            url_points.push(json[i].lat + "," + json[i].lng)
-                            //野菜情報を格納
-                            yasai_info.push(
-                                {
-                                    'name': json[i].name,
-                                    'lat': json[i].lat,
-                                    'lng': json[i].lng,
-                                    'yasai_cat': json[i].yasai_cat,
-                                    'set_value': json[i].set_value,
-                                    'yasai_icon': json[i].yasai_icon
-                                }
-                            )
+                var elem = document.getElementById("json-data");
+                var json_data = JSON.parse(elem.textContent);
+
+                for (var i = 0; i < json_data.length; i++) {
+                    //Mapsオブジェクトで格納
+                    points.push(new google.maps.LatLng(Number(json_data[i].lat), Number(json_data[i].lng)));
+                    //緯度経度情報のみ格納
+                    url_points.push(json_data[i].lat + "," + json_data[i].lng);
+                    yasai_info.push(
+                        {
+                            'name': json_data[i].matching_id,
+                            'lat': Number(json_data[i].lat),
+                            'lng': Number(json_data[i].lng),
+                            'yasai_cat': "1",
+                            'set_value': "1",
+                            'yasai_icon': "eggplant"
                         }
-                    }
-                );
-                $.ajaxSetup({ async: true });//同期通信
+                    );
+                }
+                
+                // $.ajaxSetup({ async: false });//同期通信
+                // $.getJSON("/javascripts/json/many_locations.json",
+                //     function (json) {
+                //         for (var i = 0; i <= json.length - 1; i++) {
+                //             //Mapsオブジェクトで格納
+                //             points.push(new google.maps.LatLng(Number(json[i].lat), Number(json[i].lng)))
+                //             //緯度経度情報のみ格納
+                //             url_points.push(json[i].lat + "," + json[i].lng)
+                //             //野菜情報を格納
+                //             yasai_info.push(
+                //                 {
+                //                     'name': json[i].name,
+                //                     'lat': json[i].lat,
+                //                     'lng': json[i].lng,
+                //                     'yasai_cat': json[i].yasai_cat,
+                //                     'set_value': json[i].set_value,
+                //                     'yasai_icon': json[i].yasai_icon
+                //                 }
+                //             )
+                //         }
+                //     }
+                // );
+                // $.ajaxSetup({ async: true });//同期通信
 
                 // マップの生成
                 var map = new google.maps.Map(document.getElementById("gmaps_view"), {

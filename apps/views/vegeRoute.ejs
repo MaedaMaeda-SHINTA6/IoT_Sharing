@@ -45,6 +45,10 @@
         <%- include('_layout/header',{param:param}) -%>
     </header>
 
+    <script type="application/json" id="json-data">
+        <%- json_data=JSON.stringify(matching_list,null,'\t') %>
+        </script>
+
     <main role="main" class="container">
 
         <!-- タイトル -->
