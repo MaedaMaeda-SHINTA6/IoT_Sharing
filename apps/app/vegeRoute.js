@@ -23,8 +23,8 @@ exports.get = function (req, res) {
 
   async.waterfall([
     function (callback) {
-      //Matching_Statesの取得
-      var requestData = common.createGetRequest('matching_statuses', null);
+      //Matching_Statesの取得(ログインユーザのみ検索)
+      var requestData = common.createGetRequest('matching_statuses', null, "buyerAccountId=" + accountId);
       request(requestData,
         function (error, response, body) {
           if (!error && response.statusCode == 200) {
@@ -54,17 +54,20 @@ exports.get = function (req, res) {
         function (err, results, results2) {
           console.log("async2 end");
 
+          //console.log(matching_categories['MatchingStatuses']);
+          //console.log(accountId);
+
           for (i = 0; i < matching_categories['MatchingStatuses'].length; i++) {
-            if (matching_categories['MatchingStatuses'][i]['MatchingStatusExtensions'].length != 0) {
-              for (j = 0; j < matching_categories['MatchingStatuses'][i]['MatchingStatusExtensions'].length; j++) {
-                var matching_extension = matching_categories['MatchingStatuses'][i]['MatchingStatusExtensions'];
-                matching_list[i] = { "matching_id": matching_categories['MatchingStatuses'][i]['matchingId'] };
-                //緯度
-                matching_list[i]['lat'] = matching_extension[1]['value'];
-                //経度
-                matching_list[i]['lng'] = matching_extension[0]['value'];
+              if (matching_categories['MatchingStatuses'][i]['MatchingStatusExtensions'].length != 0) {
+                  var matching_extension = matching_categories['MatchingStatuses'][i]['MatchingStatusExtensions'];
+                  matching_list[i] = { "matching_id": matching_categories['MatchingStatuses'][i]['matchingId'] };
+                  //緯度
+                  matching_list[i]['lat'] = matching_extension[1]['value'];
+                  //経度
+                  matching_list[i]['lng'] = matching_extension[0]['value'];
+              }else{
+                console.log("拡張情報がありません。");
               }
-            }
           }
           console.log(matching_list);
           var params = {
